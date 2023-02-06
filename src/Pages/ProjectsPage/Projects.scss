@@ -1,0 +1,48 @@
+.search-bar {
+    background-color: var(--primary);
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+
+    #searchbar {
+        border: none;
+        background-color: var(--primary);
+        flex-grow: 1;
+        padding-left: 1rem;
+    }
+
+    #searchbar::placeholder {
+        color: rgb(0,0,0);
+    }
+
+    .magnify-icon {
+        background-color: rgb(255,255,255);
+        border-radius: 50%;
+        margin: auto .2rem;
+    }
+
+    .magnify-icon:hover {
+        color: rgb(255,255,255);
+        background-color: var(--primary);
+        cursor: pointer;
+    }
+}
+
+.projects {
+    margin: 1.5rem auto 0;
+    width: 90%;
+    height: 75vh;
+    overflow-y: auto;
+
+    .project-item {
+        background-color: #ffffff;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        width: 100%;
+
+        p {
+            grid-column: 2/auto;
+        }
+    }
+}

@@ -1,0 +1,133 @@
+@import url("./assets/fonts/aileron_heavy_macroman/aileron.css");
+@import url("./global.css");
+/* VARIABLES */
+:root {
+  --primary: #ffbd59;
+}
+
+/* TYPOGRAPHY */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  margin-top: 4rem;
+  font-family: "aileronheavy", sans-serif;
+  font-size: 2.2rem;
+}
+
+.hero-text {
+  text-align: center;
+}
+.hero-text .form-sub > a {
+  color: var(--primary);
+}
+
+/* FORM STYLES */
+.form-sub {
+  color: var(--primary);
+  font-size: 0.7rem;
+}
+
+label {
+  font-weight: lighter;
+  font-size: 0.7rem;
+}
+
+.buttons {
+  text-align: center;
+}
+.buttons input[type=submit] {
+  margin-top: 1rem;
+  display: block;
+  border: none;
+  background-color: var(--primary);
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  width: 100%;
+}
+.buttons input[type=submit]:hover {
+  cursor: pointer;
+}
+.buttons a:hover {
+  color: var(--primary);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.lower-field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  place-items: center;
+  border-bottom: var(--primary) 2px solid;
+}
+.lower-field .form-icon {
+  color: var(--primary);
+  width: 1.5rem;
+  margin: auto 0.2rem;
+}
+.lower-field input[type=text],
+.lower-field input[type=password] {
+  margin-left: 0.5rem;
+  padding: 0.3rem;
+  border: none;
+  border-left: var(--primary) 2px solid;
+}
+
+/* MAIN */
+.App {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background-color: #fafafa;
+  align-self: flex-start;
+  grid-template-rows: max-content 1fr max-content;
+}
+
+main {
+  margin-top: 0.5rem;
+  width: 100vw;
+  background-color: #ffffff;
+  align-self: flex-start;
+}
+
+.icon {
+  width: 1.5rem;
+  padding: 0.5rem 0.25rem;
+  border-radius: 7px;
+  color: var(--primary);
+}
+
+.settings-icon {
+  color: rgb(255, 255, 255);
+  background-color: var(--primary);
+}
+
+.footer {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  flex-direction: column-reverse;
+  align-self: flex-end;
+  text-align: center;
+  background-color: var(--primary);
+  bottom: 0;
+}
+.footer .prompt {
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.footer .prompt p, .footer .prompt a {
+  color: rgb(255, 255, 255);
+}
+.footer .prompt a {
+  padding-left: 0.2rem;
+  font-weight: bold;
+}
+.footer * {
+  display: inline-block;
+}

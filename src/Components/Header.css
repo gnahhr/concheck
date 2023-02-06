@@ -1,0 +1,13 @@
+header {
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+  padding: 0.75rem;
+  z-index: 999;
+  background-color: rgb(255, 255, 255);
+  align-self: flex-start;
+}
+header .header-logo {
+  height: 2rem;
+  object-fit: contain;
+}
