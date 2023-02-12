@@ -1,0 +1,47 @@
+.crew-item {
+    display: grid;
+    grid-template-columns: 1fr auto 2fr;
+
+    .left-item {
+        display: grid;
+        place-items: center;
+        .image {
+            background-color: grey;
+            width: 5rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            // papalitan pa hehe
+            display: grid;
+            place-items: center;
+
+            align-self: center;
+            justify-self: center;
+        }
+    }
+
+    .middle-item {
+        margin-left: .5rem;
+        .crew-details {
+            margin-left: .5rem;
+            .form-input {
+                input {
+                    width: 75%;
+                    padding: 0 .5rem;
+                }
+            }
+        }
+    }
+
+    .right-item {
+        display: grid;
+        place-items: center;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
+
+.crew-details > .form-input {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: flex-start;
+}

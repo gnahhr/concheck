@@ -1,0 +1,16 @@
+.project-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  margin: 0.5rem 0;
+}
+.project-item img {
+  aspect-ratio: 1;
+  height: 100%;
+  object-fit: cover;
+}
+.project-item h2 {
+  justify-self: start;
+  text-align: left;
+  margin-left: 1rem;
+  font-size: clamp(10px, 3vw, 24px);
+}

@@ -1,0 +1,40 @@
+.crew-item {
+  display: grid;
+  grid-template-columns: 1fr auto 2fr;
+}
+.crew-item .left-item {
+  display: grid;
+  place-items: center;
+}
+.crew-item .left-item .image {
+  background-color: grey;
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  justify-self: center;
+}
+.crew-item .middle-item {
+  margin-left: 0.5rem;
+}
+.crew-item .middle-item .crew-details {
+  margin-left: 0.5rem;
+}
+.crew-item .middle-item .crew-details .form-input input {
+  width: 75%;
+  padding: 0 0.5rem;
+}
+.crew-item .right-item {
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.crew-details > .form-input {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: flex-start;
+}

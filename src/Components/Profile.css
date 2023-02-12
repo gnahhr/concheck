@@ -1,0 +1,13 @@
+.projects-handled {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 50%;
+  border: 2px solid var(--primary);
+  margin-bottom: 1rem;
+}
+.projects-handled .empty-indicator {
+  align-self: center;
+  justify-self: center;
+  flex-grow: 1;
+}

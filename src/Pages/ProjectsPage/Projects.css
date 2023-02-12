@@ -24,19 +24,13 @@
   cursor: pointer;
 }
 
-.projects {
-  margin: 1.5rem auto 0;
-  width: 90%;
-  height: 75vh;
-  overflow-y: auto;
-}
-.projects .project-item {
+.project-item {
   background-color: #ffffff;
   display: grid;
   place-items: center;
   text-align: center;
   width: 100%;
 }
-.projects .project-item p {
+.project-item p {
   grid-column: 2/auto;
 }

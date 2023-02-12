@@ -1,0 +1,19 @@
+.crew-salary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.crew-salary .salary-item {
+  border: 2px solid var(--primary);
+  display: grid;
+  grid-template-rows: auto fit-content;
+  place-items: center;
+}
+.crew-salary .salary-item .number {
+  padding: 1rem;
+}
+.crew-salary .salary-item .label {
+  align-self: flex-end;
+  justify-self: flex-start;
+  text-indent: 0.5rem;
+}

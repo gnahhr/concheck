@@ -1,19 +1,22 @@
-.project-item {
+.component-header {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    margin: .5rem 0;
+    grid-template-columns: 1fr 2fr;
+    margin: 1rem 0 2rem;
+}
 
-    img {
-        aspect-ratio: 1;
-        height: 100%;
-        object-fit: cover;
+.left-header {
+    justify-self: center;
+    .image {
+        background-color: var(--primary);
+        display: inline-block;
+        width: 6rem;
+        height: 6rem;
+        display: grid;
+        place-items: center;
+        border-radius: 16px;
     }
+}
 
-    h2 {
-        justify-self: start;
-        text-align: left;
-        margin-left: 1rem;
-        font-size: clamp(10px, 3vw, 24px);
-    }
-
+.right-header {
+    align-self: center;
 }

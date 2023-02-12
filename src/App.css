@@ -23,6 +23,10 @@ h1 {
   color: var(--primary);
 }
 
+.text-center {
+  text-align: center;
+}
+
 /* FORM STYLES */
 .form-sub {
   color: var(--primary);
@@ -95,6 +99,13 @@ main {
   align-self: flex-start;
 }
 
+.main-component {
+  margin: 1.5rem auto 0;
+  width: 90%;
+  height: 75vh;
+  overflow-y: auto;
+}
+
 .icon {
   width: 1.5rem;
   padding: 0.5rem 0.25rem;
@@ -102,9 +113,60 @@ main {
   color: var(--primary);
 }
 
+.icon-trim {
+  padding: 0;
+  margin: 0;
+}
+
 .settings-icon {
   color: rgb(255, 255, 255);
   background-color: var(--primary);
+}
+
+.form-input {
+  border: 2px solid var(--primary);
+  margin: 0.5rem auto;
+  padding: 0 0.25rem;
+  display: flex;
+}
+.form-input label {
+  font-size: 0.85rem;
+}
+.form-input input {
+  font-size: 0.85rem;
+  background-color: transparent;
+  border: none;
+  margin-left: 0.5rem;
+  flex-grow: 1;
+}
+
+.form-input.form-borderless {
+  border: none;
+  margin: calc(0.5rem + 3px) auto;
+  padding: 0 calc(0.25rem + 2px);
+}
+
+.form-input.form-inverse {
+  border: none;
+}
+
+.form-input.form-inverse > input {
+  background-color: var(--primary);
+  border: none;
+  border-radius: 14px;
+}
+
+.btn {
+  background-color: var(--primary);
+  border-radius: 16px;
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+  padding: 6px 12px;
+}
+
+.btn:hover {
+  cursor: pointer;
 }
 
 .footer {

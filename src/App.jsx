@@ -7,7 +7,6 @@ import Projects from './Pages/ProjectsPage/Projects';
 import Register from './Pages/Register/Register';
 
 function App() {
-
   return (
     <div className="App">
       <Header />
