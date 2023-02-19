@@ -1,8 +1,8 @@
 import React from 'react';
 import img from '../assets/placeholder/project.png';
-import './ProjectList.css';
-const Project = ({projectName}) => {
+import './ProjectItem.css';
 
+const ProjectItem = ({projectName}) => {
   return (
     <div className="project-item">
         <img src={img} alt="" />
@@ -12,4 +12,4 @@ const Project = ({projectName}) => {
   )
 }
 
-export default Project
+export default ProjectItem

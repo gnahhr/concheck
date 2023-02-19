@@ -4,6 +4,7 @@
 /* VARIABLES */
 :root {
   --primary: #ffbd59;
+  --primary-d: #f3a545;
 }
 
 /* TYPOGRAPHY */
@@ -119,6 +120,7 @@ main {
     padding: .5rem .25rem;
     border-radius: 7px;
     color: var(--primary);
+    cursor: pointer;
 }
 
 .icon-trim {
@@ -129,6 +131,66 @@ main {
 .settings-icon {
     color: rgb(255,255,255);
     background-color: var(--primary);
+}
+
+// Components
+.title {
+  text-align: center;
+  background-color: var(--primary-d);
+  padding: .5rem;
+}
+
+.search-bar {
+  background-color: var(--primary);
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+
+  #searchbar {
+      border: none;
+      background-color: var(--primary);
+      flex-grow: 1;
+      padding-left: 1rem;
+  }
+
+  #searchbar::placeholder {
+      color: rgb(0,0,0);
+  }
+
+  .magnify-icon {
+      background-color: rgb(255,255,255);
+      border-radius: 50%;
+      margin: auto .2rem;
+  }
+
+  .magnify-icon:hover {
+      color: rgb(255,255,255);
+      background-color: var(--primary);
+      cursor: pointer;
+  }
+}
+
+.component-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  margin: 1rem 0 2rem;
+}
+
+.left-header {
+  justify-self: center;
+  .image {
+      background-color: var(--primary);
+      display: inline-block;
+      width: 6rem;
+      height: 6rem;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+  }
+}
+
+.right-header {
+  align-self: center;
 }
 
 // FORM
@@ -167,9 +229,14 @@ main {
   border-radius: 14px;
 }
 
+.upload-img {
+  background-color: #dedede;
+  padding: .20rem;
+  margin-bottom: 1rem;
+}
 
 .btn {
-  background-color: var(--primary);
+  background-color: var(--primary-d);
   border-radius: 16px;
   display: block;
   text-align: center;

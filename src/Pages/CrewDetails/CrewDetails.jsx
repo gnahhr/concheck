@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
 // Design
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+
 import './CrewDetails.css';
-import { faLocationDot, faLocationPin } from '@fortawesome/free-solid-svg-icons';
 
 const CrewDetails = () => {
   // Form Fields State

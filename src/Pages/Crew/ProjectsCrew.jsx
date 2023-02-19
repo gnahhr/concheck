@@ -1,5 +1,5 @@
 import React from 'react'
-import CrewItem from './CrewItem';
+import CrewItem from '../../Components/CrewItem';
 
 const ProjectsCrew = () => {
   return (

@@ -1,37 +1,60 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 //Styles
 import './Footer.css';
 //Icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faPlus, faUserAlt } from '@fortawesome/free-solid-svg-icons'
+import { useMatch } from 'react-router-dom';
 
 
 const middleButton = [
-    {
-        state: "projects",
-        icon: faPlus,
-        text: "Start New Project"
-    }
+  {
+    id: 'projects',
+    url: "/projects",
+    icon: faPlus,
+    text: "Start New Project",
+  },
+  {
+    id: 'dashboard',
+    url: "/dashboard",
+    icon: faPlus,
+    text: "Dashboard",
+  },
+  {
+    id: 'calendar',
+    url: "/calendar",
+    icon: faPlus,
+    text: "Daily Report",
+    toUrl: 'calendar'
+  }
 ]
 
 
-const Footer = ({showMiddle, middleState}) => {
-
+const Footer = () => {
+  const midButton = middleButton.filter((button) => Boolean(useMatch(button.url)) === true);
+  console.log("debug:", midButton);
   return (
     <footer>
-      <button className="footer-btn">
-        <FontAwesomeIcon icon={faHome} className="icon home-icon"/>
-        <p>Home</p>
-      </button>
-      <button className="footer-btn">
-        <FontAwesomeIcon icon={faPlus} className="icon plus-icon"/>
-        <p>Start New Project</p>
-      </button>
-      <button className="footer-btn">
-        <FontAwesomeIcon icon={faUserAlt} className="icon user-icon"/>
-        <p>Profile</p>
-      </button>
+      <Link to={`/`}>
+        <button className="footer-btn">
+          <FontAwesomeIcon icon={faHome} className="icon home-icon"/>
+          <p>Home</p>
+        </button>
+      </Link >
+      {midButton.length !== 0 &&
+        <button className="footer-btn">
+          <FontAwesomeIcon icon={midButton[0].icon} className="icon plus-icon"/>
+          <p>{midButton[0].text}</p>
+        </button>
+      }
+      <Link to={`/profile`}>
+        <button className="footer-btn">
+          <FontAwesomeIcon icon={faUserAlt} className="icon user-icon"/>
+          <p>Profile</p>
+        </button>
+      </Link>
     </footer>
   )
 }
