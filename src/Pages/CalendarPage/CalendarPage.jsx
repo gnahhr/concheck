@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Calendar from 'react-calendar';
-import CalendarModal from '../../Components/CalendarModal';
+import CalendarModal from '../../Components/Calendar/CalendarModal';
 
 import './CalendarPage.css';
 
@@ -14,7 +14,8 @@ const CalendarPage = () => {
   };
 
   return (
-    <div className="main-component">
+    <main className="main-component">
+      <h1 className="text-center">Daily Report</h1>
       {hasSelected ?
         <CalendarModal date={selectedDate} info={""} />
         : 
@@ -22,7 +23,7 @@ const CalendarPage = () => {
           onClickDay={(value) => clickDay(value)}
         />
       }
-    </div>
+    </main>
   )
 }
 

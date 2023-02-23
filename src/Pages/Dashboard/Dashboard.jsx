@@ -1,6 +1,8 @@
 import React from 'react'
 import { Chart } from "react-google-charts";
 
+import './Dashboard.css';
+
 function daysToMilliseconds(days) {
     return days * 24 * 60 * 60 * 1000;
   }
@@ -85,7 +87,8 @@ const barOptions = {
 
 const Dashboard = () => {
   return (
-    <div className="main-component">
+    <main className="main-component dashboard-main">
+        <h1 className="text-center">Dashboard</h1>
         <Chart
             chartType="Gantt"
             data={data}
@@ -106,7 +109,7 @@ const Dashboard = () => {
             data={barData}
             options={barOptions}
         />
-    </div>
+    </main>
   )
 }
 

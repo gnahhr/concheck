@@ -1,12 +1,11 @@
 .project-item {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    margin: .5rem 0;
+    margin: .5rem auto;
 
     img {
         aspect-ratio: 1;
         height: 100%;
         object-fit: cover;
+        width: clamp(15rem, 16vw, 20rem);
     }
 
     h2 {

@@ -31,8 +31,8 @@ const Profile = () => {
   }
 
   return (
-    <div className="main-component">
-        <h2>Profile</h2>
+    <main className="main-component">
+        <h1 className="text-center">Profile</h1>
         <div className="component-header">
             <div className="left-header">
                 <div className="image">
@@ -69,7 +69,7 @@ const Profile = () => {
         <div className="btn" onClick={(e) => toggleEdit(e)}>
             {isEdit ? "Save" : "Edit"}
         </div>
-    </div>
+    </main>
   )
 }
 

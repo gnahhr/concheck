@@ -1,9 +1,10 @@
 .project-item {
     background-color: #ffffff;
+
     display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     place-items: center;
     text-align: center;
-    width: 100%;
 
     p {
         grid-column: 2/auto;

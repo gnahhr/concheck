@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 //Styles
 import './Footer.css';
+
 //Icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faPlus, faUserAlt } from '@fortawesome/free-solid-svg-icons'
@@ -34,7 +35,7 @@ const middleButton = [
 
 const Footer = () => {
   const midButton = middleButton.filter((button) => Boolean(useMatch(button.url)) === true);
-  console.log("debug:", midButton);
+
   return (
     <footer>
       <Link to={`/`}>

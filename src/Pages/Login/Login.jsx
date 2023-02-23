@@ -7,7 +7,7 @@ import LogoM from '../../assets/images/concheck-logo-m.png';
 
 const Login = () => {
   return (
-    <>
+    <main className="main-component">
         <div className="hero">
             <div className="hero-logo">
                 <img src={LogoM} alt="" />
@@ -49,7 +49,7 @@ const Login = () => {
                 <a href="#">Sign Up</a>
             </div>
         </div>
-    </>
+    </main>
   )
 }
 

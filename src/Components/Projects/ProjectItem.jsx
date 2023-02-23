@@ -1,5 +1,5 @@
 import React from 'react';
-import img from '../assets/placeholder/project.png';
+import img from '../../assets/placeholder/project.png';
 import './ProjectItem.css';
 
 const ProjectItem = ({projectName}) => {

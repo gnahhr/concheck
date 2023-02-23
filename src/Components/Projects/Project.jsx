@@ -1,4 +1,7 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload} from '@fortawesome/free-solid-svg-icons'
+import { useParams } from 'react-router-dom';
 
 import './Project.css';
 
@@ -13,9 +16,14 @@ const Project = () => {
   const [ projectCode, setProjectCode ] = useState("ABC123");
   const [ budget, setBudget ] = useState(9999);
 
-  //Toggle
-  const [ isEdit, setIsEdit ] = useState(false);
+  // ID
+  const { id } = useParams();
+  const checkId = id === undefined;
 
+  //Toggle
+  const [ isEdit, setIsEdit ] = useState(checkId);
+
+  //Form Functions  
   const setFunctions = {
     "project-name": setProjectName,
     "start-date": setStartDate,
@@ -24,7 +32,7 @@ const Project = () => {
     "site-engineer": setSiteEngineer,
     "safety-officer": setSafetyOfficer,
     "project-code": setProjectCode,
-    "budget": setBudget
+    "project-budget": setBudget
   }
 
   const onValueChange = event => {
@@ -38,6 +46,11 @@ const Project = () => {
     e.preventDefault();
 
     setIsEdit(() => !isEdit);
+  }
+
+  const createProject = () => {
+    // post request to create a project from form submit using axios
+
   }
 
   return (
@@ -55,7 +68,10 @@ const Project = () => {
             </div>
         </div>
         <h2>Project Details</h2>
-        <div className="upload-img">Upload Image</div>
+        <div className="upload-img">
+            <FontAwesomeIcon icon={faUpload} className="form-icon"/>
+            <span>Upload Image</span>
+        </div>
         {/* Fields */}
         <form action="#" method="post" className="project-details">
             <div className="form-input">
@@ -87,13 +103,20 @@ const Project = () => {
                 <input type="text" name="project-code" id="project-code" value={projectCode} onChange={onValueChange} disabled={!isEdit}/>
             </div>
             <div className="form-input">
-                <label htmlFor="project-budger">Budget:</label>
-                <input type="number" name="project-budger" id="project-budget" value={budget} onChange={onValueChange} disabled={!isEdit}/>
+                <label htmlFor="project-budget">Budget:</label>
+                <input type="number" name="project-budget" id="project-budget" value={budget} onChange={onValueChange} disabled={!isEdit}/>
             </div>
 
+            
+            {id === undefined ?
             <div className="btn" onClick={(e) => toggleEdit(e)}>
-                {!isEdit ? "Edit" : "Save"}
+              <span>Create Project</span>
             </div>
+            :
+            <div className="btn" onClick={(e) => toggleEdit(e)}>
+                <span>{isEdit? "Save" : "Edit"}</span>
+            </div>
+            }
         </form>
     </div>
   )

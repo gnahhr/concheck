@@ -12,7 +12,7 @@
 }
 
 h1 {
-  margin-top: 4rem;
+  margin-top: 1rem;
   font-family: "aileronheavy", sans-serif;
   font-size: 2.2rem;
 }
@@ -84,7 +84,7 @@ a {
 }
 
 /* MAIN */
-.App {
+.App .desktop-right {
   display: grid;
   place-items: center;
   height: 100vh;
@@ -103,8 +103,13 @@ main {
 .main-component {
   margin: 1.5rem auto 0;
   width: 90%;
-  height: 75vh;
+  height: 65vh;
   overflow-y: auto;
+  align-self: flex-start;
+}
+
+.main-component:only-of-type {
+  height: 80%;
 }
 
 .icon {
@@ -157,10 +162,14 @@ main {
   cursor: pointer;
 }
 
-.component-header {
+.component-header:has(.left-header + .right-header) {
   display: grid;
   grid-template-columns: 1fr 2fr;
   margin: 1rem 0 2rem;
+}
+
+.component-header {
+  grid-template-columns: 1fr;
 }
 
 .left-header {
@@ -169,8 +178,9 @@ main {
 .left-header .image {
   background-color: var(--primary);
   display: inline-block;
-  width: 6rem;
-  height: 6rem;
+  margin: auto;
+  width: 10rem;
+  height: 10rem;
   display: grid;
   place-items: center;
   border-radius: 16px;
@@ -230,6 +240,35 @@ main {
 
 .btn:hover {
   cursor: pointer;
+  background-color: var(--primary);
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  margin: 0.5rem auto;
+  font-size: clamp(16px, 2vw, 1.5rem);
+}
+.add-button svg {
+  background-color: grey;
+  color: black;
+  border-radius: 0;
+  margin-right: 0.5rem;
+  height: 3rem;
+  width: 3rem;
+}
+
+.add-button:hover {
+  cursor: pointer;
+}
+.add-button:hover svg {
+  background-color: var(--primary);
+  color: black;
+}
+
+.align-right-g {
+  margin: 2rem;
 }
 
 .footer {
@@ -255,4 +294,31 @@ main {
 }
 .footer * {
   display: inline-block;
+}
+
+@media (orientation: landscape) {
+  /* MAIN */
+  .App {
+    display: flex;
+    height: 100vh;
+    background-color: #fafafa;
+    align-self: flex-start;
+  }
+  .desktop-left {
+    background-color: var(--primary-d);
+  }
+  .desktop-right {
+    flex: 1;
+    align-self: flex-start;
+  }
+  .desktop-right .dashboard-main {
+    overflow-y: hidden;
+  }
+  main {
+    margin: 0.5rem auto;
+    background-color: #ffffff;
+    align-self: center;
+    overflow-y: auto;
+    width: 100%;
+  }
 }

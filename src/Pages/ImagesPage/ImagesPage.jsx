@@ -1,9 +1,10 @@
 import React from 'react'
-import ImageItem from '../../Components/ImageItem';
+import ImageItem from '../../Components/ImagesPage/ImageItem';
+import ImageFolder from '../../Components/ImagesPage/ImageFolder';
 
 //Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUpload, faFolder } from '@fortawesome/free-solid-svg-icons';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 //Styles
 import './ImagesPage.css';
@@ -34,27 +35,22 @@ const dummyData = [
 
 const ImagesPage = () => {
   return (
-    <div className="main-component">
-      <div className="upload-img"> <FontAwesomeIcon icon={faUpload} /> Upload Image</div>
-      <div className="filter">
-        <label htmlFor="filter">Filter:</label>
-          <select name="filter" id="filter">
-            <option value="">none</option>
-            <option value="day">day</option>
-            <option value="week">week</option>
-            <option value="month">month</option>
-            <option value="year">year</option>
-          </select>
-      </div>
+    <main className="main-component">
+      <h1 className="text-center">Images</h1>
+      {/* <div className="upload-img image-item"> <FontAwesomeIcon icon={faUpload} /> Upload Image</div> */}
       <div className="images-wrapper">
-          <ImageItem image={sampleImage} date={"12/12"}/>
-          <ImageItem image={sampleImage} date={"12/12"}/>
-          <ImageItem image={sampleImage} date={"12/12"}/>
-          <ImageItem image={sampleImage} date={"12/12"}/>
-          <ImageItem image={sampleImage} date={"12/12"}/>
+          <div className="action-img image-item">
+            <FontAwesomeIcon icon={faUpload} className="uploadImgIcon"/>
+            <p className='text-center'>Upload Image</p>
+          </div>
+          <ImageFolder items={dummyData} date={"12/12"}/>
+          <ImageFolder items={dummyData} date={"12/13"}/>
+          <ImageFolder items={dummyData} date={"12/14"}/>
+          <ImageFolder items={dummyData} date={"12/15"}/>
+          <ImageFolder items={dummyData} date={"12/16"}/>
       </div>
 
-    </div>
+    </main>
   )
 }
 

@@ -5,18 +5,14 @@ import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
-import './CrewDetails.css';
-
-const CrewDetails = () => {
+const Engineer = () => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("Ash");
   const [ lastName, setLastName ] = useState("Ketchum");
   const [ address, setAddress ] = useState("Pallet Town");
-  const [ age, setAge ] = useState("18");
-  const [ phoneNum, setPhoneNum ] = useState("09089556666");
-  const [ startShift, setStartShift ] = useState("10:00");
-  const [ endShift, setEndShift ] = useState("23:00");
-  const [ rate, setRate ] = useState(500);
+  const [ licenseNumber, setLicenseNumber ] = useState("18");
+  const [ email, setEmail ] = useState("09089556666");
+  const [ password, setPassword ] = useState("13121321");
 
 // ID
 const { id } = useParams();
@@ -29,11 +25,9 @@ const [ isEdit, setIsEdit ] = useState(checkId);
     "first-name": setFirstName,
     "last-name": setLastName,
     "address": setAddress,
-    "age": setAge,
-    "contact-number": setPhoneNum,
-    "start-shift": setStartShift,
-    "end-shift": setEndShift,
-    "rate": setRate
+    "license-number": setLicenseNumber,
+    "email": setEmail,
+    "password": setPassword,
   }
 
   const onValueChange = event => {
@@ -55,23 +49,12 @@ const [ isEdit, setIsEdit ] = useState(checkId);
             <div className="left-header">
             <div className="image">
                     IMAGE
-                </div>
             </div>
-            {!checkId &&
+            </div>
+            {id !== undefined &&
             <div className="right-header">
                     <h2 className="crew-name">{`${firstName} ${lastName}`}</h2>
                     <p className="location"><FontAwesomeIcon icon={faLocationDot} className="icon icon-trim"/> Locationism</p>
-                    
-                    <div className="crew-salary">
-                        <div className="salary-item">
-                            <p className="number">Php. {rate}</p>
-                            <p className="label">Rate</p>
-                        </div>
-                        <div className="salary-item">
-                            <p className="number">Php. {rate}</p>
-                            <p className="label">Earnings</p>
-                        </div>
-                    </div> 
             </div>
             }
         </div>
@@ -90,30 +73,22 @@ const [ isEdit, setIsEdit ] = useState(checkId);
                 <input type="text" name="address" id="address" value={address} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
-                <label htmlFor="age">Age:</label>
-                <input type="number" name="age" id="age" value={age} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <label htmlFor="license-number">License Number:</label>
+                <input type="text" name="license-number" id="license-number" value={licenseNumber} pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
-                <label htmlFor="contact-number">Contact Number:</label>
-                <input type="tel" name="contact-number" id="contact-number" value={phoneNum} pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <label htmlFor="email">Email:</label>
+                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
-                <label htmlFor="start-shift">Start of Shift:</label>
-                <input type="time" name="start-shift" id="start-shift" value={startShift} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
-            </div>
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
-                <label htmlFor="end-shift">End of Shift:</label>
-                <input type="time" name="end-shift" id="end-shift" value={endShift} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
-            </div>
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
-                <label htmlFor="rate">Rate:</label>
-                <input type="number" name="rate" id="rate" value={rate} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <label htmlFor="password">Password:</label>
+                <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
             </div>
         </form>
 
         {id === undefined ?
             <div className="btn" onClick={(e) => toggleEdit(e)}>
-              <span>Create Crew</span>
+              <span>Create Engineer</span>
             </div>
             :
             <div className="btn" onClick={(e) => toggleEdit(e)}>
@@ -124,4 +99,4 @@ const [ isEdit, setIsEdit ] = useState(checkId);
   )
 }
 
-export default CrewDetails
+export default Engineer
