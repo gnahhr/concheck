@@ -106,7 +106,7 @@ const Project = () => {
         <form method="post" className="project-details" >
             <div className="upload-img">
                 <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                <input type="file" name="project-image" id="project-image" accept="image/*" onChange={e => handleChangeImage(e)}/>
+                <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
             </div>
             <div className="form-input">
                 <label htmlFor="project-name">Project name:</label>
