@@ -1,20 +1,29 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom';
 
+import { createProject } from '../../Hooks/project';
+
+import placeholder from '../../assets/placeholder/project.png';
+
 import './Project.css';
 
 const Project = () => {
+  //Toast Data
+  const [ toastMessage, setToastMessage ] = useState("");
+
   //Form Data 
-  const [ projectName, setProjectName ] = useState("Sample Project Name");
-  const [ startDate, setStartDate ] = useState("2019-04-04");
-  const [ targetDate, setTargetDate ] = useState("2019-04-04");
-  const [ projectEngineer, setTargetEngineer ] = useState("Engineer 1");
-  const [ siteEngineer, setSiteEngineer ] = useState("Engineer 2");
-  const [ safetyOfficer, setSafetyOfficer ] = useState("Officer 1");
-  const [ projectCode, setProjectCode ] = useState("ABC123");
-  const [ budget, setBudget ] = useState(9999);
+  const [ projectName, setProjectName ] = useState("");
+  const [ startDate, setStartDate ] = useState("");
+  const [ targetDate, setTargetDate ] = useState("");
+  const [ projectEngineer, setTargetEngineer ] = useState("");
+  const [ siteEngineer, setSiteEngineer ] = useState("");
+  const [ safetyOfficer, setSafetyOfficer ] = useState("");
+  const [ projectCode, setProjectCode ] = useState("");
+  const [ budget, setBudget ] = useState();
+  const [ status, setStatus ] = useState("");
+  const [ image, setImage ] = useState("");
 
   // ID
   const { id } = useParams();
@@ -32,7 +41,14 @@ const Project = () => {
     "site-engineer": setSiteEngineer,
     "safety-officer": setSafetyOfficer,
     "project-code": setProjectCode,
-    "project-budget": setBudget
+    "project-budget": setBudget,
+    "project-status": setStatus,
+  }
+
+  const handleChangeImage = (e) => {
+    e.preventDefault();
+    document.getElementById("image-display").src = URL.createObjectURL(e.target.files[0]);
+    setImage(e.target.files[0]);
   }
 
   const onValueChange = event => {
@@ -48,9 +64,26 @@ const Project = () => {
     setIsEdit(() => !isEdit);
   }
 
-  const createProject = () => {
-    // post request to create a project from form submit using axios
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Create new formdata object
+    const formData = new FormData();
+    formData.append("projectName", projectName);
+    formData.append("startDate", startDate);
+    formData.append("endDate", targetDate);
+    formData.append("projectEngineer", projectEngineer);
+    formData.append("siteEngineer", siteEngineer);
+    formData.append("safetyOfficer", safetyOfficer);
+    formData.append("projectCode", projectCode);
+    formData.append("budget", budget);
+    formData.append("_id", "63f59e57567ca5b3e50ae5c3");
+    formData.append("status", status);
+    formData.append("imageUrl", image);
+
+    const response = await createProject(formData);
+    console.log(response);
+    // const toastMessage = await response.data.message;
   }
 
   return (
@@ -58,22 +91,23 @@ const Project = () => {
         <h2>Project</h2>
         <div className="component-header">
             <div className="left-header">
-                <div className="image">
-                    IMAGE                
+                <img src={placeholder} alt="image" className="image" id="image-display"/>
+            </div>
+            {!checkId &&
+                <div className="right-header">
+                    <h3 className="hproject-name">Project Name</h3>
+                    <p className="date">Start Date</p>
                 </div>
-            </div>
-            <div className="right-header">
-                <h3 className="hproject-name">Project Name</h3>
-                <p className="date">Start Date</p>
-            </div>
+            }
         </div>
         <h2>Project Details</h2>
-        <div className="upload-img">
-            <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-            <span>Upload Image</span>
-        </div>
+        
         {/* Fields */}
-        <form action="#" method="post" className="project-details">
+        <form method="post" className="project-details" >
+            <div className="upload-img">
+                <FontAwesomeIcon icon={faUpload} className="form-icon"/>
+                <input type="file" name="project-image" id="project-image" accept="image/*" onChange={e => handleChangeImage(e)}/>
+            </div>
             <div className="form-input">
                 <label htmlFor="project-name">Project name:</label>
                 <input type="text" name="project-name" id="project-name" value={projectName} onChange={onValueChange} disabled={!isEdit}/>
@@ -86,8 +120,9 @@ const Project = () => {
                 <label htmlFor="targer-date">Target Date:</label>
                 <input type="date" name="target-date" id="target-date" value={targetDate} onChange={onValueChange} disabled={!isEdit}/>
             </div>
+            {/* Name of the logged in kineme */}
             <div className="form-input">
-                <label htmlFor="project-engineer">Project Engineer:</label>
+                <label htmlFor="project-engineer">Project Engineer:</label> 
                 <input type="text" name="project-engineer" id="project-engineer" value={projectEngineer} onChange={onValueChange} disabled={!isEdit}/>
             </div>
             <div className="form-input">
@@ -103,13 +138,17 @@ const Project = () => {
                 <input type="text" name="project-code" id="project-code" value={projectCode} onChange={onValueChange} disabled={!isEdit}/>
             </div>
             <div className="form-input">
+                <label htmlFor="project-status">Status:</label>
+                <input type="text" name="project-status" id="project-status" value={status} onChange={onValueChange} disabled={!isEdit}/>
+            </div>
+            <div className="form-input">
                 <label htmlFor="project-budget">Budget:</label>
                 <input type="number" name="project-budget" id="project-budget" value={budget} onChange={onValueChange} disabled={!isEdit}/>
             </div>
 
             
             {id === undefined ?
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
+            <div className="btn" onClick={(e) => handleSubmit(e)}>
               <span>Create Project</span>
             </div>
             :

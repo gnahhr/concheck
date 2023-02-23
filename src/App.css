@@ -178,6 +178,7 @@ main {
 .left-header .image {
   background-color: var(--primary);
   display: inline-block;
+  object-fit: cover;
   margin: auto;
   width: 10rem;
   height: 10rem;

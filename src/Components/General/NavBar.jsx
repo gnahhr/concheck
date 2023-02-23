@@ -5,7 +5,9 @@ import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, 
 
 import './NavBar.css';
 
-const NavBar = ({setNavOpen, navOpen}) => {
+const NavBar = ({setNavOpen, navOpen, roleId}) => {
+    
+  console.log(typeof roleId);
 
   const closeNav = e => {
     const x = document.getElementsByClassName("close")[0];
@@ -20,39 +22,49 @@ const NavBar = ({setNavOpen, navOpen}) => {
     {
         link: "/",
         icon: faHouseChimney,
-        text: "Home"
+        text: "Home",
+        access: [1,2,3,4],
     },
     {
         link: "/profile",
         icon: faUser,
-        text: "Profile"
+        text: "Profile",
+        access: [1,2,3,4],
     },
     {
         link: "/dashboard",
         icon: faDashboard,
-        text: "Dashboard"
+        text: "Dashboard",
+        access: [3],
     },
     {
         link: "/crew",
         icon: faUserAlt,
-        text: "Crew"
+        text: "Crew",
+        access: [3],
     },
     {
         link: "/images",
         icon: faImages,
-        text: "Image"
+        text: "Image",
+        access: [3],
     },
     {
         link: "/daily-report",
         icon: faBookAtlas,
-        text: "Daily Report"
+        text: "Daily Report",
+        access: [3],
     },
     {
         link: "/settings",
         icon: faGear,
-        text: "Settings"
+        text: "Settings",
+        access: [3],
     },
   ]
+
+  console.log(navigation.filter((navItem) => 
+  navItem.access.includes(roleId)));
 
   return (
     <nav className={`${navOpen ? "mobile-open" : ""}`}>
@@ -63,7 +75,9 @@ const NavBar = ({setNavOpen, navOpen}) => {
                             />
         </div>
         <ul>
-            {navigation.map((navItem) =>
+            {navigation.filter((navItem) => 
+            navItem.access.includes(roleId))
+            .map((navItem) =>
             <li key={navItem.text}>
                 <NavLink to={navItem.link}
                       onClick={e => closeNav(e)}

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { getAllProjects } from '../../Hooks/project';
 
 // Components
 import ProjectItem from '../../Components/Projects/ProjectItem';
@@ -10,30 +12,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Projects = () => {
-  const [ projectsList, setProjectsList ] = useState([
-    {
-      projectName: "Owshi"
-    },
-    {
-      projectName: "Minecart"
-    },
-    {
-      projectName: "Something 1"
-    },
-    {
-      projectName: "Something 2"
-    },
-    {
-      projectName: "Something 3"
-    },
-    {
-      projectName: "Something 5"
-    },
-    {
-      projectName: "Something 4"
-    },
-    
-  ]);
+  const [ projectsList, setProjectsList ] = useState([]);
+
+  useEffect(() => {
+    fetchProject();
+  }, []);
+
+  const fetchProject = async () => {
+    const query = await getAllProjects("vash");
+    // const data = query.data;
+    // setProjectsList(await data);
+    // console.log(await data);
+  };
 
   const [ filterProject, setFilterProject ] = useState("");
   const nav = useNavigate();
@@ -59,7 +49,7 @@ const Projects = () => {
           <span>Start New Project</span>
         </div>
         <div className="main-component">
-            {!projectsList ? 
+            {projectsList.length < 1 ? 
               <div className="project-item">
                 <p>
                   No Projects Found. <br />

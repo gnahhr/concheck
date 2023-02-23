@@ -7,7 +7,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import './CrewDetails.css';
 
-const CrewDetails = () => {
+const CrewDetails = ({roleId}) => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("Ash");
   const [ lastName, setLastName ] = useState("Ketchum");
