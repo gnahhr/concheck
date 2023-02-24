@@ -4,7 +4,7 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 export async function getAllProjects(projectEngineer) {
     const response = await axios.get(`http://localhost:4000/api/engineer/get-all-project/${projectEngineer}`)
-    .then(response => console.log(response))
+    .then(response => response.data)
     .catch(err => console.error(err));
 
     return await response;
@@ -34,8 +34,8 @@ export async function editProject(data) {
    return await response;
 }
 
-export async function deleteProject(data) {
-    const response = await axios.delete(`http://localhost:4000/api/engineer/delete-project/`, data)
+export async function deleteProject(objId) {
+    const response = await axios.delete(`http://localhost:4000/api/engineer/delete-project/${objId}`)
    .then(response => response)
    .catch(err => console.error(err));
 

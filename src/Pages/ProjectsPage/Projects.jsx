@@ -13,15 +13,20 @@ import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const Projects = () => {
   const [ projectsList, setProjectsList ] = useState([]);
+  const [ openToast, setOpenToast ] = useState(false);
 
   useEffect(() => {
     fetchProject();
   }, []);
 
+  useEffect(() => {
+    fetchProject();
+  }, [openToast]);
+
   const fetchProject = async () => {
     const query = await getAllProjects("vash");
-    // const data = query.data;
-    // setProjectsList(await data);
+    const data = await query.response.data;
+    setProjectsList(data);
     // console.log(await data);
   };
 
@@ -60,6 +65,9 @@ const Projects = () => {
               projectsList.filter(project => project.projectName.toUpperCase().includes(filterProject.toUpperCase()))
                           .map(project =>
                           <ProjectItem projectName={project.projectName}
+                                       projectImage={project.imageUrl}
+                                       projectId={project._id}
+                                       openToast={setOpenToast}
                                        key={project.projectName}/>
                           )
           }

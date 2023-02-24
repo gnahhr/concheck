@@ -1,13 +1,32 @@
 import React from 'react';
-import img from '../../assets/placeholder/project.png';
+import { useNavigate } from 'react-router-dom';
+import { deleteProject } from '../../Hooks/project.js';
+
 import './ProjectItem.css';
 
-const ProjectItem = ({projectName}) => {
+const ProjectItem = ({projectName, projectImage, projectId, openToast}) => {
+  const nav = useNavigate();
+  
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    const response = await deleteProject(projectId);
+    openToast(true);
+  }
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+
+    nav(`/projects/${projectId}`);
+  }
+  
   return (
     <div className="project-item">
-        <img src={img} alt="" />
+        <img src={projectImage} alt={projectName} />
         <h2>{projectName}</h2>
-        <a href="#"> Delete</a>
+        <div className="btn-group">
+          <div className="btn">Edit</div>  
+          <div className="btn red-btn" onClick={e => handleDelete(e)}>Delete</div>  
+        </div>
     </div>
   )
 }

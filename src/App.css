@@ -244,6 +244,20 @@ main {
   background-color: var(--primary);
 }
 
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.red-btn {
+  background-color: rgb(219, 35, 35);
+}
+
+.red-btn:hover {
+  background-color: rgb(236, 41, 41);
+}
+
 .add-button {
   display: flex;
   align-items: center;

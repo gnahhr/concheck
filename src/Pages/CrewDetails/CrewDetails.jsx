@@ -7,16 +7,16 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import './CrewDetails.css';
 
-const CrewDetails = ({roleId}) => {
+const CrewDetails = ({roleId, userId}) => {
   // Form Fields State
-  const [ firstName, setFirstName ] = useState("Ash");
-  const [ lastName, setLastName ] = useState("Ketchum");
-  const [ address, setAddress ] = useState("Pallet Town");
-  const [ age, setAge ] = useState("18");
-  const [ phoneNum, setPhoneNum ] = useState("09089556666");
-  const [ startShift, setStartShift ] = useState("10:00");
-  const [ endShift, setEndShift ] = useState("23:00");
-  const [ rate, setRate ] = useState(500);
+  const [ firstName, setFirstName ] = useState("");
+  const [ lastName, setLastName ] = useState("");
+  const [ address, setAddress ] = useState("");
+  const [ age, setAge ] = useState("");
+  const [ phoneNum, setPhoneNum ] = useState("");
+  const [ startShift, setStartShift ] = useState("");
+  const [ endShift, setEndShift ] = useState("");
+  const [ rate, setRate ] = useState();
 
 // ID
 const { id } = useParams();

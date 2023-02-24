@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom';
 
-import { createProject } from '../../Hooks/project';
+import { createProject, getProjectById, editProject } from '../../Hooks/project';
 
 import placeholder from '../../assets/placeholder/project.png';
 
@@ -12,6 +12,7 @@ import './Project.css';
 const Project = () => {
   //Toast Data
   const [ toastMessage, setToastMessage ] = useState("");
+  const [ openToast, setOpenToast ] = useState(false); 
 
   //Form Data 
   const [ projectName, setProjectName ] = useState("");
@@ -85,6 +86,15 @@ const Project = () => {
     console.log(response);
     // const toastMessage = await response.data.message;
   }
+
+  const getProject = async () => {
+    const response = await getProjectById(id);
+    // const data = response.data;
+  }
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <div className="main-component">
