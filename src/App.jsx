@@ -6,6 +6,7 @@ import { useState } from "react";
 import './App.css';
 import PageLayout from "./Components/General/PageLayout";
 
+import AdminPage from './Pages/AdminPage/AdminPage';
 import Login from './Pages/Login/Login';
 import Projects from './Pages/ProjectsPage/Projects';
 import CrewDetails from './Pages/CrewDetails/CrewDetails';
@@ -32,9 +33,10 @@ function App() {
           <Route path="/" element={<Login setUser={setUser} setRoleId={setRoleId} setUserId={setUserId}/>} />
         :
           <Route element={<PageLayout roleId={roleId}/>}>
+            
             {roleId === 1 &&
             <>
-              <Route index element={<Projects />} />
+              <Route index element={<AdminPage />} />
             
               <Route path="admin">
                 <Route path=":id" element={<Company />} />

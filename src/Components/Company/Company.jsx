@@ -1,22 +1,23 @@
 import React, { useState} from 'react';
+import {createCompany, editCompany, getCompanyById} from '../../Hooks/company.js';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom';
 
 const Company = () => {
   //Form Data 
-  const [ companyName, setCompanyName ] = useState("Sample Project Name");
-  const [ address, setAddress ] = useState("Somewhere");
-  const [ password, setPassword ] = useState("2019-04-04");
-  const [ email, setEmail ] = useState("Engineer 1");
-  const [ contactNumber, setContactNumber ] = useState("Engineer 2");
-  const [ roleId, setRoleId ] = useState("Officer 1");
-  const [ image, setImage ] = useState("ABC123");
+  const [ companyName, setCompanyName ] = useState("");
+  const [ address, setAddress ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ contactNumber, setContactNumber ] = useState("");
+  const [ roleId, setRoleId ] = useState("");
+  const [ image, setImage ] = useState("");
 
   // ID
   const { id } = useParams();
   const checkId = id === undefined;
-  console.log(id, "Check");
 
   //Toggle
   const [ isEdit, setIsEdit ] = useState(checkId);
@@ -45,8 +46,42 @@ const Company = () => {
     setIsEdit(() => !isEdit);
   }
 
-  const createCompany = () => {
-    // post request to create a project from form submit using axios
+  const createFormData = () => {
+    const formData = new FormData();
+    formData.append("companyName", companyName);
+    formData.append("password", password);
+    formData.append("address", address);
+    formData.append("contactNumber", contactNumber);
+    formData.append("imageUrl", image);
+    formData.append("email", email);
+    formData.append("roleId", 2);
+
+    return formData;
+  }
+
+  const handleChangeImage = (e) => {
+    e.preventDefault();
+    document.getElementById("image-display").src = URL.createObjectURL(e.target.files[0]);
+    setImage(e.target.files[0]);
+  }
+
+  const handleCreateCompany = async (e) => {
+    e.preventDefault();
+
+    const data = createFormData();
+    const response = await createCompany(data);
+
+    console.log(response);
+
+  }
+
+  const handleEditCompany = async (e) => {
+    e.preventDefault();
+    console.log(editCompany);
+    // const data = createFormData();
+    // const response = await editCompany(data);
+
+    // console.log(response);
 
   }
 
@@ -55,9 +90,7 @@ const Company = () => {
         <h2>Company</h2>
         <div className="component-header">
             <div className="left-header">
-                <div className="image">
-                    IMAGE                
-                </div>
+                <img src="" alt="image" className="image" id="image-display"/>
             </div>
             <div className="right-header">
                 <h3 className="hproject-name">Company Name</h3>
@@ -65,9 +98,9 @@ const Company = () => {
         </div>
         <h2>Project Details</h2>
         <div className="upload-img">
-            <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-            <span>Upload Image</span>
-        </div>
+                <FontAwesomeIcon icon={faUpload} className="form-icon"/>
+                <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
+            </div>
         {/* Fields */}
         <form action="#" method="post" className="project-details">
             <div className="form-input">
@@ -90,22 +123,14 @@ const Company = () => {
                 <label htmlFor="contact-number">Contact Number:</label>
                 <input type="text" name="contact-number" id="contact-number" value={contactNumber} onChange={onValueChange} disabled={!isEdit}/>
             </div>
-            <div className="form-input">
-                <label htmlFor="role-id">Role ID:</label>
-                <input type="text" name="role-id" id="role-id" value={roleId} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="image">Image:</label>
-                <input type="text" name="image" id="image" value={image} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
 
             {id === undefined ?
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
+            <div className="btn" onClick={(e) => handleCreateCompany(e)}>
               <span>Create Company</span>
             </div>
             :
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
-                <span>{isEdit? "Save" : "Edit"}</span>
+            <div className="btn" onClick={(e) => handleEditCompany(e)}>
+                <span>"Save"</span>
             </div>
             }
         </form>

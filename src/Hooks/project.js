@@ -26,8 +26,8 @@ export async function createProject(data) {
     return await response;
 }
 
-export async function editProject(data) {
-    const response = await axios.put(`http://localhost:4000/api/engineer/edit-project`, data)
+export async function editProject(objId, data) {
+    const response = await axios.put(`http://localhost:4000/api/engineer/edit-project/${objId}`, data)
    .then(response => response)
    .catch(err => console.error(err));
 

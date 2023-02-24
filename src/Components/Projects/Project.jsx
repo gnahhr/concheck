@@ -83,7 +83,8 @@ const Project = () => {
     
     const formData = createFormData();
 
-    const response = await editProject(formData);
+    const response = await editProject(objId, formData);
+    console.log(response);
   }
 
   const createFormData = () => {
@@ -98,8 +99,6 @@ const Project = () => {
     formData.append("budget", budget);
     formData.append("status", status);
     formData.append("imageUrl", image);
-
-    if(!checkId) formData.append("_id", objId);
 
     return formData;
   }
