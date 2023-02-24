@@ -15,7 +15,6 @@ const ProjectItem = ({projectName, projectImage, projectId, openToast}) => {
 
   const handleEdit = (e) => {
     e.preventDefault();
-
     nav(`/projects/${projectId}`);
   }
   
@@ -24,7 +23,7 @@ const ProjectItem = ({projectName, projectImage, projectId, openToast}) => {
         <img src={projectImage} alt={projectName} />
         <h2>{projectName}</h2>
         <div className="btn-group">
-          <div className="btn">Edit</div>  
+          <div className="btn" onClick={e => handleEdit(e)}>Edit</div>  
           <div className="btn red-btn" onClick={e => handleDelete(e)}>Delete</div>  
         </div>
     </div>

@@ -12,7 +12,7 @@ export async function getAllProjects(projectEngineer) {
 
 export async function getProjectById(id) {
     const response = await axios.get(`http://localhost:4000/api/project/get-project-by-id/${id}`)
-   .then(response => console.log(response))
+   .then(response => response.data.response)
    .catch(err => console.error(err));
 
     return await response;

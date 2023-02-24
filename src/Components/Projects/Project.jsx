@@ -25,13 +25,14 @@ const Project = () => {
   const [ budget, setBudget ] = useState();
   const [ status, setStatus ] = useState("");
   const [ image, setImage ] = useState("");
+  const [ objId, setObjId ] = useState("");
 
   // ID
   const { id } = useParams();
   const checkId = id === undefined;
 
   //Toggle
-  const [ isEdit, setIsEdit ] = useState(checkId);
+  const [ isEdit, setIsEdit ] = useState(true);
 
   //Form Functions  
   const setFunctions = {
@@ -55,6 +56,7 @@ const Project = () => {
   const onValueChange = event => {
     const name = event.target.name;
     const value = event.target.value;
+    console.log(value);
 
     setFunctions[name](value);
   }
@@ -69,6 +71,22 @@ const Project = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Create new formdata object
+    const formData = createFormData();
+
+    const response = await createProject(formData);
+    console.log(response);
+    // const toastMessage = await response.data.message;
+  }
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    
+    const formData = createFormData();
+
+    const response = await editProject(formData);
+  }
+
+  const createFormData = () => {
     const formData = new FormData();
     formData.append("projectName", projectName);
     formData.append("startDate", startDate);
@@ -78,22 +96,39 @@ const Project = () => {
     formData.append("safetyOfficer", safetyOfficer);
     formData.append("projectCode", projectCode);
     formData.append("budget", budget);
-    formData.append("_id", "63f59e57567ca5b3e50ae5c3");
     formData.append("status", status);
     formData.append("imageUrl", image);
 
-    const response = await createProject(formData);
-    console.log(response);
-    // const toastMessage = await response.data.message;
+    if(!checkId) formData.append("_id", objId);
+
+    return formData;
   }
 
   const getProject = async () => {
     const response = await getProjectById(id);
-    // const data = response.data;
+    const data = response.data;
+    setProjectName(data.projectName);
+    setStartDate(formatDate(new Date(data.startDate)));
+    setTargetDate(formatDate(new Date(data.endDate)));
+    setTargetEngineer(data.projectEngineer);
+    setSiteEngineer(data.siteEngineer);
+    setSafetyOfficer(data.safetyOfficer);
+    setProjectCode(data.projectCode);
+    setBudget(data.budget);
+    setStatus(data.status);
+    setObjId(data._id);
+
+    document.getElementById("image-display").src = data.imageUrl;
+  }
+
+  const formatDate = (date) => {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   }
 
   useEffect(() => {
-
+    if (!checkId) {
+      getProject();
+    }
   }, [])
 
   return (
@@ -162,8 +197,8 @@ const Project = () => {
               <span>Create Project</span>
             </div>
             :
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
-                <span>{isEdit? "Save" : "Edit"}</span>
+            <div className="btn" onClick={(e) => handleEdit(e)}>
+                <span>Save</span>
             </div>
             }
         </form>
