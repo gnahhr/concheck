@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from './NavBar';
+import { useNavigate } from 'react-router-dom';
 
 import './Header.css';
 
@@ -14,6 +14,13 @@ import MobileLogo from '../../assets/images/concheck-logo-h.png';
 
 
 const Header = ({openNav}) => {
+  const nav = useNavigate();
+
+  const handleLogout = () => {
+      localStorage.clear();
+      nav("/");
+  }
+
   return (
     <>
       <header>
@@ -24,7 +31,7 @@ const Header = ({openNav}) => {
         <FontAwesomeIcon icon={faGear} className="icon settings-icon mobile-only"/>
       <div className="header-body">
         <span>Hi, usercakes!</span>
-        <Link to="/">Logout</Link>
+        <Link to="/" onClick={e => handleLogout(e)}>Logout</Link>
       </div>
       </header>
     </>

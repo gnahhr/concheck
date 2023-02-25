@@ -1,5 +1,15 @@
-.project-item {
+.list-item {
     margin: .5rem auto;
+    background-color: #ffffff;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    place-items: center;
+    text-align: center;
+
+    p {
+        grid-column: 2/auto;
+    }
 
     img {
         aspect-ratio: 1;

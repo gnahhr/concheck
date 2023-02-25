@@ -20,16 +20,20 @@ export async function getAdminById(id) {
 
 export async function getAllAdmin() {
     const response = await axios.get(`http://localhost:4000/api/admin/get-all-admin-account`)
-   .then(response => response)
+   .then(response => response.data)
    .catch(err => console.error(err));
 
    return await response;
 }
 
-export async function editAdmin(data) {
-    const response = await axios.put(`http://localhost:4000/api/admin/edit-admin-account`, data)
+export async function editAdmin(id, data) {
+    const response = await axios.put(`http://localhost:4000/api/admin/edit-admin-account/${id}`, data)
   .then(response => response)
   .catch(err => console.error(err));
 
   return await response;
+}
+
+export async function deleteAdmin(id) {
+    const response = await axios.delete()
 }

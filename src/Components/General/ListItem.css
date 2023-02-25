@@ -1,13 +1,21 @@
-.project-item {
+.list-item {
   margin: 0.5rem auto;
+  background-color: #ffffff;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  place-items: center;
+  text-align: center;
 }
-.project-item img {
+.list-item p {
+  grid-column: 2/auto;
+}
+.list-item img {
   aspect-ratio: 1;
   height: 100%;
   object-fit: cover;
   width: clamp(15rem, 16vw, 20rem);
 }
-.project-item h2 {
+.list-item h2 {
   justify-self: start;
   text-align: left;
   margin-left: 1rem;

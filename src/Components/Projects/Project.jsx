@@ -89,6 +89,8 @@ const Project = () => {
 
   const createFormData = () => {
     const formData = new FormData();
+    
+    // No Project Name needed if Edit
     formData.append("projectName", projectName);
     formData.append("startDate", startDate);
     formData.append("endDate", targetDate);

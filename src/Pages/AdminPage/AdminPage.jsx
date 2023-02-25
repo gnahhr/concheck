@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { createAdmin, getAllAdmin, editAdmin } from '../../Hooks/admin.js';
+import { getAllCompany } from '../../Hooks/company.js';
 
 const AdminPage = () => {
   //Address, Email, Contact Number, Password, Role Id, Picture
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ id, setId ] = useState("");
+  const [ selectedAdmin, setSelectedAdmin ] = useState("");
+  const [ adminList, setAdminList ] = useState("");
 
   const handleCreateAdmin = async (e) => {
     e.preventDefault();
@@ -20,6 +23,11 @@ const AdminPage = () => {
     console.log(response);
   }
 
+  const handleAdminClick = async (e, data) => {
+    setEmail(data.email);
+    setId(data._id);
+  }
+
   const handleEditAdmin = async (e) => {
     e.preventDefault();
     
@@ -29,7 +37,7 @@ const AdminPage = () => {
       "_id": String(id)
     }
 
-    const response = await editAdmin(data);
+    const response = await editAdmin(id, data);
     console.log(response);
   }
 
@@ -37,7 +45,8 @@ const AdminPage = () => {
     e.preventDefault();
 
     const response = await getAllAdmin();
-    console.log(response);
+    const data = response.response.data;
+    setAdminList(data);
   }
 
   const setFunctions = {
@@ -57,10 +66,21 @@ const AdminPage = () => {
     <main>
         <h1>Admin Page</h1>
         <div className="main-component">
-            <div className="admin-side">
-                <div className="btn" onClick={e => handleGetAccounts(e)}>
-                  <span>Show all admin accounts</span>
+            <div className="admin-list">
+                {adminList.length > 0 ?
+                adminList.map(admin => 
+                <div className="list-item" onClick={e => handleAdminClick(e, admin)}>
+                  <h2>{admin.email}</h2>
+                  <div className="btn-group">
+                    <div className="btn btn-red">
+                      Delete
+                    </div>
+                  </div>
                 </div>
+                )
+                :
+                <h2>No Admin Account</h2>
+                }
 
                 <form method="post">
                   <div className={`form-input`}>
@@ -81,11 +101,12 @@ const AdminPage = () => {
                   <div className="btn" onClick={e => handleEditAdmin(e)}>
                     <span>Edit Admin Account</span>
                   </div>
-                  </form>
+                </form>
             </div>
-            <div className="company-side">
-                <h2>Company</h2>
-            </div>
+
+            <div className="btn" onClick={e => handleGetAccounts(e)}>
+                  <span>Show all admin accounts</span>
+              </div>
         </div>
     </main>
   )

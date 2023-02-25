@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAllProjects } from '../../Hooks/project';
 
 // Components
-import ProjectItem from '../../Components/Projects/ProjectItem';
+import ListItem from '../../Components/General/ListItem';
 
 // Styles
 import './Projects.css';
@@ -64,11 +64,12 @@ const Projects = () => {
               :
               projectsList.filter(project => project.projectName.toUpperCase().includes(filterProject.toUpperCase()))
                           .map(project =>
-                          <ProjectItem projectName={project.projectName}
-                                       projectImage={project.imageUrl}
-                                       projectId={project._id}
-                                       openToast={setOpenToast}
-                                       key={project.projectName}/>
+                          <ListItem name={project.projectName}
+                                    image={project.imageUrl}
+                                    id={project._id}
+                                    openToast={setOpenToast}
+                                    type="project"
+                                    key={project.projectName}/>
                           )
           }
         </div>

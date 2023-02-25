@@ -6,8 +6,6 @@ import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, 
 import './NavBar.css';
 
 const NavBar = ({setNavOpen, navOpen, roleId}) => {
-    
-  console.log(typeof roleId);
 
   const closeNav = e => {
     const x = document.getElementsByClassName("close")[0];
@@ -62,9 +60,6 @@ const NavBar = ({setNavOpen, navOpen, roleId}) => {
         access: [3],
     },
   ]
-
-  console.log(navigation.filter((navItem) => 
-  navItem.access.includes(roleId)));
 
   return (
     <nav className={`${navOpen ? "mobile-open" : ""}`}>

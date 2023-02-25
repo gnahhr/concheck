@@ -11,7 +11,9 @@ import Login from './Pages/Login/Login';
 import Projects from './Pages/ProjectsPage/Projects';
 import CrewDetails from './Pages/CrewDetails/CrewDetails';
 import Company from "./Components/Company/Company";
+import CompanyList from './Pages/CompanyList/CompanyList';
 import Engineer from "./Components/Engineer/Engineer";
+import EngineerList from "./Pages/EngineerList/EngineerList";
 import Project from './Components/Projects/Project';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import ProjectsCrew from './Pages/Crew/ProjectsCrew';
@@ -44,6 +46,7 @@ function App() {
               </Route>
 
               <Route path="company">
+                <Route index element={<CompanyList />} />
                 <Route path=":id" element={<Company />} />
                 <Route path="create-company" element={<Company />} />
               </Route>
@@ -53,6 +56,7 @@ function App() {
               <>
                 <Route index element={<Projects />} />
                 <Route path="engineer">
+                  <Route index element={<EngineerList />} />
                   <Route path=":id" element={<Engineer />} />
                   <Route path="create-engineer" element={<Engineer />} />
                 </Route>

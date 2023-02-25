@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { createEngineer, editEngineer, getEngineerById } from '../../Hooks/engineer.js';
 
 // Design
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 const Engineer = () => {
   // Form Fields State
-  const [ firstName, setFirstName ] = useState("Ash");
-  const [ lastName, setLastName ] = useState("Ketchum");
-  const [ address, setAddress ] = useState("Pallet Town");
-  const [ licenseNumber, setLicenseNumber ] = useState("18");
-  const [ email, setEmail ] = useState("09089556666");
-  const [ password, setPassword ] = useState("13121321");
+  const [ firstName, setFirstName ] = useState("");
+  const [ lastName, setLastName ] = useState("");
+  const [ address, setAddress ] = useState("");
+  const [ licenseNumber, setLicenseNumber ] = useState("");
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ image, setImage ] = useState("");
 
 // ID
 const { id } = useParams();
@@ -43,12 +45,67 @@ const [ isEdit, setIsEdit ] = useState(checkId);
     setIsEdit(() => !isEdit);
   }
 
+  const handleChangeImage = (e) => {
+    e.preventDefault();
+    document.getElementById("image-display").src = URL.createObjectURL(e.target.files[0]);
+    setImage(e.target.files[0]);
+  }
+
+  const handleGetEngineerById = async () => {
+    const response = await getEngineerById(id);
+    const data = response.response.data[0];
+    console.log(data);
+
+    setFirstName(data.firstName);
+    setLastName(data.lastName);
+    setAddress(data.address);
+    setLicenseNumber(data.licenseNumber);
+    setImage(data.imageUrl);
+
+    document.getElementById("image-display").src = data.imageUrl;
+  }
+  
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const formData = createFormData();
+
+    const response = await editEngineer(id, formData);
+    console.log(response);
+  }
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = createFormData();
+    const response = await createEngineer(formData);
+    console.log(response);
+  }
+
+  const createFormData = () => {
+    const formData = new FormData();
+    
+    // No Project Name needed if Edit
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("address", address);
+    formData.append("licenseNumber", licenseNumber);
+    formData.append("roleId", 3);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("imageUrl", image);
+
+    return formData;
+  }
+
+  useEffect(() => {
+    if (!checkId) handleGetEngineerById();
+  }, [])
+
   return (
     <main className="main-component">
         <div className="component-header">
             <div className="left-header">
-            <div className="image">
-                    IMAGE
+            <div className="left-header">
+                <img src="" alt="image" className="image" id="image-display"/>
             </div>
             </div>
             {id !== undefined &&
@@ -60,39 +117,44 @@ const [ isEdit, setIsEdit ] = useState(checkId);
         </div>
 
         <form action="" method="post">
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
+            <div className="upload-img">
+                <FontAwesomeIcon icon={faUpload} className="form-icon"/>
+                <input type="file" name="image" id="image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
+            </div>
+            <div className={`form-input`}>
                 <label htmlFor="first-name">First Name:</label>
-                <input type="text" name="first-name" id="first-name" value={firstName} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <input type="text" name="first-name" id="first-name" value={firstName} onChange={(e) => onValueChange(e)} />
             </div>
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
+            <div className={`form-input`}>
                 <label htmlFor="last-name">Last Name:</label>
-                <input type="text" name="last-name" id="last-name" value={lastName} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <input type="text" name="last-name" id="last-name" value={lastName} onChange={(e) => onValueChange(e)} />
             </div>
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
+            <div className={`form-input`}>
                 <label htmlFor="address">Address:</label>
-                <input type="text" name="address" id="address" value={address} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <input type="text" name="address" id="address" value={address} onChange={(e) => onValueChange(e)} />    
             </div>
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
+            <div className={`form-input`}>
                 <label htmlFor="license-number">License Number:</label>
-                <input type="text" name="license-number" id="license-number" value={licenseNumber} pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <input type="text" name="license-number" id="license-number" value={licenseNumber} onChange={(e) => onValueChange(e)}/>    
             </div>
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
+            {checkId &&
+            <div className={`form-input`}>
                 <label htmlFor="email">Email:</label>
-                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
-            </div>
-            <div className={`form-input ${!isEdit && "form-borderless"}`}>
+                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)}/>    
+            </div> }
+            <div className={`form-input`}>
                 <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)}/>    
             </div>
         </form>
 
         {id === undefined ?
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
+            <div className="btn" onClick={(e) => handleSubmit(e)}>
               <span>Create Engineer</span>
             </div>
             :
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
-                <span>{isEdit? "Save" : "Edit"}</span>
+            <div className="btn" onClick={(e) => handleEdit(e)}>
+                <span>Edit</span>
             </div>
         }
     </main>

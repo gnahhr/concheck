@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import {createCompany, editCompany, getCompanyById} from '../../Hooks/company.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,6 +14,7 @@ const Company = () => {
   const [ contactNumber, setContactNumber ] = useState("");
   const [ roleId, setRoleId ] = useState("");
   const [ image, setImage ] = useState("");
+  const [ userId, setUserId ] = useState("");
 
   // ID
   const { id } = useParams();
@@ -55,7 +56,7 @@ const Company = () => {
     formData.append("imageUrl", image);
     formData.append("email", email);
     formData.append("roleId", 2);
-
+    console.log(formData);
     return formData;
   }
 
@@ -75,66 +76,90 @@ const Company = () => {
 
   }
 
-  const handleEditCompany = async (e) => {
-    e.preventDefault();
-    console.log(editCompany);
-    // const data = createFormData();
-    // const response = await editCompany(data);
+  const handleGetCompanyById = async () => {
+    const query = await getCompanyById(id);
+    const data = query.response.data[0];
+    
+    setCompanyName(data.companyName);
+    setAddress(data.address);
+    // setPassword(data.password);
+    setContactNumber(data.contactNumber);
+    setImage(data.imageUrl);
+    setUserId(data.userId._id);
 
-    // console.log(response);
+    document.getElementById("image-display").src = data.imageUrl;
 
   }
 
-  return (
-    <div className="main-component">
-        <h2>Company</h2>
-        <div className="component-header">
-            <div className="left-header">
-                <img src="" alt="image" className="image" id="image-display"/>
-            </div>
-            <div className="right-header">
-                <h3 className="hproject-name">Company Name</h3>
-            </div>
-        </div>
-        <h2>Project Details</h2>
-        <div className="upload-img">
-                <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
-            </div>
-        {/* Fields */}
-        <form action="#" method="post" className="project-details">
-            <div className="form-input">
-                <label htmlFor="company-name">Company name:</label>
-                <input type="text" name="company-name" id="company-name" value={companyName} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="address">Address:</label>
-                <input type="text" name="address" id="address" value={address} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password" value={password} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="email" className="email">E-mail:</label>
-                <input type="email" name="email" id="email" value={email} onChange={onValueChange} disabled={!isEdit} />
-            </div>
-            <div className="form-input">
-                <label htmlFor="contact-number">Contact Number:</label>
-                <input type="text" name="contact-number" id="contact-number" value={contactNumber} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
+  const handleEditCompany = async (e) => {
+    e.preventDefault();
+    // console.log(editCompany);
+    const data = createFormData();
+    const response = await editCompany(userId, data);
 
-            {id === undefined ?
-            <div className="btn" onClick={(e) => handleCreateCompany(e)}>
-              <span>Create Company</span>
+    console.log(response);
+
+  }
+
+  useEffect(() => {
+    if (!checkId) {
+      handleGetCompanyById();
+    }
+  }, [])
+
+  return (
+    <main>
+        <h2>Company</h2>
+        <div className="main-component">
+            <div className="component-header">
+                <div className="left-header">
+                    <img src="" alt="image" className="image" id="image-display"/>
+                </div>
+                <div className="right-header">
+                    <h3 className="hproject-name">{companyName}</h3>
+                </div>
             </div>
-            :
-            <div className="btn" onClick={(e) => handleEditCompany(e)}>
-                <span>"Save"</span>
-            </div>
-            }
-        </form>
-    </div>
+            <h2>Project Details</h2>
+            <div className="upload-img">
+                    <FontAwesomeIcon icon={faUpload} className="form-icon"/>
+                    <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
+                </div>
+            {/* Fields */}
+            <form action="#" method="post" className="project-details">
+                <div className="form-input">
+                    <label htmlFor="company-name">Company name:</label>
+                    <input type="text" name="company-name" id="company-name" value={companyName} onChange={onValueChange}/>
+                </div>
+                <div className="form-input">
+                    <label htmlFor="address">Address:</label>
+                    <input type="text" name="address" id="address" value={address} onChange={onValueChange}/>
+                </div>
+                <div className="form-input">
+                    <label htmlFor="password">Password:</label>
+                    <input type="password" name="password" id="password" value={password} onChange={onValueChange}/>
+                </div>
+                {checkId &&
+                <div className="form-input">
+                    <label htmlFor="email" className="email">E-mail:</label>
+                    <input type="email" name="email" id="email" value={email} onChange={onValueChange} />
+                </div>}
+                <div className="form-input">
+                    <label htmlFor="contact-number">Contact Number:</label>
+                    <input type="text" name="contact-number" id="contact-number" value={contactNumber} onChange={onValueChange}/>
+                </div>
+
+                {id === undefined ?
+                <div className="btn" onClick={(e) => handleCreateCompany(e)}>
+                  <span>Create Company</span>
+                </div>
+                :
+                <div className="btn" onClick={(e) => handleEditCompany(e)}>
+                    <span>Edit</span>
+                </div>
+                }
+            </form>
+        </div>
+    </main>
   )
 }
 

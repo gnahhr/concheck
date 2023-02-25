@@ -11,23 +11,23 @@ export async function createEngineer(data) {
 }
 
 export async function getAllEngineer() {
-    const response = await axios.get(`localhost:4000/api/company/get-all-engineer-account`)
-    .then(response => response)
+    const response = await axios.get(`http://localhost:4000/api/company/get-all-engineer-account`)
+    .then(response => response.data)
     .catch(err => console.error(err));
 
     return await response;
 }
 
 export async function getEngineerById(id) {
-    const response = await axios.get(`http://localhost:4000/api/company/get-engineer-account-by-id/3`)
-   .then(response => response)
+    const response = await axios.get(`http://localhost:4000/api/company/get-engineer-account-by-id/${id}`)
+   .then(response => response.data)
    .catch(err => console.error(err));
    
    return await response;
 };
 
-export async function editEngineer(data) {
-    const response = await axios.put(`http://localhost:4000/api/company/edit-engineer-account`, data)
+export async function editEngineer(id, data) {
+    const response = await axios.put(`http://localhost:4000/api/company/edit-engineer-account/${id}`, data)
   .then(response => response)
   .catch(err => console.error(err));
 
