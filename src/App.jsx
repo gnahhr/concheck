@@ -26,7 +26,7 @@ function App() {
   const [ user, setUser ] = useState(localStorage.getItem("token") ? localStorage.token : null);
   const [ roleId, setRoleId ] = useState(localStorage.roleId ? Number(localStorage.getItem("roleId")) : null);
   const [ userId, setUserId ] = useState(localStorage._id ? Number(localStorage.getItem("_id"))  : null);
-  const [ selectedProject, setSelectedProject ] = useState();
+  const [ selectedProjectId, setSelectedProjectId ] = useState("");
   
   return (
     <div className="App">
@@ -65,14 +65,14 @@ function App() {
 
             {roleId === 3 && 
             <>
-              <Route index element={<Projects />} />
+              <Route index element={<Projects />} setSelectedProjectId={setSelectedProjectId}/>
               <Route path="projects">
                 <Route path=":id" element={<Project />} />
                 <Route path="create-project" element={<Project />} />
               </Route>
 
               <Route path="crew">
-                <Route index element={<ProjectsCrew />} />
+                <Route index element={<ProjectsCrew selectedProject={selectedProjectId}/>} />
                 <Route path=":id" element={<CrewDetails />} />
                 <Route path="create-crew" element={<CrewDetails />} />
               </Route>

@@ -39,8 +39,9 @@ const Login = ({setUser, setRoleId, setUserId}) => {
       localStorage.setItem('roleId', decoded.roleId);
       localStorage.setItem('id', decoded._id);
 
-      if (decoded.roleId === 3) {
-        localStorage.setItem('id', decoded.engineerId);
+      if (decoded.roleId === "3") {
+        localStorage.setItem('id', decoded.EngineerId);
+        localStorage.setItem('firstName', decoded.firstName);
       }
 
       setUser(query.response.data);

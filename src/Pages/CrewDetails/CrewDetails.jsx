@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { createCrew, getCrewById } from '../../Hooks/crew.js';
+
 // Design
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
@@ -43,11 +45,18 @@ const [ isEdit, setIsEdit ] = useState(checkId);
     setFunctions[name](value);
   }
 
-  const toggleEdit = (e) => {
-    e.preventDefault();
 
-    setIsEdit(() => !isEdit);
+  const handleEdit = async () => {
+    console.log("edit");
   }
+
+  const handleSubmit = async () => {
+// placeholder
+    const companyId = localStorage.getItem("id");
+
+    const response = await createCrew()
+  }
+
 
   return (
     <main className="main-component">
@@ -79,45 +88,45 @@ const [ isEdit, setIsEdit ] = useState(checkId);
         <form action="" method="post">
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="first-name">First Name:</label>
-                <input type="text" name="first-name" id="first-name" value={firstName} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <input type="text" name="first-name" id="first-name" value={firstName} onChange={(e) => onValueChange(e)}/>
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="last-name">Last Name:</label>
-                <input type="text" name="last-name" id="last-name" value={lastName} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <input type="text" name="last-name" id="last-name" value={lastName} onChange={(e) => onValueChange(e)}/>
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="address">Address:</label>
-                <input type="text" name="address" id="address" value={address} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <input type="text" name="address" id="address" value={address} onChange={(e) => onValueChange(e)}/>    
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="age">Age:</label>
-                <input type="number" name="age" id="age" value={age} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <input type="number" name="age" id="age" value={age} onChange={(e) => onValueChange(e)}/>    
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="contact-number">Contact Number:</label>
-                <input type="tel" name="contact-number" id="contact-number" value={phoneNum} pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" onChange={(e) => onValueChange(e)} disabled={!isEdit}/>    
+                <input type="tel" name="contact-number" id="contact-number" value={phoneNum} pattern="[0-9]{4}-[0-9]{3}-[0-9]{4}" onChange={(e) => onValueChange(e)}/>    
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="start-shift">Start of Shift:</label>
-                <input type="time" name="start-shift" id="start-shift" value={startShift} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <input type="time" name="start-shift" id="start-shift" value={startShift} onChange={(e) => onValueChange(e)}/>
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="end-shift">End of Shift:</label>
-                <input type="time" name="end-shift" id="end-shift" value={endShift} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <input type="time" name="end-shift" id="end-shift" value={endShift} onChange={(e) => onValueChange(e)}/>
             </div>
             <div className={`form-input ${!isEdit && "form-borderless"}`}>
                 <label htmlFor="rate">Rate:</label>
-                <input type="number" name="rate" id="rate" value={rate} onChange={(e) => onValueChange(e)} disabled={!isEdit}/>
+                <input type="number" name="rate" id="rate" value={rate} onChange={(e) => onValueChange(e)}/>
             </div>
         </form>
 
         {id === undefined ?
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
+            <div className="btn" onClick={(e) => handleSubmit(e)}>
               <span>Create Crew</span>
             </div>
             :
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
-                <span>{isEdit? "Save" : "Edit"}</span>
+            <div className="btn" onClick={(e) => handleEdit(e)}>
+                <span>Edit</span>
             </div>
         }
     </main>
