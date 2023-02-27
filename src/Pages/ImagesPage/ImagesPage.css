@@ -27,8 +27,16 @@
   height: 3rem;
   margin-bottom: 1rem;
 }
+.images-wrapper .action-img span {
+  font-size: 1rem;
+  display: block;
+}
 .images-wrapper .action-img:hover {
   background-color: grey;
   color: white;
   cursor: pointer;
+}
+
+.action-img > input[type=file] {
+  display: none;
 }

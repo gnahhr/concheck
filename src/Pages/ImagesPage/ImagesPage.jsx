@@ -1,6 +1,6 @@
-import React from 'react'
-import ImageItem from '../../Components/ImagesPage/ImageItem';
+import { useState } from 'react'
 import ImageFolder from '../../Components/ImagesPage/ImageFolder';
+import ImageModal from '../../Components/ImagesPage/ImageModal';
 
 //Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -34,22 +34,44 @@ const dummyData = [
 ];
 
 const ImagesPage = () => {
+  const [ images, setImages ] = useState([]);
+
+  const handleSelectImages = (e) => {
+    e.preventDefault();
+    console.log(e.target.files);
+    setImages(e.target.files);
+  }
+
+  const loopImages = () => {
+    let imagesHtml = [];
+
+    for(let x = 0; x < images.length; x++) {
+      
+    }
+
+    return imagesHtml;
+  }
+
   return (
     <main className="main-component">
       <h1 className="text-center">Images</h1>
-      {/* <div className="upload-img image-item"> <FontAwesomeIcon icon={faUpload} /> Upload Image</div> */}
       <div className="images-wrapper">
           <div className="action-img image-item">
-            <FontAwesomeIcon icon={faUpload} className="uploadImgIcon"/>
-            <p className='text-center'>Upload Image</p>
+            <label htmlFor="project-image" className="action-img">
+              <FontAwesomeIcon icon={faUpload} className="uploadImgIcon"/>
+              <span>Upload Image</span>
+              </label>
+              <input type="file" name="project-image" id="project-image" accept="images/*" onChange={e => handleSelectImages(e)} multiple/>
           </div>
           <ImageFolder items={dummyData} date={"12/12"}/>
           <ImageFolder items={dummyData} date={"12/13"}/>
           <ImageFolder items={dummyData} date={"12/14"}/>
           <ImageFolder items={dummyData} date={"12/15"}/>
           <ImageFolder items={dummyData} date={"12/16"}/>
-      </div>
+          
+          {images.length > 0 && <ImageModal images={images} />}
 
+      </div>
     </main>
   )
 }

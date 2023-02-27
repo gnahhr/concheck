@@ -24,7 +24,7 @@ const Projects = () => {
   }, [openToast]);
 
   const fetchProject = async () => {
-    const query = await getAllProjects("vash");
+    const query = await getAllProjects(localStorage.getItem('firstName'));
     const data = await query.response.data;
     setProjectsList(data);
     // console.log(await data);
@@ -39,7 +39,7 @@ const Projects = () => {
   }
 
   const createProject = (e) => {
-    nav("/projects/create-project")
+    nav("/project/create-project")
   };
 
   return (

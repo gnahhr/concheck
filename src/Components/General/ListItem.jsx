@@ -17,6 +17,7 @@ const ListItem = ({name, image, id, openToast, type}) => {
     e.preventDefault();
     if (type === "project") {
       const response = await deleteProject(id);
+      console.log(response);
     } else if (type === "company") {
       console.log("company delete");
     } else if (type === "engineer") {

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom';
-
 import { createProject, getProjectById, editProject } from '../../Hooks/project';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import placeholder from '../../assets/placeholder/project.png';
 
 import './Project.css';
@@ -111,6 +110,7 @@ const Project = () => {
     setProjectName(data.projectName);
     setStartDate(formatDate(new Date(data.startDate)));
     setTargetDate(formatDate(new Date(data.endDate)));
+    console.log(data.startDate);
     setTargetEngineer(data.projectEngineer);
     setSiteEngineer(data.siteEngineer);
     setSafetyOfficer(data.safetyOfficer);
@@ -123,7 +123,7 @@ const Project = () => {
   }
 
   const formatDate = (date) => {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    return date.toISOString().split("T")[0];
   }
 
   useEffect(() => {
@@ -141,8 +141,8 @@ const Project = () => {
             </div>
             {!checkId &&
                 <div className="right-header">
-                    <h3 className="hproject-name">Project Name</h3>
-                    <p className="date">Start Date</p>
+                    <h3 className="hproject-name">{projectName}</h3>
+                    <p className="date">{startDate}</p>
                 </div>
             }
         </div>
@@ -154,10 +154,12 @@ const Project = () => {
                 <FontAwesomeIcon icon={faUpload} className="form-icon"/>
                 <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
             </div>
-            <div className="form-input">
-                <label htmlFor="project-name">Project name:</label>
-                <input type="text" name="project-name" id="project-name" value={projectName} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
+            {!id &&
+              <div className="form-input">
+                  <label htmlFor="project-name">Project name:</label>
+                  <input type="text" name="project-name" id="project-name" value={projectName} onChange={onValueChange} disabled={!isEdit}/>
+              </div>
+            }
             <div className="form-input">
                 <label htmlFor="start-date">Start Date:</label>
                 <input type="date" name="start-date" id="start-date" value={startDate}  onChange={onValueChange} disabled={!isEdit}/>

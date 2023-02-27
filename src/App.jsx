@@ -66,7 +66,7 @@ function App() {
             {roleId === 3 && 
             <>
               <Route index element={<Projects />} setSelectedProjectId={setSelectedProjectId}/>
-              <Route path="projects">
+              <Route path="project">
                 <Route path=":id" element={<Project />} />
                 <Route path="create-project" element={<Project />} />
               </Route>

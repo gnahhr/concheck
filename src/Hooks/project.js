@@ -3,15 +3,14 @@ const token = localStorage.getItem("token");
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 export async function getAllProjects(projectEngineer) {
-    const response = await axios.get(`http://localhost:4000/api/engineer/get-all-project/${projectEngineer}`)
+    const response = await axios.get(`${import.meta.env.VITE_API}/api/engineer/get-all-project/${projectEngineer}`)
     .then(response => response.data)
     .catch(err => console.error(err));
-
     return await response;
 }
 
 export async function getProjectById(id) {
-    const response = await axios.get(`http://localhost:4000/api/project/get-project-by-id/${id}`)
+    const response = await axios.get(`${import.meta.env.VITE_API}/api/project/get-project-by-id/${id}`)
    .then(response => response.data.response)
    .catch(err => console.error(err));
 
@@ -19,7 +18,7 @@ export async function getProjectById(id) {
 }
 
 export async function createProject(data) {
-    const response = await axios.post("http://localhost:4000/api/engineer/create-project", data)
+    const response = await axios.post(`${import.meta.env.VITE_API}/api/engineer/create-project`, data)
     .then(response => response)
     .catch(err => console.error(err));
 
@@ -27,7 +26,7 @@ export async function createProject(data) {
 }
 
 export async function editProject(objId, data) {
-    const response = await axios.put(`http://localhost:4000/api/engineer/edit-project/${objId}`, data)
+    const response = await axios.put(`${import.meta.env.VITE_API}/api/engineer/edit-project/${objId}`, data)
    .then(response => response)
    .catch(err => console.error(err));
 
@@ -35,7 +34,7 @@ export async function editProject(objId, data) {
 }
 
 export async function deleteProject(objId) {
-    const response = await axios.delete(`http://localhost:4000/api/engineer/delete-project/${objId}`)
+    const response = await axios.delete(`${import.meta.env.VITE_API}/api/engineer/delete-project/${objId}`)
    .then(response => response)
    .catch(err => console.error(err));
 

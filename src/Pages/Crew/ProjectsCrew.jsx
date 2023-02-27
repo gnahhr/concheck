@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { getAllCrewByProject } from '../../Hooks/crew';
 import CrewItem from '../../Components/Crew/CrewItem';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,6 +8,7 @@ import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const ProjectsCrew = () => {
   const [ filterCrew, setFilterCrew ] = useState("");
+  const [ crewList, setCrewList ] = useState("");
   const nav = useNavigate();
 
   const handleFilter = e => {
@@ -17,6 +19,16 @@ const ProjectsCrew = () => {
   const createCrew = e => {
     nav("/crew/create-crew");
   }
+
+  const handleGetAllCrew = async e => {
+
+    const response = await getAllCrewByProject("63fcab189e38da13250607ac");
+    setCrewList(response.response.data);
+  }
+
+  useEffect(() => {
+    handleGetAllCrew();
+  }, [])
 
   return (
     <>
@@ -32,18 +44,13 @@ const ProjectsCrew = () => {
         </div>
         <div className="main-component">
           <div className="crew-list">
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
-              <CrewItem />
+              {crewList.length > 0 ? 
+              crewList.filter(crew =>
+                {if (`${crew.firstName} ${crew.lastName}`.includes(filterCrew))
+                return crew }).map((crew) => <CrewItem crew={crew}/>)
+              :
+              <h2 className="text-center">No crews are listed in the project</h2>
+              }
           </div>
         </div>
     </main>

@@ -1,19 +1,23 @@
 // TODO: Clarify Time in Time Out kineme
 
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 import './CrewItem.css';
 
-const CrewItem = () => {
+const CrewItem = ({crew}) => {
+  const {imageUrl, firstName, lastName} = crew;
+  const objId = crew._id;
+
+  console.log(crew);
+
   return (
     <div className="crew-item">
         <div className="left-item">
-            <div className="image">
-                IMAGE
-            </div>
+            <img src={imageUrl} alt={`${firstName} ${lastName}`} className="image" />
         </div>
         <div className="middle-item">
-            <h3 className="crew-name">Name</h3>
+            <h3 className="crew-name">{`${firstName} ${lastName}`}</h3>
             <div className="crew-details">
                 <div className="form-input form-inverse">
                     <label htmlFor="time-in">Time in</label>
@@ -30,7 +34,7 @@ const CrewItem = () => {
             </div>
         </div>
         <div className="right-item">
-            <a href="#">Edit</a>
+            <Link to={`/crew/${objId}`}>Edit</Link>
             <a href="#">Delete</a>
         </div>
     </div>
