@@ -21,3 +21,8 @@
   margin-left: 1rem;
   font-size: clamp(10px, 3vw, 24px);
 }
+
+.list-item:hover {
+  cursor: pointer;
+  background-color: #9b9b9b;
+}

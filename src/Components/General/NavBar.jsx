@@ -5,7 +5,7 @@ import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, 
 
 import './NavBar.css';
 
-const NavBar = ({setNavOpen, navOpen, roleId}) => {
+const NavBar = ({setNavOpen, navOpen, roleId, selectedProject}) => {
 
   const closeNav = e => {
     const x = document.getElementsByClassName("close")[0];
@@ -69,6 +69,13 @@ const NavBar = ({setNavOpen, navOpen, roleId}) => {
                             onClick={e => closeNav(e)}
                             />
         </div>
+        {roleId === 3 &&
+        <div className="active-project">
+            <h3>You're currently working on:</h3>
+            <h2>{selectedProject}</h2>
+            <p>Click here to change project</p>
+        </div>
+        }
         <ul>
             {navigation.filter((navItem) => 
             navItem.access.includes(roleId))

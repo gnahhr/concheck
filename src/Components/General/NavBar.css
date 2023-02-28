@@ -59,12 +59,18 @@ nav ul li:hover a {
     z-index: 200;
     display: flex;
     grid-template-columns: 1fr;
-    justify-content: flex-end;
+    flex-direction: column;
     margin: none;
+  }
+  nav .active-project p {
+    font-size: 0.8rem;
   }
   nav ul {
     display: block;
     flex: 1;
+    justify-self: flex-end;
+    align-self: center;
+    width: 100%;
   }
   nav ul li {
     display: block;

@@ -1,0 +1,25 @@
+.toast-message {
+  position: fixed;
+  left: 50%;
+  bottom: 3vh;
+  transform: translate(-50%, 0);
+  padding: 1rem 2rem;
+  background-color: rgb(179, 19, 179);
+  color: white;
+  border-radius: 25px;
+  transition: 0.3s ease-in;
+  z-index: 999;
+}
+
+.hidden {
+  bottom: -10vh;
+  transition: 0.3s ease-in;
+}
+
+.success {
+  background-color: rgb(32, 110, 40);
+}
+
+.warning {
+  background-color: rgb(95, 28, 28);
+}

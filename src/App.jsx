@@ -2,10 +2,12 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { parseToken } from "./Hooks/parseToken";
 import './App.css';
-import PageLayout from "./Components/General/PageLayout";
 
+
+import PageLayout from "./Components/General/PageLayout";
 import AdminPage from './Pages/AdminPage/AdminPage';
 import Login from './Pages/Login/Login';
 import Projects from './Pages/ProjectsPage/Projects';
@@ -24,18 +26,37 @@ import Profile from './Pages/Profile/Profile';
 
 function App() {
   const [ user, setUser ] = useState(localStorage.getItem("token") ? localStorage.token : null);
-  const [ roleId, setRoleId ] = useState(localStorage.roleId ? Number(localStorage.getItem("roleId")) : null);
-  const [ userId, setUserId ] = useState(localStorage._id ? Number(localStorage.getItem("_id"))  : null);
-  const [ selectedProjectId, setSelectedProjectId ] = useState("");
+  const [ roleId, setRoleId ] = useState("");
+  const [ userId, setUserId ] = useState("");
+  const [ engineerId, setEngineerId ] = useState("");
+  const [ selectedProject, setSelectedProject ] = useState("");
   
+  const initIds = () => {
+    const data = parseToken(localStorage.getItem("token"));
+    setRoleId(data.roleId);
+    setUserId(data.id);
+
+    if(data.roleId === 3) {
+      setEngineerId(data.engineerId);
+    } 
+  };
+
+  //OnMount
+  useEffect(() => {
+    if (localStorage.getItem("token")) initIds();
+  }, [])
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) initIds();
+  }, [user, selectedProject]) 
+
   return (
     <div className="App">
       <Routes>
         {!user ? 
-          <Route path="/" element={<Login setUser={setUser} setRoleId={setRoleId} setUserId={setUserId}/>} />
+          <Route path="/" element={<Login setUser={setUser}/>} />
         :
-          <Route element={<PageLayout roleId={roleId}/>}>
-            
+          <Route element={<PageLayout roleId={roleId} selectedProject={selectedProject.name}/>}>
             {roleId === 1 &&
             <>
               <Route index element={<AdminPage />} />
@@ -65,23 +86,23 @@ function App() {
 
             {roleId === 3 && 
             <>
-              <Route index element={<Projects />} setSelectedProjectId={setSelectedProjectId}/>
+              <Route index element={<Projects setSelectedProject={setSelectedProject}/>} />
               <Route path="project">
                 <Route path=":id" element={<Project />} />
                 <Route path="create-project" element={<Project />} />
               </Route>
 
               <Route path="crew">
-                <Route index element={<ProjectsCrew selectedProject={selectedProjectId}/>} />
+                <Route index element={<ProjectsCrew selectedProject={selectedProject.id}/>} />
                 <Route path=":id" element={<CrewDetails />} />
-                <Route path="create-crew" element={<CrewDetails />} />
+                <Route path="create-crew" element={<CrewDetails projId={selectedProject.id}/>} />
               </Route>
 
               <Route path="images" element={<ImagesPage />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="daily-report" element={<CalendarPage />} />
-              <Route path="settings" element={<Project />} />
-              <Route path="profile" element={<Profile />} />
+              <Route path="dashboard" element={<Dashboard projId={selectedProject.id}/>} />
+              <Route path="daily-report" element={<CalendarPage projId={selectedProject.id}/>} />
+              <Route path="settings" element={<Project projId={selectedProject.id}/>} />
+              <Route path="profile" element={<Engineer userId={userId}/>} />
             </>}
 
 

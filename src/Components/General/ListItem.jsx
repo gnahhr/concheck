@@ -5,7 +5,7 @@ import { deleteCompany } from '../../Hooks/company.js';
 
 import './ListItem.css';
 
-const ListItem = ({name, image, id, openToast, type}) => {
+const ListItem = ({name, image, id, openToast, type, setSelectedProject}) => {
   const nav = useNavigate();
 
   // const deleteFunction = {
@@ -31,9 +31,20 @@ const ListItem = ({name, image, id, openToast, type}) => {
 
     nav(`/${type}/${id}`);
   }
+
+  const handleSelect = (e) => {
+    e.preventDefault();
+    
+    const data = {
+      id: id,
+      name: name
+    };
+
+    setSelectedProject(data);
+  }
   
   return (
-    <div className="list-item">
+    <div className="list-item" onClick={e => handleSelect(e)}>
         <img src={image} alt={name} />
         <h2>{name}</h2>
         <div className="btn-group">

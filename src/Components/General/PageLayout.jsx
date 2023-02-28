@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
 
-const PageLayout = ({roleId}) => {
+const PageLayout = ({roleId, selectedProject}) => {
   const [ navOpen, setNavOpen ] = useState(false);
 
   const openNav = (e) => {
@@ -16,7 +16,7 @@ const PageLayout = ({roleId}) => {
   return (
     <> 
       <div className="desktop-left">
-        <NavBar setNavOpen={setNavOpen} navOpen={navOpen} roleId={roleId}/>
+        <NavBar setNavOpen={setNavOpen} navOpen={navOpen} roleId={roleId} selectedProject={selectedProject}/>
       </div>
       <div className="desktop-right">
         <Header openNav={openNav}/>

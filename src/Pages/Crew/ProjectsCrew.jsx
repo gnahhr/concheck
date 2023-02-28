@@ -5,8 +5,9 @@ import CrewItem from '../../Components/Crew/CrewItem';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
+import './ProjectsCrew.css';
 
-const ProjectsCrew = () => {
+const ProjectsCrew = ({selectedProject}) => {
   const [ filterCrew, setFilterCrew ] = useState("");
   const [ crewList, setCrewList ] = useState("");
   const nav = useNavigate();
@@ -16,13 +17,14 @@ const ProjectsCrew = () => {
     setFilterCrew(e.target.value);
   }
 
+  const tableHeaders = ["Image", "Name", "Time In", "Time Out", "Remarks", "Actions"];
+
   const createCrew = e => {
     nav("/crew/create-crew");
   }
 
   const handleGetAllCrew = async e => {
-
-    const response = await getAllCrewByProject("63fcab189e38da13250607ac");
+    const response = await getAllCrewByProject(selectedProject);
     setCrewList(response.response.data);
   }
 
@@ -44,15 +46,22 @@ const ProjectsCrew = () => {
         </div>
         <div className="main-component">
           <div className="crew-list">
-              {crewList.length > 0 ? 
-              crewList.filter(crew =>
+          {crewList && crewList.length > 0 ? 
+            <table>
+              <tr>
+                {tableHeaders.map(header => <th>{header}</th>)}
+              </tr>
+
+              {crewList.filter(crew =>
                 {if (`${crew.firstName} ${crew.lastName}`.includes(filterCrew))
-                return crew }).map((crew) => <CrewItem crew={crew}/>)
-              :
-              <h2 className="text-center">No crews are listed in the project</h2>
-              }
-          </div>
+                return crew }).map((crew) => <tr><CrewItem crew={crew}/></tr>)}
+
+            </table>
+            :
+            <h2 className="text-center">No crews are listed in the project</h2>
+          }
         </div>
+      </div>
     </main>
     </>
   )

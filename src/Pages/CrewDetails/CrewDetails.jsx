@@ -22,14 +22,11 @@ const CrewDetails = ({projId}) => {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ image, setImage ] = useState("");
+  // ID
+  const { id } = useParams();
+  const checkId = id === undefined;
 
-// ID
-const { id } = useParams();
-const checkId = id === undefined;
-
-//Toggle
-const [ isEdit, setIsEdit ] = useState(checkId);
-  
+  //Toggle
   const setFunctions = {
     "first-name": setFirstName,
     "last-name": setLastName,
@@ -45,7 +42,6 @@ const [ isEdit, setIsEdit ] = useState(checkId);
   const onValueChange = event => {
     const name = event.target.name;
     const value = event.target.value;
-    console.log(name, value);
 
     setFunctions[name](value);
   }
@@ -105,7 +101,7 @@ const [ isEdit, setIsEdit ] = useState(checkId);
         "roleId": 4
     };
 
-    const response = await createCrew("63fcab189e38da13250607ac", data);
+    const response = await createCrew(projId, data);
     console.log(await response);
   }
 

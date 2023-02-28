@@ -2,8 +2,8 @@ import axios from "axios";
 const token = localStorage.getItem("token");
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-export async function addTask (projId, data) {
-    const reponse = await axios.post(`${import.meta.env.VITE_API}/api/project/add-task/${projId}`, data)
+export async function addTask (data) {
+    const reponse = await axios.post(`${import.meta.env.VITE_API}/api/project/add-task/`, data)
     .then(response => response.data)
     .catch(err => console.error(err));
     
@@ -12,7 +12,7 @@ export async function addTask (projId, data) {
 
 export async function getAllTasks (projId) {
     const reponse = await axios.get(`${import.meta.env.VITE_API}/api/project/get-all-task/${projId}`)
-    .then(response => response.data)
+    .then(response => response.data.response)
     .catch(err => console.error(err));
     
     return await reponse;

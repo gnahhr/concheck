@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+  text-align: center;
+}
+table tr:has(th) {
+  background-color: var(--primary-d);
+}
+table tr td .image {
+  border-radius: 50%;
+  width: 10rem;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+table tr td .crew-name {
+  text-align: left;
+}

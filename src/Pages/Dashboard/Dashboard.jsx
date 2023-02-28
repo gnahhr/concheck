@@ -1,30 +1,22 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { Chart } from "react-google-charts";
+
+import { getAllTasks } from '../../Hooks/task';
 
 import './Dashboard.css';
 
 function daysToMilliseconds(days) {
     return days * 24 * 60 * 60 * 1000;
-  }
-  
-  const columns = [
-    { type: "string", label: "Task ID" },
-    { type: "string", label: "Task Name" },
-    { type: "date", label: "Start Date" },
-    { type: "date", label: "End Date" },
-    { type: "number", label: "Duration" },
-    { type: "number", label: "Percent Complete" },
-    { type: "string", label: "Dependencies" },
-  ];
-  
+}
+
   const rows = [
     [
       "Research",
       "Find sources",
       new Date(2015, 1, 2),
+      new Date(2015, 4, 2),
       null,
-      daysToMilliseconds(31),
-      100,
+      0,
       null,
     ],
     [
@@ -33,7 +25,7 @@ function daysToMilliseconds(days) {
       new Date(2015, 2, 3),
       new Date(2015, 3, 4),
       daysToMilliseconds(3),
-      25,
+      0,
       null,
     ],
     [
@@ -42,13 +34,11 @@ function daysToMilliseconds(days) {
       new Date(2015, 3, 0),
       new Date(2015, 4, 0),
       daysToMilliseconds(1),
-      20,
+      0,
       null,
     ],
 
   ];
-
-const data = [columns, ...rows];
 
 const chartData = [
     ["Task", "Hours per Day"],
@@ -85,13 +75,56 @@ const barOptions = {
     },
 };
 
-const Dashboard = () => {
+const Dashboard = ({projId}) => {
+  const [ tasks, setTasks ] = useState([]);
+  const [ taskData, setTaskData ] = useState([]);
+
+  const handleGetTasks = async () => {
+    const response = await getAllTasks(projId);
+    const tasks = response.data;
+
+    setTasks(() => tasks.map(task => [
+      task._id,
+      task.taskName,
+      new Date(task.startDate),
+      new Date(task.endDate),
+      null,
+      null
+    ]))
+
+    const columns = [
+      { type: "string", label: "Task ID" },
+      { type: "string", label: "Task Name" },
+      { type: "date", label: "Start Date" },
+      { type: "date", label: "End Date" },
+      { type: "number", label: "Duration" },
+      { type: "number", label: "Percent Complete" },
+      { type: "string", label: "Dependencies" },
+    ];
+
+    const rows = tasks.map(task => [
+      task._id,
+      task.taskName,
+      new Date(task.startDate),
+      new Date(task.endDate),
+      null,
+      0,
+      null
+    ])
+
+    setTaskData([columns, ...rows])
+  }
+
+  useEffect(() => {
+    handleGetTasks();
+  }, [])
+
   return (
     <main className="main-component dashboard-main">
         <h1 className="text-center">Dashboard</h1>
         <Chart
             chartType="Gantt"
-            data={data}
+            data={taskData}
             width="100%"
             legendToggle
             />

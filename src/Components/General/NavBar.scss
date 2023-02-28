@@ -70,12 +70,23 @@ nav {
         z-index: 200;
         display: flex;
         grid-template-columns: 1fr;
-        justify-content: flex-end;
+        flex-direction: column;
+
         margin: none;
+
+        .active-project {
+            p {
+                font-size: .8rem;
+            }
+        }
 
         ul {
             display: block;
             flex: 1;
+            justify-self: flex-end;
+            align-self: center;
+            width: 100%;
+
             
             li {
                 display: block;

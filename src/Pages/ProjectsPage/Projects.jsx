@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { parseToken } from '../../Hooks/parseToken';
 
 import { getAllProjects } from '../../Hooks/project';
 
@@ -11,7 +12,7 @@ import './Projects.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const Projects = () => {
+const Projects = ({setSelectedProject}) => {
   const [ projectsList, setProjectsList ] = useState([]);
   const [ openToast, setOpenToast ] = useState(false);
 
@@ -24,10 +25,9 @@ const Projects = () => {
   }, [openToast]);
 
   const fetchProject = async () => {
-    const query = await getAllProjects(localStorage.getItem('firstName'));
+    const query = await getAllProjects(parseToken(localStorage.getItem('token')).firstName);
     const data = await query.response.data;
     setProjectsList(data);
-    // console.log(await data);
   };
 
   const [ filterProject, setFilterProject ] = useState("");
@@ -69,7 +69,8 @@ const Projects = () => {
                                     id={project._id}
                                     openToast={setOpenToast}
                                     type="project"
-                                    key={project.projectName}/>
+                                    key={project.projectName}
+                                    setSelectedProject={setSelectedProject}/>
                           )
           }
         </div>

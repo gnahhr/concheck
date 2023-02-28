@@ -105,6 +105,7 @@ main {
   width: 100vw;
   background-color: #ffffff;
   align-self: flex-start;
+  position: relative;
 }
 
 .main-component {
@@ -113,6 +114,7 @@ main {
   height: 65vh;
   overflow-y: auto;
   align-self: flex-start;
+  position: relative;
 }
 
 .main-component:only-of-type {
@@ -204,6 +206,29 @@ main {
   align-self: center;
 }
 
+// MODALS
+.modal-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  display: grid;
+  place-items: center;
+
+  .modal-content {
+    background-color: rgb(255, 255, 255);
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 5px solid rgba(0, 0, 0);
+
+    .form-input {
+      background-color: #fff;
+    }
+  }
+}
+
 // FORM
 .form-input {
   border: 2px solid var(--primary);
@@ -269,7 +294,8 @@ main {
 }
 
 .red-btn {
-  background-color: rgb(219, 35, 35);
+  color: #fff;
+  background-color: rgb(199, 32, 32);
 }
 
 .red-btn:hover {
@@ -350,7 +376,8 @@ main {
   .desktop-right {
     flex: 1;
     align-self: flex-start;
-
+    position: relative;
+    
     .dashboard-main{
       overflow-y: hidden;
     }
@@ -359,8 +386,9 @@ main {
   main {
     margin: 0.5rem auto;
     background-color: #ffffff;
-    align-self: center;
+    align-self: flex-start;
     overflow-y: auto;
     width: 100%;
+    justify-self: center;
   }
 }

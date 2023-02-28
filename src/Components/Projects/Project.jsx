@@ -8,7 +8,7 @@ import placeholder from '../../assets/placeholder/project.png';
 
 import './Project.css';
 
-const Project = () => {
+const Project = ({projId}) => {
   //Toast Data
   const [ toastMessage, setToastMessage ] = useState("");
   const [ openToast, setOpenToast ] = useState(false); 
@@ -27,8 +27,10 @@ const Project = () => {
   const [ objId, setObjId ] = useState("");
 
   // ID
-  const { id } = useParams();
+  let { id } = useParams();
+  if (projId) id = projId;
   const checkId = id === undefined;
+  
 
   //Toggle
   const [ isEdit, setIsEdit ] = useState(true);
@@ -55,7 +57,6 @@ const Project = () => {
   const onValueChange = event => {
     const name = event.target.name;
     const value = event.target.value;
-    console.log(value);
 
     setFunctions[name](value);
   }

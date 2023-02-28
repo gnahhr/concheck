@@ -6,7 +6,7 @@ import { createEngineer, editEngineer, getEngineerById } from '../../Hooks/engin
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
 
-const Engineer = () => {
+const Engineer = ({userId}) => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("");
   const [ lastName, setLastName ] = useState("");
@@ -17,7 +17,8 @@ const Engineer = () => {
   const [ image, setImage ] = useState("");
 
 // ID
-const { id } = useParams();
+let { id } = useParams();
+if (userId) id = userId;
 const checkId = id === undefined;
 
 //Toggle
@@ -39,12 +40,6 @@ const [ isEdit, setIsEdit ] = useState(checkId);
     setFunctions[name](value);
   }
 
-  const toggleEdit = (e) => {
-    e.preventDefault();
-
-    setIsEdit(() => !isEdit);
-  }
-
   const handleChangeImage = (e) => {
     e.preventDefault();
     document.getElementById("image-display").src = URL.createObjectURL(e.target.files[0]);
@@ -53,8 +48,7 @@ const [ isEdit, setIsEdit ] = useState(checkId);
 
   const handleGetEngineerById = async () => {
     const response = await getEngineerById(id);
-    const data = response.response.data[0];
-    console.log(data);
+    const data = response.response;
 
     setFirstName(data.firstName);
     setLastName(data.lastName);

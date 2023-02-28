@@ -1,23 +1,20 @@
-import { useEffect } from "react"
+import React, { useEffect } from 'react';
+import "./Toast.css";
 
-
-
-const Toast = ({message, openToast, type}) => {
-
-  const handleToast = () => {
-    //set timer for 3 seconds then make openToast false
-    if (openToast) {
-        setInterval
-    }
-  };
+// toastType = success/warning
+// showToast = setToastFunction
+// toastState = boolean
+const Toast = ({message, timer, toastType, showToast, toastState}) => {
 
   useEffect(() => {
-    
-  }, [])
+    if (toastState === true) {
+      setTimeout(() => showToast(false), timer);
+    }
+  }, [toastState])
 
   return (
-    <div className="toast">
-        <span>{message}</span>
+    <div className={`toast-message ${toastType} ${toastState ? "" : "hidden"}`}>
+        {message}
     </div>
   )
 }
