@@ -16,18 +16,22 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject}) => {
     }
   }
 
+  if (!selectedProject) {
+    roleId = 0;
+  }
+
   const navigation = [
     {
         link: "/",
         icon: faHouseChimney,
         text: "Home",
-        access: [1,2,3,4],
+        access: [0,1,2,3,4],
     },
     {
         link: "/profile",
         icon: faUser,
         text: "Profile",
-        access: [1,2,3,4],
+        access: [0,1,2,3,4],
     },
     {
         link: "/dashboard",

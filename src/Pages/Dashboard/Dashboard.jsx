@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Chart } from "react-google-charts";
+import TaskItem from '../../Components/Task/TaskItem';
 
 import { getAllTasks } from '../../Hooks/task';
+import { getAllDailyReport } from '../../Hooks/dailyReport';
 
 import './Dashboard.css';
 
@@ -9,139 +11,114 @@ function daysToMilliseconds(days) {
     return days * 24 * 60 * 60 * 1000;
 }
 
-  const rows = [
-    [
-      "Research",
-      "Find sources",
-      new Date(2015, 1, 2),
-      new Date(2015, 4, 2),
-      null,
-      0,
-      null,
-    ],
-    [
-      "Write",
-      "Write paper",
-      new Date(2015, 2, 3),
-      new Date(2015, 3, 4),
-      daysToMilliseconds(3),
-      0,
-      null,
-    ],
-    [
-      "Cite",
-      "Create bibliography",
-      new Date(2015, 3, 0),
-      new Date(2015, 4, 0),
-      daysToMilliseconds(1),
-      0,
-      null,
-    ],
-
-  ];
-
-const chartData = [
-    ["Task", "Hours per Day"],
-    ["Work", 11],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 2],
-    ["Sleep", 7],
-  ];
-
-const chartOptions = {
-    title: "Hatdog"
-};
-
-const barData = [
-    ['City', '2010 Population', '2000 Population'],
-    ['New York City, NY', 8175000, 8008000],
-    ['Los Angeles, CA', 3792000, 3694000],
-    ['Chicago, IL', 2695000, 2896000],
-    ['Houston, TX', 2099000, 1953000],
-    ['Philadelphia, PA', 1526000, 1517000]
-];
-
-const barOptions = {
-    chart: {
-        title: 'Population of Largest U.S. Cities'
-    },
-    hAxis: {
-        title: 'Total Population',
-        minValue: 0,
-    },
-    vAxis: {
-        title: 'City'
-    },
-};
-
-const Dashboard = ({projId}) => {
-  const [ tasks, setTasks ] = useState([]);
+const Dashboard = ({}) => {
   const [ taskData, setTaskData ] = useState([]);
+  const [ ganttData, setGanttData ] = useState([]);
+  const [ pieData, setPieData ] = useState([]);
+  const projId = sessionStorage.getItem("selProjId");
 
   const handleGetTasks = async () => {
     const response = await getAllTasks(projId);
     const tasks = response.data;
+    setTaskData(tasks);
+    if (tasks.length > 0) {
+      let rows = tasks.map(task => [
+        task._id,
+        task.taskName,
+        new Date(task.startDate),
+        new Date(task.endDate),
+        null,
+        0,
+        null
+      ])
+  
+      const columns = [
+        { type: "string", label: "Task ID" },
+        { type: "string", label: "Task Name" },
+        { type: "date", label: "Start Date" },
+        { type: "date", label: "End Date" },
+        { type: "number", label: "Duration" },
+        { type: "number", label: "Percent Complete" },
+        { type: "string", label: "Dependencies" },
+      ];
+  
+      setGanttData([columns, ...rows])
+    }
 
-    setTasks(() => tasks.map(task => [
-      task._id,
-      task.taskName,
-      new Date(task.startDate),
-      new Date(task.endDate),
-      null,
-      null
-    ]))
-
-    const columns = [
-      { type: "string", label: "Task ID" },
-      { type: "string", label: "Task Name" },
-      { type: "date", label: "Start Date" },
-      { type: "date", label: "End Date" },
-      { type: "number", label: "Duration" },
-      { type: "number", label: "Percent Complete" },
-      { type: "string", label: "Dependencies" },
-    ];
-
-    const rows = tasks.map(task => [
-      task._id,
-      task.taskName,
-      new Date(task.startDate),
-      new Date(task.endDate),
-      null,
-      0,
-      null
-    ])
-
-    setTaskData([columns, ...rows])
   }
+
+  const handlePieData = async (e) => {
+    const response = await getAllDailyReport(projId);
+    const data = response.response.message;
+    let tally = {}
+    let chartData = [
+      ["Delay", "Hours Delay"],
+    ];
+    
+    data.forEach(task => {
+      let delay = task.causeOfDelay;
+      let hours = task.hoursDelay;
+      tally[delay] = tally[delay] ? tally[delay] + tally[hours] : hours;
+    })
+
+    for(let field in tally) {
+      chartData.push([field, tally[field]]);
+    }
+
+    setPieData(chartData);
+    };
 
   useEffect(() => {
     handleGetTasks();
+    handlePieData();
   }, [])
 
   return (
     <main className="main-component dashboard-main">
         <h1 className="text-center">Dashboard</h1>
-        <Chart
-            chartType="Gantt"
-            data={taskData}
-            width="100%"
-            legendToggle
-            />
+        <div className="gantt-chart">
+          <h1>Gantt Chart</h1>
+          {taskData.length > 0 ? 
+          <Chart
+              chartType="Gantt"
+              data={ganttData}
+              width="100%"
+              legendToggle
+              />
+          :
+          <h1>No Task Yet.</h1>
+        }
+        </div>
 
-        <Chart
-            chartType="PieChart"
-            data={chartData}
-            options={chartOptions}
-            width={"100%"}
-            />
+        <div className="pie-chart">
+          <h1>Causes of Delay</h1>
+          <Chart
+              chartType="PieChart"
+              data={pieData}
+              width={"100%"}
+              />
+        </div>
 
-        <Chart
-            chartType="BarChart"
-            width="100%"
-            data={barData}
-            options={barOptions}
-        />
+        <div className="tasks">
+          <h1>Tasks</h1>
+            <table>
+              <thead>
+                <th>Task Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Action</th>
+              </thead>
+              <tbody>
+                {taskData && taskData.map(task => <TaskItem key={task.id}
+                                                            taskId={task.id}
+                                                            taskName={task.taskName}
+                                                            taskStart={task.startDate}
+                                                            taskEnd={task.endDate}/>)}
+                                                            
+              </tbody>
+            </table>
+        </div>
+
     </main>
   )
 }

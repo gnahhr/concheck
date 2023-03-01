@@ -34,13 +34,14 @@ const ListItem = ({name, image, id, openToast, type, setSelectedProject}) => {
 
   const handleSelect = (e) => {
     e.preventDefault();
-    
-    const data = {
-      id: id,
-      name: name
-    };
 
-    setSelectedProject(data);
+    sessionStorage.setItem("selProjId", id);
+    sessionStorage.setItem("selProjName", name);
+
+    setSelectedProject({
+      id: id,
+      name: name,
+    })
   }
   
   return (

@@ -1,3 +1,27 @@
-.dashboard-main {
-  height: max-content;
+@media (orientation = landscape) {
+  .dashboard-main {
+    height: max-content;
+    display: grid;
+    grid-template-areas: "header header" "gantt gantt" "pie tasks";
+  }
+  .dashboard-main h1 {
+    grid-area: header;
+  }
+  .dashboard-main .gantt-chart {
+    grid-area: gantt;
+  }
+  .dashboard-main .pie-chart {
+    grid-area: pie;
+    max-width: fit-content;
+    margin: auto;
+    align-self: flex-start;
+    justify-self: flex-start;
+  }
+  .dashboard-main .tasks {
+    grid-area: tasks;
+  }
+  .dashboard-main .tasks > table > tbody {
+    overflow-y: scroll;
+    height: auto;
+  }
 }

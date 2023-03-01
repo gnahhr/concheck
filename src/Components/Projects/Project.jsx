@@ -8,7 +8,7 @@ import placeholder from '../../assets/placeholder/project.png';
 
 import './Project.css';
 
-const Project = ({projId}) => {
+const Project = () => {
   //Toast Data
   const [ toastMessage, setToastMessage ] = useState("");
   const [ openToast, setOpenToast ] = useState(false); 
@@ -27,6 +27,7 @@ const Project = ({projId}) => {
   const [ objId, setObjId ] = useState("");
 
   // ID
+  const projId = sessionStorage.getItem("selProjId");
   let { id } = useParams();
   if (projId) id = projId;
   const checkId = id === undefined;
@@ -90,7 +91,6 @@ const Project = ({projId}) => {
   const createFormData = () => {
     const formData = new FormData();
     
-    // No Project Name needed if Edit
     formData.append("projectName", projectName);
     formData.append("startDate", startDate);
     formData.append("endDate", targetDate);
@@ -111,7 +111,6 @@ const Project = ({projId}) => {
     setProjectName(data.projectName);
     setStartDate(formatDate(new Date(data.startDate)));
     setTargetDate(formatDate(new Date(data.endDate)));
-    console.log(data.startDate);
     setTargetEngineer(data.projectEngineer);
     setSiteEngineer(data.siteEngineer);
     setSafetyOfficer(data.safetyOfficer);

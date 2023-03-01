@@ -9,7 +9,7 @@ import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import './CrewDetails.css';
 
-const CrewDetails = ({projId}) => {
+const CrewDetails = ({}) => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("");
   const [ lastName, setLastName ] = useState("");
@@ -25,6 +25,7 @@ const CrewDetails = ({projId}) => {
   // ID
   const { id } = useParams();
   const checkId = id === undefined;
+  const projId = sessionStorage.getItem("selProjId");
 
   //Toggle
   const setFunctions = {

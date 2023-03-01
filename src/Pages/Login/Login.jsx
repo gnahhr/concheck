@@ -27,10 +27,7 @@ const Login = ({setUser}) => {
     e.preventDefault();
 
     const query = await login(email, password);
-
-    console.log(query.response.data);
     if (query.statusCode === 200) {
-
       const token = query.response.data;
 
       localStorage.setItem('token', token);

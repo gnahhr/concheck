@@ -106,7 +106,10 @@ const AdminPage = () => {
 
             <div className="btn" onClick={e => handleGetAccounts(e)}>
                   <span>Show all admin accounts</span>
-              </div>
+            </div>
+        </div>
+        <div className="company-account">
+
         </div>
     </main>
   )

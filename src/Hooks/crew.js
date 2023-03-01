@@ -34,3 +34,27 @@ export async function updateCrewDetails(id, data) {
 
    return await response;
 }
+
+export async function getCrewDTR(id) {
+  const response = await axios.get(`${import.meta.env.VITE_API}/api/crew/get-dtr-by-id/${id}`)
+  .then((response) => response.data)
+  .catch((err) => console.error(err));
+
+  return await response;
+}
+
+export async function crewTimeIn(id) {
+  const response = await axios.post(`${import.meta.env.VITE_API}/api/crew/crew-timein/${id}`)
+  .then((response) => response.data)
+  .catch((err) => console.error(err));
+
+  return await response;
+}
+
+export async function crewTimeOut(id) {
+  const response = await axios.post(`${import.meta.env.VITE_API}/api/crew/crew-timeout/${id}`)
+  .then((response) => response.data)
+  .catch((err) => console.error(err));
+
+  return await response;
+}

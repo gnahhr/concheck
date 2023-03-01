@@ -7,9 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './ProjectsCrew.css';
 
-const ProjectsCrew = ({selectedProject}) => {
+const ProjectsCrew = ({}) => {
   const [ filterCrew, setFilterCrew ] = useState("");
   const [ crewList, setCrewList ] = useState("");
+  const selectedProject = sessionStorage.getItem("selProjId");
   const nav = useNavigate();
 
   const handleFilter = e => {

@@ -9,7 +9,7 @@ export function parseToken () {
     
     if (decoded.roleId === "3") {
         data["firstName"] = decoded.firstName;
-        data["id"] = decoded.EngineerId;
+        data["EngineerId"] = decoded.EngineerId;
     }
 
     return data;

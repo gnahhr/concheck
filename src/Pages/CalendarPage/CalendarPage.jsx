@@ -7,12 +7,13 @@ import CalendarModal from '../../Components/Calendar/CalendarModal';
 
 import './CalendarPage.css';
 
-const CalendarPage = ({projId}) => {
+const CalendarPage = () => {
   const [ selectedDate, setSelectedDate ] = useState();
   const [ hasSelected, setHasSelected ] = useState(false);
   const [ dailyReport, setDailyReport ] = useState([]);
   const [ showTaskModal, setShowTaskModal ] = useState(false);
   const [ showReportModal, setShowReportModal ] = useState(false);
+  const projId = sessionStorage.getItem("selProjId");
 
   const clickDay = (day) => {
     setSelectedDate([day]);

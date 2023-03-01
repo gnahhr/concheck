@@ -48,7 +48,8 @@ const [ isEdit, setIsEdit ] = useState(checkId);
 
   const handleGetEngineerById = async () => {
     const response = await getEngineerById(id);
-    const data = response.response;
+    const data = response.response.data;
+    console.log(data);
 
     setFirstName(data.firstName);
     setLastName(data.lastName);
