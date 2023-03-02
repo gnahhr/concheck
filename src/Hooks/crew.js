@@ -31,7 +31,6 @@ export async function updateCrewDetails(id, data) {
     const response = await axios.put(`${import.meta.env.VITE_API}/api/crew/update-crew-account-details/${id}`, data)
    .then((response) => response)
    .catch(err => console.error(err));
-
    return await response;
 }
 

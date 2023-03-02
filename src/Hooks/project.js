@@ -6,6 +6,8 @@ export async function getAllProjects(projectEngineer) {
     const response = await axios.get(`${import.meta.env.VITE_API}/api/engineer/get-all-project/${projectEngineer}`)
     .then(response => response.data)
     .catch(err => console.error(err));
+
+    console.log(response);
     return await response;
 }
 
@@ -17,10 +19,13 @@ export async function getProjectById(id) {
     return await response;
 }
 
-export async function createProject(data) {
-    const response = await axios.post(`${import.meta.env.VITE_API}/api/engineer/create-project`, data)
+// engineer id
+export async function createProject(engId, data) {
+    const response = await axios.post(`${import.meta.env.VITE_API}/api/engineer/create-project/${engId}`, data)
     .then(response => response)
     .catch(err => console.error(err));
+
+    console.log(engId);
 
     return await response;
 }

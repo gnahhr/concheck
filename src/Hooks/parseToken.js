@@ -5,12 +5,7 @@ export function parseToken () {
     let data = {};
 
     data["roleId"] = Number(decoded.roleId);
-    data["id"] = decoded._id;
-    
-    if (decoded.roleId === "3") {
-        data["firstName"] = decoded.firstName;
-        data["EngineerId"] = decoded.EngineerId;
-    }
+    data["id"] = decoded.id;
 
     return data;
 };

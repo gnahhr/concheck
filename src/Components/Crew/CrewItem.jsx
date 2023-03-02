@@ -9,11 +9,10 @@ import './CrewItem.css';
 const CrewItem = ({crew}) => {
   const [ timeIn, setTimeIn ] = useState("N/A");
   const [ timeOut, setTimeOut ] = useState("N/A");
-  const {imageUrl, firstName, lastName} = crew;
-  const objId = crew._id;
+  const {imageUrl, firstName, lastName, crewId} = crew;
 
   const handleGetTimeCrew = async () => {
-    const response = await getCrewDTR(objId);
+    const response = await getCrewDTR(crewId);
     const data = response.response.data;
 
     if(response.statusCode !== 400){
@@ -28,9 +27,9 @@ const CrewItem = ({crew}) => {
     let response;
 
     if (timeIn === "N/A") {
-        response = await crewTimeIn(objId);
+        response = await crewTimeIn(crewId);
     } else if (timeOut === "N/A") {
-        response = await crewTimeOut(objId);
+        response = await crewTimeOut(crewId);
     }
 
     if (response) console.log(response.response);
@@ -57,7 +56,7 @@ const CrewItem = ({crew}) => {
         <td><p>Remarks</p></td>
         <td>
             <div className="right-item btn-group">
-                <Link to={`/crew/${objId}`} className="btn">Edit</Link>
+                <Link to={`/crew/${crewId}`} className="btn">Edit</Link>
                 <div className="btn red-btn">Delete</div>
             </div>
         </td>

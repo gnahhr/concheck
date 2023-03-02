@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import {createCompany, editCompany, getCompanyById} from '../../Hooks/company.js';
-
+import Toast from '../../Components/General/Toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom';
@@ -20,8 +20,10 @@ const Company = () => {
   const { id } = useParams();
   const checkId = id === undefined;
 
-  //Toggle
-  const [ isEdit, setIsEdit ] = useState(checkId);
+  //Toast
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastMsg, setToastMsg ] = useState("");
+  const [ toastType, setToastType ] = useState("");
 
   //Form Functions  
   const setFunctions = {
@@ -39,12 +41,6 @@ const Company = () => {
     const value = event.target.value;
 
     setFunctions[name](value);
-  }
-
-  const toggleEdit = (e) => {
-    e.preventDefault();
-
-    setIsEdit(() => !isEdit);
   }
 
   const createFormData = () => {
@@ -72,20 +68,25 @@ const Company = () => {
     const data = createFormData();
     const response = await createCompany(data);
 
-    console.log(response);
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
 
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
   }
 
   const handleGetCompanyById = async () => {
     const query = await getCompanyById(id);
-    const data = query.response.data[0];
-    
+    const data = query.response.data;
+
     setCompanyName(data.companyName);
     setAddress(data.address);
-    // setPassword(data.password);
     setContactNumber(data.contactNumber);
     setImage(data.imageUrl);
-    setUserId(data.userId._id);
+    setUserId(data.companyId);
 
     document.getElementById("image-display").src = data.imageUrl;
 
@@ -97,8 +98,14 @@ const Company = () => {
     const data = createFormData();
     const response = await editCompany(userId, data);
 
-    console.log(response);
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
 
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
   }
 
   useEffect(() => {
@@ -159,6 +166,7 @@ const Company = () => {
                 }
             </form>
         </div>
+        {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>
   )
 }

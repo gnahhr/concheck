@@ -17,7 +17,9 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject}) => {
   }
 
   if (!selectedProject) {
-    roleId = 0;
+    if (roleId === 3){
+      roleId = 0;
+    }
   }
 
   const navigation = [
@@ -28,10 +30,16 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject}) => {
         access: [0,1,2,3,4],
     },
     {
+      link: "/company",
+      icon: faHouseChimney,
+      text: "Company",
+      access: [1],
+    },
+    {
         link: "/profile",
         icon: faUser,
         text: "Profile",
-        access: [0,1,2,3,4],
+        access: [2,3,4],
     },
     {
         link: "/dashboard",

@@ -12,7 +12,7 @@ export async function createAdmin(data) {
 
 export async function getAdminById(id) {
     const response = await axios.get(`${import.meta.env.VITE_API}/api/admin/get-admin-account-by-id/${id}`)
-    .then(response => response)
+    .then(response => response.data)
     .catch(err => console.error(err));
 
     return await response;
@@ -27,13 +27,16 @@ export async function getAllAdmin() {
 }
 
 export async function editAdmin(id, data) {
-    const response = await axios.put(`${import.meta.env.VITE_API}/api/admin/edit-admin-account/${id}`, data)
+  const response = await axios.put(`${import.meta.env.VITE_API}/api/admin/edit-admin-account/${id}`, data)
   .then(response => response)
   .catch(err => console.error(err));
-
   return await response;
 }
 
 export async function deleteAdmin(id) {
-    const response = await axios.delete()
+    const response = await axios.delete(`${import.meta.env.VITE_API}/api/admin/delete-admin/${id}`)
+    .then(response => response)
+    .catch(err => console.error(err));
+
+    return await response;
 }

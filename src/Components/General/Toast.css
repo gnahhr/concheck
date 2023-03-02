@@ -1,5 +1,6 @@
 .toast-message {
   position: fixed;
+  text-align: center;
   left: 50%;
   bottom: 3vh;
   transform: translate(-50%, 0);
@@ -7,7 +8,7 @@
   background-color: rgb(179, 19, 179);
   color: white;
   border-radius: 25px;
-  transition: 0.3s ease-in;
+  transition: 0.5s ease-in;
   z-index: 999;
 }
 

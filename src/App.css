@@ -353,6 +353,20 @@ main {
   .desktop-right .dashboard-main {
     overflow-y: hidden;
   }
+  .main-component:has(.admin-list + .company-list) {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .main-component:has(.admin-list + .company-list) .admin-list, .main-component:has(.admin-list + .company-list) .company-list {
+    display: grid;
+    grid-template-rows: auto max-content;
+    height: 50vh;
+  }
+  .main-component:has(.admin-list + .company-list) .admin-list .btn, .main-component:has(.admin-list + .company-list) .company-list .btn {
+    align-self: flex-end;
+  }
   main {
     margin: 0.5rem auto;
     background-color: #ffffff;

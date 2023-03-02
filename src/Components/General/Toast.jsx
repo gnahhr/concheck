@@ -4,11 +4,11 @@ import "./Toast.css";
 // toastType = success/warning
 // showToast = setToastFunction
 // toastState = boolean
-const Toast = ({message, timer, toastType, showToast, toastState}) => {
+const Toast = ({message, toastType, showToast, toastState}) => {
 
   useEffect(() => {
     if (toastState === true) {
-      setTimeout(() => showToast(false), timer);
+      setTimeout(() => showToast(false), 3000);
     }
   }, [toastState])
 

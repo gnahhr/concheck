@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ImageFolder from '../../Components/ImagesPage/ImageFolder';
 import ImageModal from '../../Components/ImagesPage/ImageModal';
 
@@ -33,24 +33,15 @@ const dummyData = [
   },
 ];
 
-const ImagesPage = () => {
+const ImagesPage = ({projId}) => {
   const [ images, setImages ] = useState([]);
-
   const handleSelectImages = (e) => {
     e.preventDefault();
     console.log(e.target.files);
     setImages(e.target.files);
   }
 
-  const loopImages = () => {
-    let imagesHtml = [];
-
-    for(let x = 0; x < images.length; x++) {
-      
-    }
-
-    return imagesHtml;
-  }
+  console.log
 
   return (
     <main className="main-component">
@@ -69,7 +60,7 @@ const ImagesPage = () => {
           <ImageFolder items={dummyData} date={"12/15"}/>
           <ImageFolder items={dummyData} date={"12/16"}/>
           
-          {images.length > 0 && <ImageModal images={images} />}
+          {images.length > 0 && <ImageModal images={images} projId={projId}/>}
 
       </div>
     </main>

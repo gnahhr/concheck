@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Toast from '../General/Toast.jsx';
 import { createEngineer, editEngineer, getEngineerById } from '../../Hooks/engineer.js';
 
 // Design
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
 
-const Engineer = ({userId}) => {
+const Engineer = ({userId, companyId}) => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("");
   const [ lastName, setLastName ] = useState("");
@@ -16,13 +17,15 @@ const Engineer = ({userId}) => {
   const [ password, setPassword ] = useState("");
   const [ image, setImage ] = useState("");
 
-// ID
-let { id } = useParams();
-if (userId) id = userId;
-const checkId = id === undefined;
-
-//Toggle
-const [ isEdit, setIsEdit ] = useState(checkId);
+  //Toast
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastMsg, setToastMsg ] = useState("");
+  const [ toastType, setToastType ] = useState("");
+  
+  // ID
+  let { id } = useParams();
+  if (userId) id = userId;
+  const checkId = id === undefined;
   
   const setFunctions = {
     "first-name": setFirstName,
@@ -63,16 +66,31 @@ const [ isEdit, setIsEdit ] = useState(checkId);
   const handleEdit = async (e) => {
     e.preventDefault();
     const formData = createFormData();
-
     const response = await editEngineer(id, formData);
-    console.log(response);
+    
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
+
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
   }
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = createFormData();
-    const response = await createEngineer(formData);
+    const response = await createEngineer(companyId, formData);
     console.log(response);
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
+
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
   }
 
   const createFormData = () => {
@@ -96,7 +114,8 @@ const [ isEdit, setIsEdit ] = useState(checkId);
   }, [])
 
   return (
-    <main className="main-component">
+    <main>
+      <div className="main-component">
         <div className="component-header">
             <div className="left-header">
             <div className="left-header">
@@ -106,7 +125,7 @@ const [ isEdit, setIsEdit ] = useState(checkId);
             {id !== undefined &&
             <div className="right-header">
                     <h2 className="crew-name">{`${firstName} ${lastName}`}</h2>
-                    <p className="location"><FontAwesomeIcon icon={faLocationDot} className="icon icon-trim"/> Locationism</p>
+                    <p className="location"><FontAwesomeIcon icon={faLocationDot} className="icon icon-trim"/>{address}</p>
             </div>
             }
         </div>
@@ -152,6 +171,9 @@ const [ isEdit, setIsEdit ] = useState(checkId);
                 <span>Edit</span>
             </div>
         }
+      </div>
+
+        {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>
   )
 }

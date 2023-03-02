@@ -1,0 +1,24 @@
+.crew-landing {
+    text-align: center;
+
+    .image {
+        background-color: var(--primary);
+        width: min(70%, 20rem);
+        margin: auto;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        margin: 2rem auto;
+    }
+
+    .crew-time-in {
+        width: 70%;
+        margin-bottom: 2rem;
+        font-weight: bold;
+    }
+
+    .date-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+    }
+}

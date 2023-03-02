@@ -120,6 +120,7 @@ main {
 .main-component:only-of-type {
   height: 80%;
 }
+
 // ICONS
 .icon {
     width: 1.5rem;
@@ -380,6 +381,23 @@ main {
     
     .dashboard-main{
       overflow-y: hidden;
+    }
+  }
+
+  .main-component:has(.admin-list + .company-list) {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  
+    .admin-list, .company-list {
+      display: grid;
+      grid-template-rows: auto max-content;
+      height: 50vh;
+
+      .btn {
+        align-self: flex-end;
+      }
     }
   }
 

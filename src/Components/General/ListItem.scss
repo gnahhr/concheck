@@ -27,6 +27,10 @@
 
 }
 
+.list-item:not(:has(img)) {
+    grid-template-columns: 1fr 1fr;
+}
+
 .list-item:hover {
     cursor: pointer;
     background-color: #9b9b9b;

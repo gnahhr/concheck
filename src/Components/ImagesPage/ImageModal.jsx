@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { uploadImage } from '../../Hooks/image';
 
-const ImageModal = ({images}) => {
+const ImageModal = ({images, projId}) => {
   const [ captionList, setCaptionList ] = useState();
 
   const initializeCaptionList = () => {
@@ -28,8 +28,7 @@ const ImageModal = ({images}) => {
     e.preventDefault();
 
     const data = createFormData();
-
-    const response = await uploadImage("63fcab189e38da13250607ac", data);
+    const response = await uploadImage(projId, data);
     console.log(response);
   };
 

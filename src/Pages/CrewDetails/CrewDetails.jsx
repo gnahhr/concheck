@@ -25,7 +25,6 @@ const CrewDetails = ({}) => {
   // ID
   const { id } = useParams();
   const checkId = id === undefined;
-  const projId = sessionStorage.getItem("selProjId");
 
   //Toggle
   const setFunctions = {
@@ -80,7 +79,7 @@ const CrewDetails = ({}) => {
 
   const handleEdit = async () => {
     const data = createFormData();
-    const response = await updateCrewDetails(userId, data);
+    const response = await updateCrewDetails(id, data);
     console.log(response);
   }
 
@@ -102,12 +101,14 @@ const CrewDetails = ({}) => {
         "roleId": 4
     };
 
-    const response = await createCrew(projId, data);
+    const response = await createCrew(id, data);
     console.log(await response);
   }
 
   useEffect(() => {
-    handleGetCrewById();
+    if (!checkId){
+      handleGetCrewById();
+    }
   }, [])
 
 

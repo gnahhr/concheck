@@ -9,3 +9,11 @@ export async function uploadImage (projId, data) {
     
     return await reponse;
 };
+
+export async function getImages(projId) {
+    const response = await axios.get(`${import.meta.env.VITE_API}/api/project/get-image-by-project/${projId}`)
+    .then(response => response.data)
+    .catch(err => console.error(err));
+
+    return await response;
+}

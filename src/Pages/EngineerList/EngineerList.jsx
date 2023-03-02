@@ -1,21 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import ListItem from '../../Components/General/ListItem';
+import Toast from '../../Components/General/Toast';
 import { getAllEngineer } from '../../Hooks/engineer.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const EngineerList = () => {
+const EngineerList = ({companyId}) => {
   const [ engineerList, setEngineerList ] = useState([]);
-  const [ toast, setOpenToast ] = useState(false);
-
   const nav = useNavigate();
+
+  // Toast States
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastData, setToastData ] = useState(); 
   
   const handleGetAllEngineer = async () => {
-    const response = await getAllEngineer();
+    const response = await getAllEngineer(companyId);
     const data = response.response.data;
-    setEngineerList(data);
+    if (response.response.data) {
+      setEngineerList(data);
+    }
   }
 
   const createEngineer = (e) => {
@@ -27,6 +33,10 @@ const EngineerList = () => {
     handleGetAllEngineer();
   }, [])
 
+  useEffect(() => {
+    handleGetAllEngineer();
+  }, [toastData])
+
 
   return (
     <main>
@@ -36,19 +46,25 @@ const EngineerList = () => {
           <span>Create Engineer Account</span>
         </div>
         <div className="main-component">
-            {engineerList.length > 0 ? 
-                engineerList.map(engineer =>
-                    <ListItem name={`${engineer.firstName} ${engineer.lastName}`}
-                              image={engineer.imageUrl}
-                              id={engineer.userId._id}
-                              openToast={setOpenToast}
-                              type="engineer"
-                    />    
-                )
+            {!engineerList.length ? 
+                <h2>No Engineers</h2>
                 :
-                <h2>hatdog</h2>
+                engineerList.map(engineer =>
+                  <ListItem name={`${engineer.firstName} ${engineer.lastName}`}
+                            image={engineer.imageUrl}
+                            id={engineer.engineerId}
+                            showToast={setShowToast}
+                            setToastData={setToastData}
+                            type="engineer"
+                  />    
+              )
             }
         </div>
+
+        {showToast && <Toast message={toastData.toastMsg}
+                             toastType={toastData.toastType}
+                             showToast={setShowToast}
+                             toastState={showToast}/>}
     </main>
   )
 }

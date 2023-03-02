@@ -35,6 +35,9 @@ export async function editCompany(id, data) {
 }
 
 export async function deleteCompany(id) {
-    console.log(`Haha delete company: ${id}`)
-    // const response = await axios.delete(``)
+    const response = await axios.delete(`${import.meta.env.VITE_API}/api/admin/delete-company/${id}`)
+    .then(response => response)
+    .catch(err => console.error(err));
+
+    return await response;
 }

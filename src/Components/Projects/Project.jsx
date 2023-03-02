@@ -8,7 +8,7 @@ import placeholder from '../../assets/placeholder/project.png';
 
 import './Project.css';
 
-const Project = () => {
+const Project = ({engId}) => {
   //Toast Data
   const [ toastMessage, setToastMessage ] = useState("");
   const [ openToast, setOpenToast ] = useState(false); 
@@ -29,7 +29,7 @@ const Project = () => {
   // ID
   const projId = sessionStorage.getItem("selProjId");
   let { id } = useParams();
-  if (projId) id = projId;
+  if (!projId) id = projId;
   const checkId = id === undefined;
   
 
@@ -74,7 +74,7 @@ const Project = () => {
     // Create new formdata object
     const formData = createFormData();
 
-    const response = await createProject(formData);
+    const response = await createProject(engId, formData);
     console.log(response);
     // const toastMessage = await response.data.message;
   }
@@ -84,7 +84,7 @@ const Project = () => {
     
     const formData = createFormData();
 
-    const response = await editProject(objId, formData);
+    const response = await editProject(projId, formData);
     console.log(response);
   }
 
@@ -108,6 +108,7 @@ const Project = () => {
   const getProject = async () => {
     const response = await getProjectById(id);
     const data = response.data;
+    console.log(response);
     setProjectName(data.projectName);
     setStartDate(formatDate(new Date(data.startDate)));
     setTargetDate(formatDate(new Date(data.endDate)));
@@ -117,7 +118,6 @@ const Project = () => {
     setProjectCode(data.projectCode);
     setBudget(data.budget);
     setStatus(data.status);
-    setObjId(data._id);
 
     document.getElementById("image-display").src = data.imageUrl;
   }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { parseToken } from '../../Hooks/parseToken';
 
 import { getAllProjects } from '../../Hooks/project';
@@ -12,7 +12,7 @@ import './Projects.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const Projects = ({setSelectedProject}) => {
+const Projects = ({setSelectedProject, engId}) => {
   const [ projectsList, setProjectsList ] = useState([]);
   const [ openToast, setOpenToast ] = useState(false);
 
@@ -25,7 +25,7 @@ const Projects = ({setSelectedProject}) => {
   }, [openToast]);
 
   const fetchProject = async () => {
-    const query = await getAllProjects(parseToken(localStorage.getItem('token')).firstName);
+    const query = await getAllProjects(engId);
     const data = await query.response.data;
     setProjectsList(data);
   };
@@ -66,7 +66,7 @@ const Projects = ({setSelectedProject}) => {
                           .map(project =>
                           <ListItem name={project.projectName}
                                     image={project.imageUrl}
-                                    id={project._id}
+                                    id={project.projectId}
                                     openToast={setOpenToast}
                                     type="project"
                                     key={project.projectName}
