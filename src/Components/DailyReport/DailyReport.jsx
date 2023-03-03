@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { addDailyReport } from '../../Hooks/dailyReport';
 
-const DailyReport = ({projId, closeModal}) => {
+const DailyReport = ({projId, closeModal, showToast, setToastData}) => {
     const [ remarks, setRemarks ] = useState("");
     const [ weatherReport, setWeatherReport ] = useState("");
     const [ causeOfDelay, setCauseOfDelay ] = useState("");
@@ -15,22 +15,33 @@ const DailyReport = ({projId, closeModal}) => {
     }
 
     const handleAddDailyReport = async (e) => {
-        e.preventDefault();
+      e.preventDefault();
 
-        const data = {
-            "remarks": remarks,
-            "weatherReport": weatherReport,
-            "causeOfDelay": causeOfDelay,
-            "hoursDelay": hoursOfDelay,
-        }
-        
-        const response = await addDailyReport(projId, data);
+      const data = {
+          "remarks": remarks,
+          "weatherReport": weatherReport,
+          "causeOfDelay": causeOfDelay,
+          "hoursDelay": hoursOfDelay,
+      }
+      
+      const response = await addDailyReport(projId, data);
+      let toastType;
+      if (response.statusCode === 200) {
+        toastType = "success";
+      } else {
+        toastType = "warning";
+      } 
+  
+      setToastData({
+        toastMsg: response.response.message,
+        toastType: toastType,
+      });
+      showToast(true);
+      closeModal(!true);
+    }
 
-        console.log(response)
-        }
-
-        const onChangeValue = (e) => {
-        setFunctions[e.target.name](e.target.value);
+    const onChangeValue = (e) => {
+      setFunctions[e.target.name](e.target.value);
     }
 
     const handleToggleModal = (e) => {

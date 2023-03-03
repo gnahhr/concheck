@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import Toast from '../General/Toast';
+import { useParams, useNavigate } from 'react-router-dom';
 import { createProject, getProjectById, editProject } from '../../Hooks/project';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,10 +9,11 @@ import placeholder from '../../assets/placeholder/project.png';
 
 import './Project.css';
 
-const Project = ({engId}) => {
-  //Toast Data
-  const [ toastMessage, setToastMessage ] = useState("");
-  const [ openToast, setOpenToast ] = useState(false); 
+const Project = ({engId, profileId, editable = true}) => {
+  //Toast
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastMsg, setToastMsg ] = useState("");
+  const [ toastType, setToastType ] = useState("");
 
   //Form Data 
   const [ projectName, setProjectName ] = useState("");
@@ -24,17 +26,18 @@ const Project = ({engId}) => {
   const [ budget, setBudget ] = useState();
   const [ status, setStatus ] = useState("");
   const [ image, setImage ] = useState("");
-  const [ objId, setObjId ] = useState("");
 
   // ID
   const projId = sessionStorage.getItem("selProjId");
   let { id } = useParams();
-  if (!projId) id = projId;
-  const checkId = id === undefined;
-  
+  if (projId) id = projId;
+  if (profileId) id = profileId;
+  const checkId = id === null || id === undefined;
 
   //Toggle
   const [ isEdit, setIsEdit ] = useState(true);
+
+  const nav = useNavigate();
 
   //Form Functions  
   const setFunctions = {
@@ -71,21 +74,33 @@ const Project = ({engId}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Create new formdata object
     const formData = createFormData();
-
     const response = await createProject(engId, formData);
-    console.log(response);
-    // const toastMessage = await response.data.message;
+  
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
+
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
+    setTimeout(() => {nav('/')}, 1500);
   }
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    
     const formData = createFormData();
-
     const response = await editProject(projId, formData);
-    console.log(response);
+    
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
+
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
   }
 
   const createFormData = () => {
@@ -108,7 +123,6 @@ const Project = ({engId}) => {
   const getProject = async () => {
     const response = await getProjectById(id);
     const data = response.data;
-    console.log(response);
     setProjectName(data.projectName);
     setStartDate(formatDate(new Date(data.startDate)));
     setTargetDate(formatDate(new Date(data.endDate)));
@@ -130,82 +144,87 @@ const Project = ({engId}) => {
     if (!checkId) {
       getProject();
     }
+
   }, [])
 
   return (
-    <div className="main-component">
-        <h2>Project</h2>
-        <div className="component-header">
-            <div className="left-header">
-                <img src={placeholder} alt="image" className="image" id="image-display"/>
-            </div>
-            {!checkId &&
-                <div className="right-header">
-                    <h3 className="hproject-name">{projectName}</h3>
-                    <p className="date">{startDate}</p>
-                </div>
-            }
-        </div>
-        <h2>Project Details</h2>
-        
-        {/* Fields */}
-        <form method="post" className="project-details" >
-            <div className="upload-img">
-                <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
-            </div>
-            {!id &&
-              <div className="form-input">
-                  <label htmlFor="project-name">Project name:</label>
-                  <input type="text" name="project-name" id="project-name" value={projectName} onChange={onValueChange} disabled={!isEdit}/>
+    <main>
+      <h2>Project</h2>
+      <div className="main-component">
+          <div className="component-header">
+              <div className="left-header">
+                  <img src={placeholder} alt="image" className="image" id="image-display"/>
               </div>
-            }
-            <div className="form-input">
-                <label htmlFor="start-date">Start Date:</label>
-                <input type="date" name="start-date" id="start-date" value={startDate}  onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="targer-date">Target Date:</label>
-                <input type="date" name="target-date" id="target-date" value={targetDate} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            {/* Name of the logged in kineme */}
-            <div className="form-input">
-                <label htmlFor="project-engineer">Project Engineer:</label> 
-                <input type="text" name="project-engineer" id="project-engineer" value={projectEngineer} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="site-engineer">Site Engineer:</label>
-                <input type="text" name="site-engineer" id="site-engineer" value={siteEngineer} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="safety-officer">Safety Officer:</label>
-                <input type="text" name="safety-officer" id="safety-officer" value={safetyOfficer} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="project-code">Project Code:</label>
-                <input type="text" name="project-code" id="project-code" value={projectCode} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="project-status">Status:</label>
-                <input type="text" name="project-status" id="project-status" value={status} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
-            <div className="form-input">
-                <label htmlFor="project-budget">Budget:</label>
-                <input type="number" name="project-budget" id="project-budget" value={budget} onChange={onValueChange} disabled={!isEdit}/>
-            </div>
+              {!checkId &&
+                  <div className="right-header">
+                      <h3 className="hproject-name">{projectName}</h3>
+                      <p className="date">{startDate}</p>
+                  </div>
+              }
+          </div>
+          <h2>Project Details</h2>
+          
+          {/* Fields */}
+          <form method="post" className="project-details" >
+              {editable &&
+              <div className="upload-img">
+                  <FontAwesomeIcon icon={faUpload} className="form-icon"/>
+                  <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
+              </div>}
+              {!id &&
+                <div className="form-input">
+                    <label htmlFor="project-name">Project name:</label>
+                    <input type="text" name="project-name" id="project-name" value={projectName} onChange={onValueChange} disabled={!editable}/>
+                </div>
+              }
+              <div className="form-input">
+                  <label htmlFor="start-date">Start Date:</label>
+                  <input type="date" name="start-date" id="start-date" value={startDate}  onChange={onValueChange} disabled={!editable}/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="targer-date">Target Date:</label>
+                  <input type="date" name="target-date" id="target-date" value={targetDate} onChange={onValueChange} disabled={!editable}/>
+              </div>
+              {/* Name of the logged in kineme */}
+              <div className="form-input">
+                  <label htmlFor="project-engineer">Project Engineer:</label> 
+                  <input type="text" name="project-engineer" id="project-engineer" value={projectEngineer} onChange={onValueChange} disabled={!editable}/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="site-engineer">Site Engineer:</label>
+                  <input type="text" name="site-engineer" id="site-engineer" value={siteEngineer} onChange={onValueChange} disabled={!editable}/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="safety-officer">Safety Officer:</label>
+                  <input type="text" name="safety-officer" id="safety-officer" value={safetyOfficer} onChange={onValueChange} disabled={!editable}/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="project-code">Project Code:</label>
+                  <input type="text" name="project-code" id="project-code" value={projectCode} onChange={onValueChange} disabled={!editable}/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="project-status">Status:</label>
+                  <input type="text" name="project-status" id="project-status" value={status} onChange={onValueChange} disabled={!editable}/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="project-budget">Budget:</label>
+                  <input type="number" name="project-budget" id="project-budget" value={budget} onChange={onValueChange} disabled={!editable}/>
+              </div>
 
-            
-            {id === undefined ?
-            <div className="btn" onClick={(e) => handleSubmit(e)}>
-              <span>Create Project</span>
-            </div>
-            :
-            <div className="btn" onClick={(e) => handleEdit(e)}>
-                <span>Save</span>
-            </div>
-            }
-        </form>
-    </div>
+              
+              {editable && (checkId ?
+              <div className="btn" onClick={(e) => handleSubmit(e)}>
+                <span>Create Project</span>
+              </div>
+              :
+              <div className="btn" onClick={(e) => handleEdit(e)}>
+                  <span>Save</span>
+              </div>)
+              }
+          </form>
+      </div>
+      {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
+    </main>
   )
 }
 

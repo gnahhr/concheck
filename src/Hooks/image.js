@@ -17,3 +17,19 @@ export async function getImages(projId) {
 
     return await response;
 }
+
+export async function editCaption(imageId, data) {
+    const response = await axios.put(`${import.meta.env.VITE_API}/api/project/edit-image/${imageId}`, data)
+    .then(response => response.data)
+    .catch(err => console.error(err));
+
+    return await response;
+}
+
+export async function deleteImage(imageId) {
+    const response = await axios.delete(`${import.meta.env.VITE_API}/api/project/delete-image-by-id/${imageId}`)
+    .then(response => response.data)
+    .catch(err => console.error(err));
+
+    return await response;
+}

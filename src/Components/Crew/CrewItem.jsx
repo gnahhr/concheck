@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import { getCrewDTR, crewTimeIn, crewTimeOut } from '../../Hooks/crew';
 import { Link } from 'react-router-dom';
+import { deleteCrew } from '../../Hooks/crew';
 
 import './CrewItem.css';
 
-const CrewItem = ({crew}) => {
+const CrewItem = ({crew, setToastData, showToast}) => {
   const [ timeIn, setTimeIn ] = useState("N/A");
   const [ timeOut, setTimeOut ] = useState("N/A");
   const {imageUrl, firstName, lastName, crewId} = crew;
@@ -14,12 +15,11 @@ const CrewItem = ({crew}) => {
   const handleGetTimeCrew = async () => {
     const response = await getCrewDTR(crewId);
     const data = response.response.data;
-
+    
     if(response.statusCode !== 400){
-        setTimeIn(data.timein);
-        setTimeOut(() => (typeof data.timeout === "string") ? data.timeout : "N/A");
-    }
-    // console.log(response.response.messsage); modal message
+      setTimeIn(data.timein);
+      setTimeOut(() => (typeof data.timeout === "string") ? data.timeout : "N/A");
+  }
   }
 
   const handleTimeInOutCrew = async (e) => {
@@ -32,8 +32,39 @@ const CrewItem = ({crew}) => {
         response = await crewTimeOut(crewId);
     }
 
-    if (response) console.log(response.response);
+    let toastType;
 
+    if (response.statusCode === 200) {
+      toastType = "success";
+    } else {
+      toastType = "warning";
+    } 
+
+    setToastData({
+      toastMsg: response.response.message,
+      toastType: toastType,
+    });
+    showToast(true);
+
+    handleGetTimeCrew();
+  }
+
+  const handleDeleteCrew = async (e) => {
+    e.preventDefault();
+    const response = await deleteCrew(crewId);
+    let toastType;
+
+    if (response.statusCode === 200) {
+      toastType = "success";
+    } else {
+      toastType = "warning";
+    } 
+
+    setToastData({
+      toastMsg: response.response.message,
+      toastType: toastType,
+    });
+    showToast(true);
     handleGetTimeCrew();
   }
 
@@ -57,7 +88,7 @@ const CrewItem = ({crew}) => {
         <td>
             <div className="right-item btn-group">
                 <Link to={`/crew/${crewId}`} className="btn">Edit</Link>
-                <div className="btn red-btn">Delete</div>
+                <div className="btn red-btn" onClick={e => handleDeleteCrew(e)}>Delete</div>
             </div>
         </td>
     </>

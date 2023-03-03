@@ -5,8 +5,9 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
 
-const PageLayout = ({roleId, selectedProject}) => {
+const PageLayout = ({roleId, selectedProject, selectedEngineer, handleLogout}) => {
   const [ navOpen, setNavOpen ] = useState(false);
+
 
   const openNav = (e) => {
     e.preventDefault();
@@ -16,10 +17,15 @@ const PageLayout = ({roleId, selectedProject}) => {
   return (
     <> 
       <div className="desktop-left">
-        <NavBar setNavOpen={setNavOpen} navOpen={navOpen} roleId={roleId} selectedProject={selectedProject}/>
+        <NavBar setNavOpen={setNavOpen}
+                navOpen={navOpen}
+                roleId={roleId}
+                selectedProject={selectedProject}
+                selectedEngineer={selectedEngineer}/>
       </div>
       <div className="desktop-right">
-        <Header openNav={openNav}/>
+        <Header openNav={openNav} 
+                handleLogout={handleLogout}/>
         <Outlet />
         <Footer />
       </div>

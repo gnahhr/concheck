@@ -4,12 +4,10 @@ import { deleteProject } from '../../Hooks/project.js';
 import { deleteCompany } from '../../Hooks/company.js';
 import { deleteAdmin } from '../../Hooks/admin.js';
 import { deleteEngineer } from '../../Hooks/engineer.js';
-
 import './ListItem.css';
 
-const ListItem = ({name, image, id, showToast, type, setToastData, setSelectedProject}) => {
+const ListItem = ({name, image, id, showToast, type, setToastData, setSelectedProject, setSelectedEngineer, editable = true}) => {
   const nav = useNavigate();
-  
   const handleDelete = async (e) => {
     e.preventDefault();
 
@@ -53,22 +51,32 @@ const ListItem = ({name, image, id, showToast, type, setToastData, setSelectedPr
 
       sessionStorage.setItem("selProjId", id);
       sessionStorage.setItem("selProjName", name);
+
+      if (!editable) {
+        nav(`/${type}/${id}`);
+      } else {
+        setSelectedProject({
+          id: id,
+          name: name
+        })
+      }
   
-      setSelectedProject({
-        id: id,
-        name: name,
-      })
+    } else if (type === "engineer") {
+      setSelectedEngineer({id: id})
+      sessionStorage.setItem("selEngId", id);
     }
   }
-  
+
   return (
     <div className="list-item" onClick={e => handleSelect(e)}>
         {image && <img src={image} alt={name} />}
         <h2>{name}</h2>
+        {editable &&
         <div className="btn-group">
           <div className="btn" onClick={e => handleEdit(e)}>Edit</div>  
           <div className="btn red-btn" onClick={e => handleDelete(e)}>Delete</div>  
         </div>
+        }
     </div>
   )
 }

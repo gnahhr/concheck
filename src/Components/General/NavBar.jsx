@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, faClose, faProjectDiagram, faUser} from '@fortawesome/free-solid-svg-icons'
+import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, faClose, faProjectDiagram, faUser, faBuilding} from '@fortawesome/free-solid-svg-icons'
 
 import './NavBar.css';
 
-const NavBar = ({setNavOpen, navOpen, roleId, selectedProject}) => {
+const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedEngineer}) => {
 
   const closeNav = e => {
     const x = document.getElementsByClassName("close")[0];
@@ -16,8 +16,8 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject}) => {
     }
   }
 
-  if (!selectedProject) {
-    if (roleId === 3){
+  if (!selectedProject && !selectedEngineer) {
+    if (roleId === 3 || roleId === 2){
       roleId = 0;
     }
   }
@@ -31,15 +31,21 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject}) => {
     },
     {
       link: "/company",
-      icon: faHouseChimney,
+      icon: faBuilding,
       text: "Company",
       access: [1],
+    },
+    {
+      link: "/project",
+      icon: faProjectDiagram,
+      text: "Projects",
+      access: [2],
     },
     {
         link: "/profile",
         icon: faUser,
         text: "Profile",
-        access: [2,3,4],
+        access: [0,2,3,4],
     },
     {
         link: "/dashboard",

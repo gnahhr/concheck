@@ -8,7 +8,7 @@ import { getAllEngineer } from '../../Hooks/engineer.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const EngineerList = ({companyId}) => {
+const EngineerList = ({companyId, setSelectedEngineer}) => {
   const [ engineerList, setEngineerList ] = useState([]);
   const nav = useNavigate();
 
@@ -55,6 +55,7 @@ const EngineerList = ({companyId}) => {
                             id={engineer.engineerId}
                             showToast={setShowToast}
                             setToastData={setToastData}
+                            setSelectedEngineer={setSelectedEngineer}
                             type="engineer"
                   />    
               )

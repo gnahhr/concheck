@@ -9,16 +9,18 @@ import './Header.css';
 
 //Images
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faGear } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faGear, faSignOut } from '@fortawesome/free-solid-svg-icons'
 import MobileLogo from '../../assets/images/concheck-logo-h.png';
 
 
-const Header = ({openNav}) => {
+const Header = ({openNav, handleLogout}) => {
   const nav = useNavigate();
 
-  const handleLogout = () => {
+  const logout = () => {
       localStorage.clear();
-      nav("/");
+      sessionStorage.clear();
+      handleLogout();
+      setTimeout(() => {nav("/")}, 1000);
   }
 
   return (
@@ -28,10 +30,9 @@ const Header = ({openNav}) => {
                         className="icon menu-icon mobile-only"
                         onClick={(e) => openNav(e)}/>
           <img src={MobileLogo} alt="logo" className="header-logo mobile-logo"/>
-        <FontAwesomeIcon icon={faGear} className="icon settings-icon mobile-only"/>
+        <FontAwesomeIcon icon={faSignOut} className="icon settings-icon mobile-only"/>
       <div className="header-body">
-        <span>Hi, usercakes!</span>
-        <Link to="/" onClick={e => handleLogout(e)}>Logout</Link>
+        <Link to="/" onClick={e => logout(e)}>Logout</Link>
       </div>
       </header>
     </>

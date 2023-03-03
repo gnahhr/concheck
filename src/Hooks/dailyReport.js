@@ -26,6 +26,14 @@ export async function getDailyReportById (id) {
     return await reponse;
 };
 
+export async function getDailyReportByDate (projId, date) {
+    const reponse = await axios.get(`${import.meta.env.VITE_API}/api/project/get-daily-report-by-date/${projId}/${date}`)
+    .then(response => response.data)
+    .catch(err => console.error(err));
+    
+    return await reponse;
+};
+
 export async function editDailyReport (id, data) {
     const reponse = await axios.get(`${import.meta.env.VITE_API}/api/project/get-daily-report-by-id/${id}`, data)
     .then(response => response.data)

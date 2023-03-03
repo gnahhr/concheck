@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
+
+// Components
+import Toast from '../../Components/General/Toast';
 import ImageFolder from '../../Components/ImagesPage/ImageFolder';
 import ImageModal from '../../Components/ImagesPage/ImageModal';
+import ImageItem from '../../Components/ImagesPage/ImageItem';
+
+import { getImages } from '../../Hooks/image';
 
 //Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,40 +14,62 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 //Styles
 import './ImagesPage.css';
-import sampleImage from '../../assets/placeholder/project.png';
-
-const dummyData = [
-  {
-    id: 1,
-    image: sampleImage,
-    date: "12/12/23",
-  },
-  {
-    id: 2,
-    image: sampleImage,
-    date: "12/12/23",
-  },
-  {
-    id: 3,
-    image: sampleImage,
-    date: "12/12/23",
-  },
-  {
-    id: 4,
-    image: sampleImage,
-    date: "12/12/23",
-  },
-];
 
 const ImagesPage = ({projId}) => {
+  const [ imageList, setImageList ] = useState([]);
+  const [ dates, setDates ] = useState([]);
   const [ images, setImages ] = useState([]);
+  const [ selectedImage, setSelectedImage ] = useState([]);
+  
+  // Modal
+  const [ showModal, setShowModal ] = useState(false);
+  const [ showEditModal, setShowEditModal ] = useState(false);
+
+  // Toast States
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastData, setToastData ] = useState(); 
+
+
   const handleSelectImages = (e) => {
     e.preventDefault();
     console.log(e.target.files);
     setImages(e.target.files);
+    setShowModal(true);
   }
 
-  console.log
+  const handleGetImages = async () => {
+    const response = await getImages(projId);
+    const data = response.response.data;
+    let imageFilter = {};
+    let tempDates = [];
+    if (data){
+      data.map(image => {
+        const imageDate = formatDate(new Date(image.date));
+        if (imageFilter[imageDate]) {
+          imageFilter[imageDate] = [...imageFilter[imageDate], image]
+        } else {
+          tempDates.push(imageDate);
+          imageFilter[imageDate] = [image]
+        }
+      })
+      setImageList(imageFilter);
+      setDates(tempDates);
+    }
+
+  };
+
+  useEffect(() => {
+    handleGetImages();
+  }, []);
+
+  useEffect(() => {
+    handleGetImages();
+  }, [showModal, showEditModal]);
+
+  const formatDate = (date) => {
+    return date.toISOString().split("T")[0];
+  }
+  
 
   return (
     <main className="main-component">
@@ -54,15 +82,24 @@ const ImagesPage = ({projId}) => {
               </label>
               <input type="file" name="project-image" id="project-image" accept="images/*" onChange={e => handleSelectImages(e)} multiple/>
           </div>
-          <ImageFolder items={dummyData} date={"12/12"}/>
-          <ImageFolder items={dummyData} date={"12/13"}/>
-          <ImageFolder items={dummyData} date={"12/14"}/>
-          <ImageFolder items={dummyData} date={"12/15"}/>
-          <ImageFolder items={dummyData} date={"12/16"}/>
-          
-          {images.length > 0 && <ImageModal images={images} projId={projId}/>}
-
+          {!imageList ?
+            <h2>No Images Uploaded yet.</h2>
+          :
+          dates.map((date) =>
+            <ImageFolder
+              items={imageList[date]}
+              date={date}
+              setSelectedImage={setSelectedImage}
+              setShowEdit={setShowEditModal}/>
+          )
+        }
       </div>
+      {showModal && <ImageModal images={images} projId={projId} setShowModal={setShowModal} setShowToast={setShowToast} setToastData={setToastData}/>}
+      {showEditModal && <ImageItem image={selectedImage} setShowEdit={setShowEditModal} setShowToast={setShowToast} setToastData={setToastData}/>}
+      {showToast && <Toast message={toastData.toastMsg}
+                             toastType={toastData.toastType}
+                             showToast={setShowToast}
+                             toastState={showToast}/>}
     </main>
   )
 }

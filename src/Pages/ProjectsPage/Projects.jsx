@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Toast from '../../Components/General/Toast';
 import { useNavigate, useParams } from 'react-router-dom';
-import { parseToken } from '../../Hooks/parseToken';
 
 import { getAllProjects } from '../../Hooks/project';
 
@@ -12,9 +12,12 @@ import './Projects.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-const Projects = ({setSelectedProject, engId}) => {
+const Projects = ({setSelectedProject, engId, editable = true}) => {
   const [ projectsList, setProjectsList ] = useState([]);
-  const [ openToast, setOpenToast ] = useState(false);
+
+  // Toast States
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastData, setToastData ] = useState(); 
 
   useEffect(() => {
     fetchProject();
@@ -22,7 +25,7 @@ const Projects = ({setSelectedProject, engId}) => {
 
   useEffect(() => {
     fetchProject();
-  }, [openToast]);
+  }, [showToast]);
 
   const fetchProject = async () => {
     const query = await getAllProjects(engId);
@@ -49,10 +52,11 @@ const Projects = ({setSelectedProject, engId}) => {
             <input type="text" name="searchbar" id="searchbar" placeholder="Search" value={filterProject} onChange={e => handleFilter(e)}/>
             <FontAwesomeIcon icon={faMagnifyingGlass} className="icon magnify-icon"/>
         </div>
+        {editable &&
         <div className="add-button" onClick={(e) => (createProject(e))}>
           <FontAwesomeIcon icon={faPlus} className="icon magnify-icon"/>
           <span>Start New Project</span>
-        </div>
+        </div>}
         <div className="main-component">
             {projectsList.length < 1 ? 
               <div className="project-item">
@@ -67,13 +71,20 @@ const Projects = ({setSelectedProject, engId}) => {
                           <ListItem name={project.projectName}
                                     image={project.imageUrl}
                                     id={project.projectId}
-                                    openToast={setOpenToast}
+                                    showToast={setShowToast}
+                                    setToastData={setToastData}
                                     type="project"
                                     key={project.projectName}
-                                    setSelectedProject={setSelectedProject}/>
+                                    setSelectedProject={setSelectedProject}
+                                    editable={editable}/>
+                                    
                           )
           }
         </div>
+        {showToast && <Toast message={toastData.toastMsg}
+                             toastType={toastData.toastType}
+                             showToast={setShowToast}
+                             toastState={showToast}/>}
     </main>
   )
 }

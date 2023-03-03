@@ -7,7 +7,6 @@ export async function getAllProjects(projectEngineer) {
     .then(response => response.data)
     .catch(err => console.error(err));
 
-    console.log(response);
     return await response;
 }
 
@@ -25,23 +24,29 @@ export async function createProject(engId, data) {
     .then(response => response)
     .catch(err => console.error(err));
 
-    console.log(engId);
-
     return await response;
 }
 
-export async function editProject(objId, data) {
-    const response = await axios.put(`${import.meta.env.VITE_API}/api/engineer/edit-project/${objId}`, data)
+export async function editProject(projId, data) {
+    const response = await axios.put(`${import.meta.env.VITE_API}/api/engineer/edit-project/${projId}`, data)
    .then(response => response)
    .catch(err => console.error(err));
 
    return await response;
 }
 
-export async function deleteProject(objId) {
-    const response = await axios.delete(`${import.meta.env.VITE_API}/api/engineer/delete-project/${objId}`)
+export async function deleteProject(projId) {
+    const response = await axios.delete(`${import.meta.env.VITE_API}/api/engineer/delete-project/${projId}`)
    .then(response => response)
    .catch(err => console.error(err));
 
    return await response;
+}
+
+export async function downloadCSV(projId) {
+    const response = await axios.get(`${import.meta.env.VITE_API}/api/project/download-csv-by-project/${projId}`)
+    .then(response => response)
+    .catch(err => console.error(err));
+
+    return await response;
 }

@@ -30,12 +30,21 @@ function App() {
   const [ roleId, setRoleId ] = useState("");
   const [ userId, setUserId ] = useState("");
   const [ selectedProject, setSelectedProject ] = useState("");
-  
+  const [ selectedEngineer, setSelectedEngineer ] = useState("");
+
   const initIds = () => {
     const data = parseToken(localStorage.getItem("token"));
     setRoleId(data.roleId);
     setUserId(data.id);
   };
+
+  const handleLogout = () => {
+    setUserId("");
+    setRoleId("");
+    setUserId("");
+    setSelectedEngineer("");
+    setSelectedProject("");
+  }
 
   //OnMount
   useEffect(() => {
@@ -44,7 +53,6 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("token")) initIds();
-
   }, [user, selectedProject]) 
 
   return (
@@ -53,7 +61,10 @@ function App() {
         {!user ? 
           <Route path="/" element={<Login setUser={setUser}/>} />
         :
-          <Route element={<PageLayout roleId={roleId} selectedProject={selectedProject.name}/>}>
+          <Route element={<PageLayout roleId={roleId}
+                                      selectedProject={selectedProject.name}
+                                      selectedEngineer={selectedEngineer.id}
+                                      handleLogout={handleLogout}/>}>
             {roleId === 1 &&
             <>
               <Route index element={<AdminPage />} />
@@ -72,17 +83,18 @@ function App() {
             
             {roleId === 2 &&
               <>
-                <Route index element={<EngineerList companyId={userId}/>} />
-                  <Route path="engineer">
-                    <Route path="create-engineer" element={<Engineer companyId={userId} />} />
-                    <Route path=":id" element={<Engineer companyId={userId}/>}>
-                  </Route>
-                  <Route path=":engId/project">
-                    <Route index element={<Projects editable={false}/>} />
-                    <Route path=":id" element={<Project editable={false}/>} />
-                  </Route>
-                  <Route path="profile" element={<Company />} />
+                <Route index element={<EngineerList companyId={userId} setSelectedEngineer={setSelectedEngineer}/>} />    
+                <Route path="engineer">
+                  <Route path="create-engineer" element={<Engineer companyId={userId} />} />
+                  <Route path=":id" element={<Engineer companyId={userId}/>} />
                 </Route>
+
+                <Route path="project">
+                  <Route index element={<Projects engId={selectedEngineer.id} editable={false}/>} />
+                  <Route path=":id" element={<Project editable={false}/>} />
+                </Route>
+
+                <Route path="profile" element={<Company companyId={userId}/>} />
               </>
             }
 
@@ -100,14 +112,14 @@ function App() {
               <>
               <Route path="crew">
                 <Route index element={<ProjectsCrew/>} />
-                <Route path="create-crew" element={<CrewDetails/>} />
+                <Route path="create-crew" element={<CrewDetails engId={userId}/>} />
                 <Route path=":id" element={<CrewDetails />} />
               </Route>
 
               <Route path="images" element={<ImagesPage projId={selectedProject.id}/>} />
               <Route path="dashboard" element={<Dashboard/>} />
               <Route path="daily-report" element={<CalendarPage />} />
-              <Route path="settings" element={<Project />} />
+              <Route path="settings" element={<Project profileId={selectedProject.id}/>} />
               </>
               }
             </>

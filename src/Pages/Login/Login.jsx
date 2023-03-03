@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { login } from '../../Hooks/login';
+import Toast from '../../Components/General/Toast';
 
 //Image Assets
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,6 +12,11 @@ import LogoM from '../../assets/images/concheck-logo-m.png';
 const Login = ({setUser}) => {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
+
+    //Toast
+    const [ showToast, setShowToast ] = useState(false);
+    const [ toastMsg, setToastMsg ] = useState("");
+    const [ toastType, setToastType ] = useState("");
 
   const setFunctions = {
     "email": setEmail,
@@ -29,12 +35,12 @@ const Login = ({setUser}) => {
     const query = await login(email, password);
     if (query.statusCode === 200) {
       const token = query.response.data;
-
+      setToastMsg()
       localStorage.setItem('token', token);
       setUser(token)
       nav('/');
     } else {
-      alert(query.data.message);
+      
     }
   };
 

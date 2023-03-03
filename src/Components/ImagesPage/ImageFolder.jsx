@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import ImageItem from './ImageItem';
+import { useState} from 'react';
 //Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFolder } from '@fortawesome/free-solid-svg-icons';
 
-const ImageFolder = ({date, items}) => {
+const ImageFolder = ({date, items, setShowEdit, setSelectedImage}) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
+  }
+  
+  const handleClickImage = (e, item) => {
+    setShowEdit(true);
+    setSelectedImage(item);
   }
   return (
     <>
@@ -17,7 +21,10 @@ const ImageFolder = ({date, items}) => {
         <p className="text-center">{date}</p>
     </div>
     {open && items && items.map(item =>
-        <ImageItem image={item.image} date={item.date} key={item.id} />
+        <div className="image-item" key={item.imageId} onClick={e => handleClickImage(e, item)}>
+            <img src={item.imageUrl} alt="img" className="projImages"/> 
+            <p className="text-center">{item.caption}</p>
+        </div>
     )
     }
     </>

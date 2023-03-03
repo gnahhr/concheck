@@ -224,9 +224,26 @@ main {
     border-radius: 1rem;
     border: 5px solid rgba(0, 0, 0);
 
+    input {
+      margin: 1rem auto;
+      width: 100%;
+      display: block;
+    }
+
     .form-input {
       background-color: #fff;
     }
+  }
+}
+
+.img-upload-caption {
+  display: grid;
+  grid-template-rows: 2fr max-content;
+
+  img {
+    width:15rem;
+    aspect-ratio: 1;
+    object-fit: cover;
   }
 }
 

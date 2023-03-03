@@ -1,7 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
-import { getAllCrewByProject } from '../../Hooks/crew';
+
 import CrewItem from '../../Components/Crew/CrewItem';
+import Toast from '../../Components/General/Toast';
+
+import { getAllCrewByProject } from '../../Hooks/crew';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -12,6 +15,8 @@ const ProjectsCrew = ({}) => {
   const [ crewList, setCrewList ] = useState("");
   const selectedProject = sessionStorage.getItem("selProjId");
   const nav = useNavigate();
+
+ 
 
   const handleFilter = e => {
     e.preventDefault();
@@ -32,6 +37,10 @@ const ProjectsCrew = ({}) => {
   useEffect(() => {
     handleGetAllCrew();
   }, [])
+
+  useEffect(() => {
+    handleGetAllCrew();
+  }, [showToast])
 
   return (
     <>
@@ -55,7 +64,11 @@ const ProjectsCrew = ({}) => {
 
               {crewList.filter(crew =>
                 {if (`${crew.firstName} ${crew.lastName}`.includes(filterCrew))
-                return crew }).map((crew) => <tr><CrewItem crew={crew}/></tr>)}
+                return crew }).map((crew) =>
+                <tr><CrewItem crew={crew}
+                              showToast={setShowToast}
+                              setToastData={setToastData}/>
+                </tr>)}
 
             </table>
             :
@@ -63,6 +76,10 @@ const ProjectsCrew = ({}) => {
           }
         </div>
       </div>
+      {showToast && <Toast message={toastData.toastMsg}
+                             toastType={toastData.toastType}
+                             showToast={setShowToast}
+                             toastState={showToast}/>}
     </main>
     </>
   )

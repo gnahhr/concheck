@@ -209,8 +209,23 @@ main {
   border-radius: 1rem;
   border: 5px solid rgb(0, 0, 0);
 }
+.modal-wrapper .modal-content input {
+  margin: 1rem auto;
+  width: 100%;
+  display: block;
+}
 .modal-wrapper .modal-content .form-input {
   background-color: #fff;
+}
+
+.img-upload-caption {
+  display: grid;
+  grid-template-rows: 2fr max-content;
+}
+.img-upload-caption img {
+  width: 15rem;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 .form-input {

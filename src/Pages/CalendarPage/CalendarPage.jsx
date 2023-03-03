@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getAllDailyReport } from '../../Hooks/dailyReport';
-import Task from '../../Components/Task/task';
+
+import Toast from '../../Components/General/Toast';
 import DailyReport from '../../Components/DailyReport/DailyReport';
 import Calendar from 'react-calendar';
 import CalendarModal from '../../Components/Calendar/CalendarModal';
@@ -10,40 +11,22 @@ import './CalendarPage.css';
 const CalendarPage = () => {
   const [ selectedDate, setSelectedDate ] = useState();
   const [ hasSelected, setHasSelected ] = useState(false);
-  const [ dailyReport, setDailyReport ] = useState([]);
-  const [ showTaskModal, setShowTaskModal ] = useState(false);
   const [ showReportModal, setShowReportModal ] = useState(false);
   const projId = sessionStorage.getItem("selProjId");
+
+  // Toast States
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastData, setToastData ] = useState(); 
 
   const clickDay = (day) => {
     setSelectedDate([day]);
     setHasSelected(true);
   };
 
-  const getDailyReport = async () => {
-    const response = await getAllDailyReport(projId);
-    const data = response.response.message;
-
-    setDailyReport(data);
-  }
-
-  const formatDate = (date) => {
-
-  };
-
-  const toggleTaskModal = (e) => {
-    e.preventDefault;
-    setShowTaskModal(!showTaskModal);
-  }
-
   const toggleReportModal = (e) => {
     e.preventDefault;
     setShowReportModal(!showReportModal);
   }
-
-  useEffect(() => {
-    getDailyReport();
-  }, [])
 
   return (
     <>
@@ -51,23 +34,29 @@ const CalendarPage = () => {
       <h1 className="text-center">Daily Report</h1>
       <div className="main-component">
         {hasSelected ?
-          <CalendarModal date={selectedDate} info={""} />
+          <CalendarModal date={selectedDate} projId={projId} hasSelected={setHasSelected}/>
           : 
-          <Calendar
-            onClickDay={(value) => clickDay(value)}
-          />
+          <>
+            <Calendar
+              onClickDay={(value) => clickDay(value)}
+              />
+            <div className="btn" onClick={e => toggleReportModal(e)}>
+              <span>Add Daily Report</span>
+            </div>
+          </>
         }
-
-        <div className="btn" onClick={e => toggleTaskModal(e)}>
-          <span>Add Task</span>
-        </div>
-        <div className="btn" onClick={e => toggleReportModal(e)}>
-          <span>Add Daily Report</span>
-        </div>
+        
       </div>
     </main>
-    {showTaskModal && <Task projId={projId} closeModal={setShowTaskModal}/>}
-    {showReportModal && <DailyReport projId={projId} closeModal={setShowReportModal}/>}
+    {showReportModal && <DailyReport projId={projId}
+                                     closeModal={setShowReportModal}
+                                     showToast={setShowToast}
+                                     setToastData={setToastData}
+                                     />}
+    {showToast && <Toast message={toastData.toastMsg}
+                        toastType={toastData.toastType}
+                        showToast={setShowToast}
+                        toastState={showToast}/>}
     </>
   )
 }

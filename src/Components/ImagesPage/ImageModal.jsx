@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { uploadImage } from '../../Hooks/image';
 
-const ImageModal = ({images, projId}) => {
+const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) => {
   const [ captionList, setCaptionList ] = useState();
 
   const initializeCaptionList = () => {
@@ -29,8 +29,27 @@ const ImageModal = ({images, projId}) => {
 
     const data = createFormData();
     const response = await uploadImage(projId, data);
-    console.log(response);
+
+    let toastType;
+
+    if (response.statusCode === 200) {
+      toastType = 'success';
+    } else {
+      toastType = 'warning';
+    }
+
+    setToastData({
+      toastMsg: response.response.message,
+      toastType: toastType,
+    })
+
+    setShowToast(true);
+    setShowModal(false);
   };
+
+  const handleExit = (e) => {
+    setShowModal(false);
+  }
 
   const handleCaptionChange = (e, i) => {
     e.preventDefault();
@@ -43,26 +62,29 @@ const ImageModal = ({images, projId}) => {
 
 
   return (
-    <div className="image-modal">
+    <div className="modal-wrapper">
+      <div className="modal-content">
         <h2 className="text-center">Upload Image</h2>
-
+        <div className="exit" onClick={e => handleExit(e)}>X</div>
         <div className="main-component">
-          <form method="post"></form>
+          <form method="post">
           {images.length > 0 &&
             Array.from(Array(images.length), (e, i) => {
                 return (
-                <>
+                <div className="img-upload-caption">
                   <img src={URL.createObjectURL(images[i])} alt={images[i].name} key={images[i].name}/>
-                  <input type="text" name={`caption-${i}`} id={`caption-${i}`} onChange={e => handleCaptionChange(e, i)}/>
-                </>
+                  <input type="text" name={`caption-${i}`} id={`caption-${i}`} onChange={e => handleCaptionChange(e, i)} placeholder="Enter caption..."/>
+                </div>
                 )
             })
           }
+          </form>
         </div>
 
         <div className="btn" onClick={e => handleSubmit(e)}>
           <span>Submit</span>
         </div>
+      </div>
     </div>
   )
 }

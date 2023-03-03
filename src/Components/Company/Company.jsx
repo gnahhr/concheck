@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom';
 
-const Company = () => {
+const Company = ({companyId}) => {
   //Form Data 
   const [ companyName, setCompanyName ] = useState("");
   const [ address, setAddress ] = useState("");
@@ -17,7 +17,8 @@ const Company = () => {
   const [ userId, setUserId ] = useState("");
 
   // ID
-  const { id } = useParams();
+  let { id } = useParams();
+  if (companyId) id = companyId;
   const checkId = id === undefined;
 
   //Toast

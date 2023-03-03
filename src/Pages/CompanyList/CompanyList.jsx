@@ -20,7 +20,7 @@ const CompanyList = () => {
 
     const handleGetCompanies = async () => {
         const query = await getAllCompany();
-        setListCompanies(query.response.data);
+        if (query.response.data) setListCompanies(query.response.data);
     }
 
     const createCompany = (e) => {

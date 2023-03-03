@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import Toast from '../../Components/General/Toast.jsx';
 
 import { createCrew, getCrewById, updateCrewDetails } from '../../Hooks/crew.js';
 
@@ -9,7 +10,7 @@ import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import './CrewDetails.css';
 
-const CrewDetails = ({}) => {
+const CrewDetails = ({engId}) => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("");
   const [ lastName, setLastName ] = useState("");
@@ -25,6 +26,13 @@ const CrewDetails = ({}) => {
   // ID
   const { id } = useParams();
   const checkId = id === undefined;
+
+  //Toast
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastMsg, setToastMsg ] = useState("");
+  const [ toastType, setToastType ] = useState("");
+
+  const nav = useNavigate();
 
   //Toggle
   const setFunctions = {
@@ -80,7 +88,15 @@ const CrewDetails = ({}) => {
   const handleEdit = async () => {
     const data = createFormData();
     const response = await updateCrewDetails(id, data);
+
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
     console.log(response);
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
   }
 
   const handleChangeImage = (e) => {
@@ -101,8 +117,17 @@ const CrewDetails = ({}) => {
         "roleId": 4
     };
 
-    const response = await createCrew(id, data);
-    console.log(await response);
+    const response = await createCrew(engId, data);
+
+    if(response.data.statusCode === 200){
+      setToastType("success");
+    } else {
+      setToastType("warning");
+    }
+
+    setToastMsg(response.data.response.message);
+    setShowToast(true);
+    setTimeout(() => {nav('/crew')}, 1500);
   }
 
   useEffect(() => {
@@ -209,6 +234,9 @@ const CrewDetails = ({}) => {
                 <span>Edit</span>
             </div>
         }
+
+      {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
+
     </main>
   )
 }

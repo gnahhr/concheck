@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import Toast from '../General/Toast';
 import { addTask, editTask, getTaskById } from '../../Hooks/task';
 
-const Task = ({taskId, projId, closeModal}) => {
+const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) => {
   const [ taskName, setTaskName ] = useState("");
   const [ startDate, setStartDate ] = useState("");
   const [ endDate, setEndDate ] = useState(""); 
@@ -11,6 +12,7 @@ const Task = ({taskId, projId, closeModal}) => {
     "start-date": setStartDate,
     "end-date": setEndDate
   }
+  
 
   const onChangeValue = (e) => {
     setFunctions[e.target.name](e.target.value);
@@ -23,27 +25,58 @@ const Task = ({taskId, projId, closeModal}) => {
         "taskName": taskName,
         "startDate": startDate,
         "endDate": endDate,
-        "_id": projId
     }
 
-    const response = await addTask(data);
+    const response = await addTask(projId, data);
 
-    console.log(response);
+    let toastType;
+    if (response.statusCode === 200) {
+      toastType = "success";
+    } else {
+      toastType = "warning";
+    }
+
+    const toastMsg = response.response.message;
+
+    setToastData({
+      toastType: toastType,
+      toastMsg: toastMsg,
+    })
+    showToast(true);
+    showTask(false);
   };
+
+  const handleEditTask = async (e) => {
+    const data = {
+      "taskName": taskName,
+      "startDate": startDate,
+      "endDate": endDate,
+  }
+
+    const response = await editTask(taskId, data);
+    console.log(response);
+  }
 
   const handleGetTaskById = async () => {
     const response = await getTaskById(taskId);
-    console.log(response);
+    const data = response.response.data;
+    
+    setTaskName(data.taskName);
+    setStartDate(formatDate(new Date (data.startDate)));
+    setEndDate(formatDate(new Date (data.endDate)));
   };
 
   const handleToggleModal = (e) => {
     e.preventDefault();
+    setTaskId(undefined);
+    showTask(false);
+  }
 
-    closeModal(!true);
+  const formatDate = (date) => {
+    return date.toISOString().split("T")[0];
   }
 
   useEffect(() => {
-    console.log("taskId: " + taskId);
     if (taskId) handleGetTaskById();
   }, [])
 
@@ -74,9 +107,15 @@ const Task = ({taskId, projId, closeModal}) => {
                 <input type="date" name="end-date" id="end-date" value={endDate} onChange={e => onChangeValue(e)} required/>
             </div>
 
-            <div className="btn" onClick={e => handleAddTask(e)}>
-                <span>Add Task</span>
+            {taskId ? 
+            <div className="btn" onClick={e => handleEditTask(e)}>
+              <span>Edit Task</span>
             </div>
+            :
+            <div className="btn" onClick={e => handleAddTask(e)}>
+              <span>Add Task</span>
+            </div>
+            }
 
         </form>
       </div>

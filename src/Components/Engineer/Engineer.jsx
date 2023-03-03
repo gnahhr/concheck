@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Toast from '../General/Toast.jsx';
 import { createEngineer, editEngineer, getEngineerById } from '../../Hooks/engineer.js';
 
@@ -26,6 +26,8 @@ const Engineer = ({userId, companyId}) => {
   let { id } = useParams();
   if (userId) id = userId;
   const checkId = id === undefined;
+
+  const nav = useNavigate();
   
   const setFunctions = {
     "first-name": setFirstName,
@@ -52,7 +54,6 @@ const Engineer = ({userId, companyId}) => {
   const handleGetEngineerById = async () => {
     const response = await getEngineerById(id);
     const data = response.response.data;
-    console.log(data);
 
     setFirstName(data.firstName);
     setLastName(data.lastName);
@@ -76,13 +77,14 @@ const Engineer = ({userId, companyId}) => {
 
     setToastMsg(response.data.response.message);
     setShowToast(true);
+    nav('/');
   }
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = createFormData();
     const response = await createEngineer(companyId, formData);
-    console.log(response);
+    
     if(response.data.statusCode === 200){
       setToastType("success");
     } else {
@@ -91,12 +93,12 @@ const Engineer = ({userId, companyId}) => {
 
     setToastMsg(response.data.response.message);
     setShowToast(true);
+    setTimeout(() => nav('/'), 1500);
   }
 
   const createFormData = () => {
     const formData = new FormData();
     
-    // No Project Name needed if Edit
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("address", address);
