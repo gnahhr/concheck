@@ -14,13 +14,12 @@ import MobileLogo from '../../assets/images/concheck-logo-h.png';
 
 
 const Header = ({openNav, handleLogout}) => {
-  const nav = useNavigate();
 
   const logout = () => {
       localStorage.clear();
       sessionStorage.clear();
       handleLogout();
-      setTimeout(() => {nav("/")}, 1000);
+      window.location.reload();
   }
 
   return (
@@ -30,7 +29,7 @@ const Header = ({openNav, handleLogout}) => {
                         className="icon menu-icon mobile-only"
                         onClick={(e) => openNav(e)}/>
           <img src={MobileLogo} alt="logo" className="header-logo mobile-logo"/>
-        <FontAwesomeIcon icon={faSignOut} className="icon settings-icon mobile-only"/>
+        <FontAwesomeIcon icon={faSignOut} className="icon settings-icon mobile-only" onClick={e => logout(e)}/>
       <div className="header-body">
         <Link to="/" onClick={e => logout(e)}>Logout</Link>
       </div>

@@ -10,12 +10,11 @@ import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import './CrewDetails.css';
 
-const CrewDetails = ({engId}) => {
+const CrewDetails = ({engId, userId}) => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("");
   const [ lastName, setLastName ] = useState("");
   const [ address, setAddress ] = useState("");
-  const [ userId, setUserId ] = useState("");
   const [ contactNumber, setContactNumber ] = useState("");
   const [ startShift, setStartShift ] = useState("");
   const [ endShift, setEndShift ] = useState("");
@@ -24,7 +23,8 @@ const CrewDetails = ({engId}) => {
   const [ password, setPassword ] = useState("");
   const [ image, setImage ] = useState("");
   // ID
-  const { id } = useParams();
+  let { id } = useParams();
+  if (userId) id = userId;
   const checkId = id === undefined;
 
   //Toast
@@ -62,7 +62,6 @@ const CrewDetails = ({engId}) => {
     setEndShift(data.endShift);
     setStartShift(data.startShift);
     setEmail(data.userId.email);
-    setUserId(data.userId._id);
     setFirstName(data.firstName);
     setLastName(data.lastName);
     setAddress(data.address);
@@ -155,10 +154,6 @@ const CrewDetails = ({engId}) => {
                             <div className="salary-item">
                                 <p className="number">Php. {rate}</p>
                                 <p className="label">Rate</p>
-                            </div>
-                            <div className="salary-item">
-                                <p className="number">Php. {rate}</p>
-                                <p className="label">Earnings</p>
                             </div>
                         </div> 
                 </div>

@@ -28,8 +28,29 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
     const handleEdit = async (e) => {
         e.preventDefault();
 
+        const data = {
+            remarks: remarks,
+            weatherReport: weatherReport,
+            causeOfDelay: causeOfDelay,
+            hoursDelay: hoursOfDelay,
+        }
+
         const response = await editDailyReport(dailyReportId, data);
 
+        let toastType;
+        if (response.statusCode === 200) {
+          toastType = "success";
+        } else {
+          toastType = "warning";
+        } 
+    
+        setToastData({
+          toastMsg: response.response.message,
+          toastType: toastType,
+        });
+
+
+        showToast(true);
     }
 
     const formatYear = (date) => {
@@ -54,12 +75,14 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
     const handleGetDailyReport = async () => {
         const response = await getDailyReportByDate(projId, formatDate(new Date(date)));
         const data = response.response.data;
-
-        setRemarks(data.remarks);
-        setWeatherReport(data.weatherReport);
-        setCauseOfDelay(data.causeOfDelay);
-        setHoursOfDelay(data.hoursDelay);
-        setDailyReportId(data.dailyReportId);
+        
+        if (data){
+            setRemarks(data.remarks);
+            setWeatherReport(data.weatherReport);
+            setCauseOfDelay(data.causeOfDelay);
+            setHoursOfDelay(data.hoursDelay);
+            setDailyReportId(data.dailyReportId);
+        }
     }
 
     useEffect(() => {
@@ -88,7 +111,7 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
                 <input type="number" name="hours-delay" id="hours-delay" value={hoursOfDelay} onChange={onValueChange}/>
             </div>
 
-            <div className="btn" onClick={(e) => toggleEdit(e)}>
+            <div className="btn" onClick={(e) => handleEdit(e)}>
                 <span className="edit-btn">Edit</span>
             </div>
         </form>

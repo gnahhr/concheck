@@ -19,7 +19,7 @@ const CrewItem = ({crew, setToastData, showToast}) => {
     if(response.statusCode !== 400){
       setTimeIn(data.timein);
       setTimeOut(() => (typeof data.timeout === "string") ? data.timeout : "N/A");
-  }
+    }
   }
 
   const handleTimeInOutCrew = async (e) => {

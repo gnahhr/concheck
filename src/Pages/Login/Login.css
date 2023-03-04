@@ -1,0 +1,103 @@
+.login-page {
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  place-items: center;
+  margin: auto;
+  width: 80vw;
+  height: 80vh;
+}
+.login-page .logo {
+  align-self: center;
+}
+
+.hero-text {
+  text-align: center;
+}
+.hero-text .form-sub > a {
+  color: var(--primary);
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  place-items: center;
+  border-bottom: 1px solid var(--primary-d);
+}
+
+.left-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.left-field .form-icon {
+  color: var(--primary);
+  width: 1.5rem;
+  margin: auto 0.2rem;
+}
+
+.right-field {
+  align-self: flex-end;
+}
+.right-field input[type=email],
+.right-field input[type=password] {
+  margin-left: 0.5rem;
+  padding: 0.3rem;
+  border: none;
+  border-left: var(--primary-d) 1px solid;
+}
+
+@media (orientation: landscape) {
+  .login-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+    min-height: 100vh;
+  }
+  .login-page .logo {
+    place-self: center;
+  }
+  .login-page .logo img {
+    width: clamp(10rem, 25vw, 15rem);
+  }
+  .login-page .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-d);
+    color: white;
+  }
+  .login-page .form-wrapper .hero-text {
+    color: #000;
+  }
+  .login-page .form-wrapper form .upper-field {
+    color: #000;
+  }
+  .login-page .form-wrapper form .buttons input {
+    background-color: #fff;
+    color: #000;
+  }
+  .form-sub {
+    color: #000;
+  }
+  .field {
+    border-bottom: 2px solid #fff;
+  }
+  .left-field .form-icon {
+    color: #fff;
+    height: clamp(1rem, 2.5vw, 3rem);
+    width: clamp(1rem, 2vw, 2rem);
+  }
+  .right-field {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    place-items: center;
+  }
+  .right-field input[type=email],
+  .right-field input[type=password] {
+    background-color: transparent;
+    color: #fff;
+    border-left: #fff 2px solid;
+  }
+}

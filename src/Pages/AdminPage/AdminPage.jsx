@@ -5,16 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import ListItem from '../../Components/General/ListItem.jsx';
 
 import { getAllAdmin} from '../../Hooks/admin.js';
-import { getAllCompany } from '../../Hooks/company.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const AdminPage = () => {
   const [ adminList, setAdminList ] = useState([]);
-  const [ showModal, setShowModal ] = useState(false);
-  const [ showToast, setShowToast ] = useState(false);
-  const [ toastData, setToastData ] = useState({});
 
   const nav = useNavigate();
 

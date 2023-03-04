@@ -1,7 +1,5 @@
 .crew-salary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  width: 10rem;
 }
 .crew-salary .salary-item {
   border: 2px solid var(--primary);

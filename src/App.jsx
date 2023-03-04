@@ -21,19 +21,18 @@ import Dashboard from './Pages/Dashboard/Dashboard';
 import ProjectsCrew from './Pages/Crew/ProjectsCrew';
 import CalendarPage from './Pages/CalendarPage/CalendarPage';
 import ImagesPage from './Pages/ImagesPage/ImagesPage';
-import Profile from './Pages/Profile/Profile';
 import CrewLanding from './Pages/CrewLanding/CrewLanding';
 import Admin from './Components/Admin/Admin';
 
 function App() {
-  const [ user, setUser ] = useState(localStorage.getItem("token") ? localStorage.token : null);
+  const [ user, setUser ] = useState(localStorage.getItem("token") ? localStorage.getItem("token") : null);
   const [ roleId, setRoleId ] = useState("");
   const [ userId, setUserId ] = useState("");
   const [ selectedProject, setSelectedProject ] = useState("");
   const [ selectedEngineer, setSelectedEngineer ] = useState("");
 
   const initIds = () => {
-    const data = parseToken(localStorage.getItem("token"));
+    const data = parseToken(user);
     setRoleId(data.roleId);
     setUserId(data.id);
   };
@@ -48,11 +47,11 @@ function App() {
 
   //OnMount
   useEffect(() => {
-    if (localStorage.getItem("token")) initIds();
+    if (localStorage.getItem("token") || user) initIds();
   }, [])
 
   useEffect(() => {
-    if (localStorage.getItem("token")) initIds();
+    if (localStorage.getItem("token") || user) initIds();
   }, [user, selectedProject]) 
 
   return (
@@ -125,10 +124,9 @@ function App() {
             </>
             }
 
-
             {roleId === 4 &&
               <>
-                <Route path="/" element={<Projects />} />
+                <Route path="/" element={<CrewLanding userId={userId}/>} />
                 <Route path="/profile" element={<CrewDetails roleId={roleId} userId={userId}/>} />
               </>
             }
@@ -136,6 +134,7 @@ function App() {
 
           </Route>
           } 
+
           <Route path="*" element={<h1>Page not found.</h1>} />
       </Routes>
     </div>

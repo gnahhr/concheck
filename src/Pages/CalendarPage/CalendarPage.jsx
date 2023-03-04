@@ -34,7 +34,12 @@ const CalendarPage = () => {
       <h1 className="text-center">Daily Report</h1>
       <div className="main-component">
         {hasSelected ?
-          <CalendarModal date={selectedDate} projId={projId} hasSelected={setHasSelected}/>
+          <CalendarModal date={selectedDate}
+                         projId={projId}
+                         hasSelected={setHasSelected}
+                         showToast={setShowToast}
+                         setToastData={setToastData}
+                         />
           : 
           <>
             <Calendar
