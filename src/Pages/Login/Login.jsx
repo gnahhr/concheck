@@ -33,7 +33,7 @@ const Login = ({setUser}) => {
     e.preventDefault();
 
     let toastType, toastMsg;
-
+    
     const query = await login(email, password);
     toastMsg = query.response.message;
     if (query.statusCode === 200) {
@@ -42,14 +42,18 @@ const Login = ({setUser}) => {
       localStorage.setItem('token', token);
       setUser(token);
       window.location.reload();
-
     } else {
       toastType = "warning";
     }
+
+    if (!password) toastMsg = "Password is required";
+    if (!email) toastMsg = "Email is required";
+
     setToastData({
       toastType: toastType,
       toastMsg: toastMsg
     })
+
     setShowToast(true);
   };
 
@@ -71,7 +75,7 @@ const Login = ({setUser}) => {
                       <FontAwesomeIcon icon={faUserCheck} className="form-icon"/>
                   </div>
                   <div className="right-field">
-                      <input type="email" name="email" id="email" value={email} onChange={e => handleOnChange(e)} />
+                      <input type="email" name="email" id="email" value={email} onChange={e => handleOnChange(e)}/>
                   </div>
               </div>
               <div className="field">

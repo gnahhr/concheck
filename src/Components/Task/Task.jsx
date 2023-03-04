@@ -21,6 +21,27 @@ const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) =>
   const handleAddTask = async (e) => {
     e.preventDefault();
 
+    const sDate = new Date(startDate);
+    const eDate = new Date(endDate);
+
+    if (sDate > eDate) {
+      setToastData({
+        toastType: "warning",
+        toastMsg: "Start date should be earlier than end date."
+      })
+      showToast(true);
+      return;
+    }
+
+    if (!taskName || taskName === "") {
+      setToastData({
+        toastType: "warning",
+        toastMsg: "Add a task name."
+      })
+      showToast(true);
+      return;
+    }
+
     const data = {
         "taskName": taskName,
         "startDate": startDate,
@@ -47,20 +68,58 @@ const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) =>
   };
 
   const handleEditTask = async (e) => {
+    
+    const sDate = new Date(startDate);
+    const eDate = new Date(endDate);
+
+    if (sDate > eDate) {
+      setToastData({
+        toastType: "warning",
+        toastMsg: "Start date should be earlier than end date."
+      })
+      showToast(true);
+      return;
+    }
+
+    if (!taskName || taskName === "") {
+      setToastData({
+        toastType: "warning",
+        toastMsg: "Add a task name."
+      })
+      showToast(true);
+      return;
+    }
+    
     const data = {
-      "taskName": taskName,
-      "startDate": startDate,
-      "endDate": endDate,
-  }
+        "taskName": taskName,
+        "startDate": startDate,
+        "endDate": endDate,
+    }
 
     const response = await editTask(taskId, data);
-    console.log(response);
+    const toastMsg = response.response.message;
+
+    let toastType;
+    
+    if (response.statusCode === 200) {
+      toastType = "success";
+    } else {
+      toastType = "warning";
+    }
+
+    setToastData({
+      toastType: toastType,
+      toastMsg: toastMsg,
+    })
+
+    showToast(true);
+    showTask(false);
   }
 
   const handleGetTaskById = async () => {
     const response = await getTaskById(taskId);
     const data = response.response.data;
-    
+
     setTaskName(data.taskName);
     setStartDate(formatDate(new Date (data.startDate)));
     setEndDate(formatDate(new Date (data.endDate)));

@@ -102,8 +102,9 @@ const Dashboard = ({}) => {
   }, [showAddTask, showToast])
 
   return (
-    <main className="main-component dashboard-main">
+    <main>
         <h1 className="text-center">Dashboard</h1>
+        <div className="main-component dashboard-main">
         <div className="gantt-chart">
           <h1>Gantt Chart</h1>
           {!taskData ? 
@@ -160,13 +161,13 @@ const Dashboard = ({}) => {
               />
           }
         </div>
-
-        <div className="download-csv">
+        </div>
+        <div className="btn-group download-btn">
           <div className="btn" onClick={e => handleDownload(e)}>
             Download CSV
           </div>
         </div>
-
+        
         {showAddTask && <Task taskId={taskId}
                               projId={projId}
                               showTask={setShowAddTask}

@@ -28,7 +28,10 @@ const Project = ({engId, profileId, editable = true}) => {
   const [ image, setImage ] = useState("");
 
   // ID
-  const projId = sessionStorage.getItem("selProjId");
+  let projId;
+  if (!engId){
+    projId = sessionStorage.getItem("selProjId");
+  }
   let { id } = useParams();
   if (projId) id = projId;
   if (profileId) id = profileId;
@@ -65,15 +68,17 @@ const Project = ({engId, profileId, editable = true}) => {
     setFunctions[name](value);
   }
 
-  const toggleEdit = (e) => {
-    e.preventDefault();
-
-    setIsEdit(() => !isEdit);
-  }
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if(!startDate || !targetDate ||
+       !projectEngineer || !siteEngineer || !safetyOfficer){
+      setToastType("warning");
+      setToastMsg("Please input all fields.");
+      setShowToast(true);
+      return;
+    }
+
     const formData = createFormData();
     const response = await createProject(engId, formData);
   
@@ -90,6 +95,15 @@ const Project = ({engId, profileId, editable = true}) => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
+
+    if(!projectName || !startDate || !targetDate ||
+      !projectEngineer || !siteEngineer || !safetyOfficer){
+     setToastType("warning");
+     setToastMsg("Please input all fields.");
+     setShowToast(true);
+     return;
+   }
+
     const formData = createFormData();
     const response = await editProject(projId, formData);
     

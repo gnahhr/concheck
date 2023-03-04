@@ -66,6 +66,14 @@ const Engineer = ({userId, companyId}) => {
   
   const handleEdit = async (e) => {
     e.preventDefault();
+
+    if(!firstName || !lastName || !address || !email || !licenseNumber || !password){
+      setToastType("warning");
+      setToastMsg("Please input all fields.");
+      setShowToast(true);
+      return;
+    }
+
     const formData = createFormData();
     const response = await editEngineer(id, formData);
     
@@ -82,6 +90,14 @@ const Engineer = ({userId, companyId}) => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!firstName || !lastName || !address || !email || !licenseNumber || !password){
+      setToastType("warning");
+      setToastMsg("Please input all fields.");
+      setShowToast(true);
+      return;
+    }
+
     const formData = createFormData();
     const response = await createEngineer(companyId, formData);
     

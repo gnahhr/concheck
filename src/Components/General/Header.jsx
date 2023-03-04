@@ -14,11 +14,13 @@ import MobileLogo from '../../assets/images/concheck-logo-h.png';
 
 
 const Header = ({openNav, handleLogout}) => {
+  const nav = useNavigate();
 
   const logout = () => {
       localStorage.clear();
       sessionStorage.clear();
       handleLogout();
+      nav('/');
       window.location.reload();
   }
 

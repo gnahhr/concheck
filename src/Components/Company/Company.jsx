@@ -66,6 +66,13 @@ const Company = ({companyId}) => {
   const handleCreateCompany = async (e) => {
     e.preventDefault();
 
+    if(!companyName || !address || !password || !email || !contactNumber){
+      setToastType("warning");
+      setToastMsg("Please input all fields.");
+      setShowToast(true);
+      return;
+    }
+
     const data = createFormData();
     const response = await createCompany(data);
 
@@ -96,8 +103,15 @@ const Company = ({companyId}) => {
   const handleEditCompany = async (e) => {
     e.preventDefault();
     // console.log(editCompany);
+    if(!companyName || !address || !password || !email || !contactNumber){
+      setToastType("warning");
+      setToastMsg("Please input all fields.");
+      setShowToast(true);
+      return;
+    }
     const data = createFormData();
     const response = await editCompany(userId, data);
+
 
     if(response.data.statusCode === 200){
       setToastType("success");
@@ -130,30 +144,30 @@ const Company = ({companyId}) => {
             <h2>Project Details</h2>
             <div className="upload-img">
                     <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                    <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
+                    <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)} />
                 </div>
             {/* Fields */}
             <form action="#" method="post" className="project-details">
                 <div className="form-input">
                     <label htmlFor="company-name">Company name:</label>
-                    <input type="text" name="company-name" id="company-name" value={companyName} onChange={onValueChange}/>
+                    <input type="text" name="company-name" id="company-name" value={companyName} onChange={onValueChange} required/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="address">Address:</label>
-                    <input type="text" name="address" id="address" value={address} onChange={onValueChange}/>
+                    <input type="text" name="address" id="address" value={address} onChange={onValueChange} required/>
                 </div>
                 <div className="form-input">
                     <label htmlFor="password">Password:</label>
-                    <input type="password" name="password" id="password" value={password} onChange={onValueChange}/>
+                    <input type="password" name="password" id="password" value={password} onChange={onValueChange} required/>
                 </div>
                 {checkId &&
                 <div className="form-input">
                     <label htmlFor="email" className="email">E-mail:</label>
-                    <input type="email" name="email" id="email" value={email} onChange={onValueChange} />
+                    <input type="email" name="email" id="email" value={email} onChange={onValueChange} required/>
                 </div>}
                 <div className="form-input">
                     <label htmlFor="contact-number">Contact Number:</label>
-                    <input type="text" name="contact-number" id="contact-number" value={contactNumber} onChange={onValueChange}/>
+                    <input type="text" name="contact-number" id="contact-number" value={contactNumber} onChange={onValueChange} required/>
                 </div>
 
                 {id === undefined ?

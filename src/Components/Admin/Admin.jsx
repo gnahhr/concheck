@@ -36,18 +36,28 @@ const Admin = () => {
           "password": password,
           "roleId": 1
         }
-    
-        const response = await createAdmin(data);
 
+        let toastMsg;
+
+        if (!password) toastMsg = "Password is required.";
+        if (!email) toastMsg = "Email is required.";
+
+        if (!password || !email) {
+          setToastMsg(toastMsg);
+          setToastType("warning");
+          setShowToast(true);
+          return;
+        }
+        
+        const response = await createAdmin(data);
+        toastMsg = response.data.response.message;
         if (response.data.statusCode === 200) {
           setToastType("success");
         } else {
           setToastType("warning");
         }
-
-        console.log(response);
-
-        setToastMsg(response.data.response.message);
+        
+        setToastMsg(toastMsg);
         setShowToast(true);
     }
 

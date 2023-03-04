@@ -79,10 +79,14 @@ main {
   position: relative;
 }
 
+main > h2 {
+  text-align: center;
+}
+
 .main-component {
   margin: 1.5rem auto 0;
   width: 90%;
-  height: 65vh;
+  max-height: 65vh;
   overflow-y: auto;
   align-self: flex-start;
   position: relative;
@@ -283,6 +287,10 @@ main {
   justify-content: flex-end;
 }
 
+.download-btn {
+  margin-top: 1rem;
+}
+
 .red-btn {
   color: #fff;
   background-color: rgb(199, 32, 32);
@@ -307,6 +315,10 @@ main {
     height: 3rem;
     width: 3rem;
   }
+}
+
+.exit:hover {
+  cursor: pointer;
 }
 
 .add-button:hover {

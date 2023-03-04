@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
-import { getAllDailyReport } from '../../Hooks/dailyReport';
+import { useState, useEffect } from 'react';
 
 import Toast from '../../Components/General/Toast';
 import DailyReport from '../../Components/DailyReport/DailyReport';
 import Calendar from 'react-calendar';
 import CalendarModal from '../../Components/Calendar/CalendarModal';
+
+import { getProjectById } from '../../Hooks/project';
 
 import './CalendarPage.css';
 
@@ -12,6 +13,8 @@ const CalendarPage = () => {
   const [ selectedDate, setSelectedDate ] = useState();
   const [ hasSelected, setHasSelected ] = useState(false);
   const [ showReportModal, setShowReportModal ] = useState(false);
+  const [ startDate, setStartDate ] = useState("");
+  const [ endDate, setEndDate ] = useState("");
   const projId = sessionStorage.getItem("selProjId");
 
   // Toast States
@@ -28,6 +31,19 @@ const CalendarPage = () => {
     setShowReportModal(!showReportModal);
   }
 
+  
+  const handleSetDates = async (e) => {
+    const response = await getProjectById(projId);
+    const data = response.data;
+    
+    setStartDate(new Date(data.startDate))
+    setEndDate(new Date(data.endDate))
+  }
+
+  useEffect(() => {
+    handleSetDates();
+  }, [])
+
   return (
     <>
     <main>
@@ -43,6 +59,8 @@ const CalendarPage = () => {
           : 
           <>
             <Calendar
+              minDate={startDate}
+              maxDate={endDate}
               onClickDay={(value) => clickDay(value)}
               />
             <div className="btn" onClick={e => toggleReportModal(e)}>

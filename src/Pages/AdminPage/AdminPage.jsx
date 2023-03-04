@@ -48,8 +48,6 @@ const AdminPage = () => {
                   <ListItem   name={admin.email}
                               key={admin.userId}
                               id={admin.userId}
-                              showToast={setShowToast}
-                              setToastData={setToastData}
                               type="admin" />
                   )
                 }

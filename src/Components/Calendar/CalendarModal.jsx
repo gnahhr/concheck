@@ -27,6 +27,14 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
 
     const handleEdit = async (e) => {
         e.preventDefault();
+        
+        if (!remarks || !weatherReport || !causeOfDelay || !hoursOfDelay) {
+            setToastData({
+              toastMsg: "Please input all fields.",
+              toastType: "warning"
+            })
+            showToast(true)
+        }
 
         const data = {
             remarks: remarks,
@@ -92,7 +100,6 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
   return (
     <>
         <h2 className="title">{formatYear(date[0])}</h2>
-        <div className="exit" onClick={e => handleExit(e)}>X</div>
         <form action="" method="post">
             <div className={`form-input`}>
                 <label htmlFor="remarks">Remarks:</label>
@@ -111,8 +118,12 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
                 <input type="number" name="hours-delay" id="hours-delay" value={hoursOfDelay} onChange={onValueChange}/>
             </div>
 
-            <div className="btn" onClick={(e) => handleEdit(e)}>
-                <span className="edit-btn">Edit</span>
+
+            <div className="btn-group">
+                <div className="btn" onClick={(e) => handleEdit(e)}>
+                    <span className="edit-btn">Edit</span>
+                </div>
+                <div className="btn red-btn" onClick={e => handleExit(e)}>Go Back</div>
             </div>
         </form>
     </>

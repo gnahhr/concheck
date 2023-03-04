@@ -85,6 +85,14 @@ const CrewDetails = ({engId, userId}) => {
 
 
   const handleEdit = async () => {
+
+    if(!firstName || !lastName || !address || !contactNumber || !password){
+      setToastType("warning");
+      setToastMsg("Please input all fields.");
+      setShowToast(true);
+      return;
+    }
+
     const data = createFormData();
     const response = await updateCrewDetails(id, data);
 
@@ -105,6 +113,14 @@ const CrewDetails = ({engId, userId}) => {
   }
 
   const handleSubmit = async () => {
+
+    if(!firstName || !lastName || !address || !email || !contactNumber || !password){
+      setToastType("warning");
+      setToastMsg("Please input all fields.");
+      setShowToast(true);
+      return;
+    }
+
     const data = {
         "firstName": firstName,
         "lastName": lastName,
