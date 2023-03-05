@@ -84,7 +84,7 @@ const Login = ({setUser}) => {
                       <FontAwesomeIcon icon={faFingerprint} className="form-icon"/>
                   </div>
                   <div className="right-field">
-                      <input type="password" name="password" id="password" value={password} onChange={e => handleOnChange(e)}/>
+                      <input type="password" name="password" id="password" className="reverse-btn" value={password} onChange={e => handleOnChange(e)}/>
                   </div>
               </div>
               <div className="buttons">
