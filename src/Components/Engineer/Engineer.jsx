@@ -64,10 +64,11 @@ const Engineer = ({userId, companyId}) => {
     document.getElementById("image-display").src = data.imageUrl;
   }
   
+
   const handleEdit = async (e) => {
     e.preventDefault();
 
-    if(!firstName || !lastName || !address || !email || !licenseNumber || !password){
+    if(!firstName || !lastName || !address || !licenseNumber || !password){
       setToastType("warning");
       setToastMsg("Please input all fields.");
       setShowToast(true);
