@@ -127,7 +127,7 @@ const Project = ({engId, profileId, editable = true}) => {
      setShowToast(true);
      return;
    }
-   setIsLoading(tre);
+   setIsLoading(true);
     const formData = createFormData();
     const response = await editProject(projId, formData);
     
