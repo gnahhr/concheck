@@ -110,6 +110,22 @@ main > h2 {
   background-color: var(--primary);
 }
 
+.exit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 1rem;
+  padding: 0.2rem 0;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+}
+
+.exit:hover {
+  color: #fff;
+  cursor: pointer;
+  background-color: var(--primary);
+}
+
 .title {
   text-align: center;
   background-color: var(--primary-d);
@@ -187,6 +203,7 @@ main > h2 {
   padding: 2rem;
   border-radius: 1rem;
   border: 5px solid rgb(0, 0, 0);
+  position: relative;
 }
 .modal-wrapper .modal-content input {
   margin: 1rem auto;
@@ -293,10 +310,6 @@ main > h2 {
   margin-right: 0.5rem;
   height: 3rem;
   width: 3rem;
-}
-
-.exit:hover {
-  cursor: pointer;
 }
 
 .add-button:hover {

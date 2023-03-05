@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, faClose, faProjectDiagram, faUser, faBuilding} from '@fortawesome/free-solid-svg-icons'
 
 import './NavBar.css';
 
 const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedEngineer}) => {
+  const nav = useNavigate();
 
   const closeNav = e => {
     const x = document.getElementsByClassName("close")[0];
@@ -13,6 +13,14 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedEngineer}
     
     if (!check) {
         setNavOpen(false);
+    }
+  }
+
+  const changeProject = e => {
+    nav('/');
+
+    if (!check) {
+      setNavOpen(false);
     }
   }
 
@@ -91,7 +99,11 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedEngineer}
         <div className="active-project">
             <h3>You're currently working on:</h3>
             <h2>{selectedProject}</h2>
-            <p>Click here to change project</p>
+            <NavLink to="/"
+                      onClick={e => closeNav(e)}
+                      className="change-project">
+                    <span>Click here to change project</span>
+            </NavLink>
         </div>
         }
         <ul>

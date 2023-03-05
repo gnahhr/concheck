@@ -1,6 +1,3 @@
-//TO-DO
-//Add Different User Restrictions
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +6,7 @@ import './Header.css';
 
 //Images
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faGear, faSignOut } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSignOut } from '@fortawesome/free-solid-svg-icons'
 import MobileLogo from '../../assets/images/concheck-logo-h.png';
 
 

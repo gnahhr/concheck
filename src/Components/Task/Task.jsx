@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import Toast from '../General/Toast';
 import { addTask, editTask, getTaskById } from '../../Hooks/task';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClose } from '@fortawesome/free-solid-svg-icons'
+
 
 const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) => {
   const [ taskName, setTaskName ] = useState("");
@@ -142,15 +145,14 @@ const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) =>
   return (
     <div className="modal-wrapper">
       <div className="modal-content">
+        <FontAwesomeIcon icon={faClose} className="icon icon-trim exit" onClick={e => handleToggleModal(e)}/>
         <div className="modal-header">
             <h2>
                 <span>
                     {taskId ? "Edit Task" : "Add Task"}
                 </span>
             </h2>
-            <div className="exit" onClick={e => handleToggleModal(e)}>
-                X
-            </div>
+            
         </div>
         <form method="post">
             <div className="form-input">  

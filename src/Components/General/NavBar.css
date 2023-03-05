@@ -43,6 +43,10 @@ nav ul li:hover a {
   color: var(--primary-d);
 }
 
+.change-project:hover {
+  color: #fff;
+}
+
 .mobile-open {
   display: grid;
 }

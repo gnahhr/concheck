@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getDailyReportByDate, editDailyReport } from '../../Hooks/dailyReport';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClose } from '@fortawesome/free-solid-svg-icons'
+
 const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => {
 
     const [remarks, setRemarks] = useState('');

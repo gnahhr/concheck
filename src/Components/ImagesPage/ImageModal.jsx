@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { uploadImage } from '../../Hooks/image';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+
 const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) => {
   const [ captionList, setCaptionList ] = useState();
 
@@ -65,7 +68,7 @@ const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) 
     <div className="modal-wrapper">
       <div className="modal-content">
         <h2 className="text-center">Upload Image</h2>
-        <div className="exit" onClick={e => handleExit(e)}>X</div>
+        <FontAwesomeIcon icon={faClose} className="icon icon-trim exit" onClick={e => handleExit(e)}/>
         <div className="main-component">
           <form method="post">
           {images.length > 0 &&
