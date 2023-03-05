@@ -37,6 +37,12 @@ const CrewLanding = ({userId}) => {
     if(response.statusCode !== 400){
       setTimeIn(data.timein);
       setTimeOut(() => (typeof data.timeout === "string") ? data.timeout : "N/A");
+    } else {
+      setToastData({
+        toastType: "warning",
+        toastMsg: data.message
+      })
+      setShowToast(true);
     }
   }
 
