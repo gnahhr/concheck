@@ -33,6 +33,7 @@ const ProjectsCrew = ({}) => {
   const handleGetAllCrew = async e => {
     const response = await getAllCrewByProject(selectedProject);
     setCrewList(response.response.data);
+    console.log(response);
   }
 
   useEffect(() => {

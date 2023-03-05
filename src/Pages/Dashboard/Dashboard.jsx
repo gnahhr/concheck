@@ -120,21 +120,23 @@ const Dashboard = ({}) => {
         <div className="main-component dashboard-main">
         <div className="gantt-chart">
           <h1>Gantt Chart</h1>
-          {!taskData ? 
-          <h3>No Task Yet.</h3>
-          :
-          <Chart
-          chartType="Gantt"
-          data={ganttData}
-          width="100%"
-          legendToggle
-          />
-        }
+          <div className="wrapper">
+            {!taskData ? 
+            <h3>No Task Yet.</h3>
+            :
+            <Chart
+            chartType="Gantt"
+            data={ganttData}
+            width="100%"
+            legendToggle
+            />}
+          </div>
         </div>
 
 
         <div className="tasks">
           <h1>Tasks</h1>
+          <div className="wrapper">
             {!taskData ?
             <h3>No Tasks yet. Add a task.</h3>
             :
@@ -159,22 +161,28 @@ const Dashboard = ({}) => {
               </tbody>
             </table>
             }
+            </div>
             <div className="btn" onClick={e => handleShowAddTask(e)}>Add Task</div>
         </div>
 
         <div className="pie-chart">
           <h1>Causes of Delay</h1>
-          {pieData.length === 0 ?
-          <h3>No Delay Data yet.</h3>
-          :
-          <Chart
-              chartType="PieChart"
-              data={pieData}
-              width={"100%"}
-              />
-          }
+          <div className="wrapper">
+            {pieData.length === 0 ?
+            <h3>No Delay Data yet.</h3>
+            :
+            <div className="chart-wrapper">
+              <Chart
+                  chartType="PieChart"
+                  data={pieData}
+                  width={"25rem"}
+                  />
+            </div>
+            }
+          </div>
         </div>
         </div>
+
         <div className="btn-group download-btn">
           <div className="btn" onClick={e => handleDownload(e)}>
             Download CSV

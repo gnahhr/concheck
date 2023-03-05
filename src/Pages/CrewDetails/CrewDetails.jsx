@@ -195,7 +195,7 @@ const CrewDetails = ({projId, userId}) => {
             {!checkId &&
             <div className="upload-img">
                     <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                    <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg" onChange={e => handleChangeImage(e)}/>
+                    <input type="file" name="project-image" id="project-image" accept="image/png, image/jpg, image/jpeg" onChange={e => handleChangeImage(e)}/>
             </div>
             }
 

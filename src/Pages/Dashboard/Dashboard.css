@@ -1,21 +1,24 @@
-@media (orientation = landscape) {
-  .dashboard-main {
-    height: max-content;
-    display: grid;
-    grid-template-areas: "header header" "gantt gantt" "pie tasks";
+@media (orientation: landscape) {
+  main:has(main + .dashboard-main) {
+    margin-top: 0;
   }
-  .dashboard-main h1 {
-    grid-area: header;
+  main:has(main + .dashboard-main) h1 {
+    margin-top: 0;
+  }
+  .dashboard-main {
+    height: auto;
+    display: grid;
+    grid-template-areas: "gantt gantt" "pie tasks";
   }
   .dashboard-main .gantt-chart {
     grid-area: gantt;
   }
   .dashboard-main .pie-chart {
     grid-area: pie;
-    max-width: fit-content;
+  }
+  .dashboard-main .pie-chart .chart-wrapper {
     margin: auto;
-    align-self: flex-start;
-    justify-self: flex-start;
+    width: 50%;
   }
   .dashboard-main .tasks {
     grid-area: tasks;
@@ -23,5 +26,10 @@
   .dashboard-main .tasks > table > tbody {
     overflow-y: scroll;
     height: auto;
+  }
+  .dashboard-main .wrapper {
+    min-height: 50%;
+    max-height: 55%;
+    overflow-y: auto;
   }
 }

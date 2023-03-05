@@ -77,6 +77,8 @@ main {
   background-color: #ffffff;
   align-self: flex-start;
   position: relative;
+  overflow-y: auto;
+  max-height: 85vh;
 }
 
 main > h2 {
@@ -87,7 +89,6 @@ main > h2 {
   margin: 1.5rem auto 0;
   width: 90%;
   min-height: 65vh;
-  overflow-y: auto;
   align-self: flex-start;
   position: relative;
 }
@@ -208,7 +209,7 @@ main > h2 {
   border-radius: 1rem;
   border: 5px solid rgb(0, 0, 0);
   position: relative;
-  width: 100%;
+  width: 90%;
 }
 .modal-wrapper .modal-content input {
   margin: 1rem auto;
@@ -405,6 +406,7 @@ main > h2 {
     justify-self: center;
   }
   .modal-wrapper .modal-content {
-    width: 70%;
+    width: 30%;
+    max-width: 60%;
   }
 }
