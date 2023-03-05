@@ -72,6 +72,7 @@ const Project = ({engId, profileId, editable = true}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    
     if(!startDate || !targetDate ||
        !projectEngineer || !siteEngineer || !safetyOfficer){
       setToastType("warning");
@@ -80,6 +81,26 @@ const Project = ({engId, profileId, editable = true}) => {
       return;
     }
 
+    if(new Date(startDate) < new Date()){
+      setToastType("warning");
+      setToastMsg("Start Date cannot start before current date.");
+      setShowToast(true);
+      return
+    }
+
+    if(new Date(startDate) > new Date(targetDate)){
+      setToastType("warning");
+      setToastMsg("End date cannot be happen before start date");
+      setShowToast(true);
+      return 
+    }
+
+    if(formatDate(new Date(startDate)) === formatDate(new Date(targetDate))){
+      setToastType("warning");
+      setToastMsg("start Date cannot be the same day as end Date");
+      setShowToast(true);
+      return
+    }
     setIsLoading(true);
     const formData = createFormData();
     const response = await createProject(engId, formData);
@@ -188,7 +209,7 @@ const Project = ({engId, profileId, editable = true}) => {
               {editable &&
               <div className="upload-img">
                   <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                  <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg" onChange={e => handleChangeImage(e)}/>
+                  <input type="file" name="project-image" id="project-image" accept="image/png, image/jpg, image/jpeg" onChange={e => handleChangeImage(e)}/>
               </div>}
               {!id &&
                 <div className="form-input">

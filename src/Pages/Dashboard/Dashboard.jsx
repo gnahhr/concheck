@@ -90,8 +90,9 @@ const Dashboard = ({}) => {
       } else {
         toastType = 'warning';
       }
-
-      const toastMsg = response.response.message;
+      
+      const toastMsg = response.data.message;
+      console.log(response)
       setToastData({
         toastType: toastType,
         toastMsg: toastMsg
