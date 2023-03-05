@@ -110,7 +110,7 @@ const Company = ({companyId}) => {
 
   const handleEditCompany = async (e) => {
     e.preventDefault();
-    if(!companyName || !address || !password || !email || !contactNumber){
+    if(!companyName || !address || !password || !contactNumber){
       setToastType("warning");
       setToastMsg("Please input all fields.");
       setShowToast(true);
