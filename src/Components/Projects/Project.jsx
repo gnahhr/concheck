@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Toast from '../General/Toast';
+import Loader from '../General/Loader';
 import { useParams, useNavigate } from 'react-router-dom';
 import { createProject, getProjectById, editProject } from '../../Hooks/project';
 
@@ -24,8 +25,11 @@ const Project = ({engId, profileId, editable = true}) => {
   const [ safetyOfficer, setSafetyOfficer ] = useState("");
   const [ projectCode, setProjectCode ] = useState("");
   const [ budget, setBudget ] = useState();
-  const [ status, setStatus ] = useState("");
+  const [ status, setStatus ] = useState("ongoing");
   const [ image, setImage ] = useState("");
+
+  // Loader state
+  const [ isLoading, setIsLoading ] = useState(false);
 
   // ID
   let projId;
@@ -36,9 +40,6 @@ const Project = ({engId, profileId, editable = true}) => {
   if (projId) id = projId;
   if (profileId) id = profileId;
   const checkId = id === null || id === undefined;
-
-  //Toggle
-  const [ isEdit, setIsEdit ] = useState(true);
 
   const nav = useNavigate();
 
@@ -100,7 +101,7 @@ const Project = ({engId, profileId, editable = true}) => {
       setShowToast(true);
       return
     }
-
+    setIsLoading(true);
     const formData = createFormData();
     const response = await createProject(engId, formData);
   
@@ -110,6 +111,7 @@ const Project = ({engId, profileId, editable = true}) => {
       setToastType("warning");
     }
 
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
     setTimeout(() => {nav('/')}, 1500);
@@ -118,14 +120,14 @@ const Project = ({engId, profileId, editable = true}) => {
   const handleEdit = async (e) => {
     e.preventDefault();
 
-    if(!projectName || !startDate || !targetDate ||
+    if(!projectName ||
       !projectEngineer || !siteEngineer || !safetyOfficer){
      setToastType("warning");
      setToastMsg("Please input all fields.");
      setShowToast(true);
      return;
    }
-
+   setIsLoading(tre);
     const formData = createFormData();
     const response = await editProject(projId, formData);
     
@@ -134,7 +136,7 @@ const Project = ({engId, profileId, editable = true}) => {
     } else {
       setToastType("warning");
     }
-
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
   }
@@ -159,6 +161,7 @@ const Project = ({engId, profileId, editable = true}) => {
   const getProject = async () => {
     const response = await getProjectById(id);
     const data = response.data;
+    
     setProjectName(data.projectName);
     setStartDate(formatDate(new Date(data.startDate)));
     setTargetDate(formatDate(new Date(data.endDate)));
@@ -184,6 +187,7 @@ const Project = ({engId, profileId, editable = true}) => {
   }, [])
 
   return (
+    <>
     <main>
       <h2>Project</h2>
       <div className="main-component">
@@ -215,11 +219,11 @@ const Project = ({engId, profileId, editable = true}) => {
               }
               <div className="form-input">
                   <label htmlFor="start-date">Start Date:</label>
-                  <input type="date" name="start-date" id="start-date" value={startDate}  onChange={onValueChange} disabled={!editable}/>
+                  <input type="date" name="start-date" id="start-date" value={startDate}  onChange={onValueChange} disabled={!checkId}/>
               </div>
               <div className="form-input">
                   <label htmlFor="targer-date">Target Date:</label>
-                  <input type="date" name="target-date" id="target-date" value={targetDate} onChange={onValueChange} disabled={!editable}/>
+                  <input type="date" name="target-date" id="target-date" value={targetDate} onChange={onValueChange} disabled={!checkId}/>
               </div>
               {/* Name of the logged in kineme */}
               <div className="form-input">
@@ -240,7 +244,18 @@ const Project = ({engId, profileId, editable = true}) => {
               </div>
               <div className="form-input">
                   <label htmlFor="project-status">Status:</label>
-                  <input type="text" name="project-status" id="project-status" value={status} onChange={onValueChange} disabled={!editable}/>
+                  {checkId ? 
+                  <input type="text" name="project-status" id="project-status" value={status} onChange={onValueChange} disabled={checkId}/>
+                  :
+                  <select
+                    name="project-status"
+                    value={status} 
+                    onChange={onValueChange}
+                  >
+                    <option value="ongoing">ongoing</option>
+                    <option value="completed">completed</option>
+                  </select>
+                  }
               </div>
               <div className="form-input">
                   <label htmlFor="project-budget">Budget:</label>
@@ -261,6 +276,8 @@ const Project = ({engId, profileId, editable = true}) => {
       </div>
       {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>
+    {isLoading && <Loader />}
+    </>
   )
 }
 

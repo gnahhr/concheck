@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import {createCompany, editCompany, getCompanyById} from '../../Hooks/company.js';
 import Toast from '../../Components/General/Toast';
+import Loader from '../General/Loader.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload} from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom';
@@ -26,6 +27,9 @@ const Company = ({companyId}) => {
   const [ toastMsg, setToastMsg ] = useState("");
   const [ toastType, setToastType ] = useState("");
 
+  // Loader state
+  const [ isLoading, setIsLoading ] = useState(false);
+
   //Form Functions  
   const setFunctions = {
     "company-name": setCompanyName,
@@ -46,6 +50,7 @@ const Company = ({companyId}) => {
 
   const createFormData = () => {
     const formData = new FormData();
+
     formData.append("companyName", companyName);
     formData.append("password", password);
     formData.append("address", address);
@@ -53,7 +58,7 @@ const Company = ({companyId}) => {
     formData.append("imageUrl", image);
     formData.append("email", email);
     formData.append("roleId", 2);
-    console.log(formData);
+
     return formData;
   }
 
@@ -73,6 +78,8 @@ const Company = ({companyId}) => {
       return;
     }
 
+    setIsLoading(true);
+
     const data = createFormData();
     const response = await createCompany(data);
 
@@ -82,6 +89,7 @@ const Company = ({companyId}) => {
       setToastType("warning");
     }
 
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
   }
@@ -102,13 +110,15 @@ const Company = ({companyId}) => {
 
   const handleEditCompany = async (e) => {
     e.preventDefault();
-    // console.log(editCompany);
     if(!companyName || !address || !password || !contactNumber){
       setToastType("warning");
       setToastMsg("Please input all fields.");
       setShowToast(true);
       return;
     }
+
+    setIsLoading(true);
+
     const data = createFormData();
     const response = await editCompany(userId, data);
 
@@ -119,6 +129,7 @@ const Company = ({companyId}) => {
       setToastType("warning");
     }
 
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
   }
@@ -130,6 +141,7 @@ const Company = ({companyId}) => {
   }, [])
 
   return (
+    <>
     <main>
         <h2>Company</h2>
         <div className="main-component">
@@ -144,7 +156,7 @@ const Company = ({companyId}) => {
             <h2>Project Details</h2>
             <div className="upload-img">
                     <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                    <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)} />
+                    <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg" onChange={e => handleChangeImage(e)} />
                 </div>
             {/* Fields */}
             <form action="#" method="post" className="project-details">
@@ -183,6 +195,8 @@ const Company = ({companyId}) => {
         </div>
         {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>
+    {isLoading && <Loader />}
+    </>
   )
 }
 

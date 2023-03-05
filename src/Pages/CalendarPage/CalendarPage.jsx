@@ -63,7 +63,7 @@ const CalendarPage = () => {
               maxDate={endDate}
               onClickDay={(value) => clickDay(value)}
               />
-            <div className="btn" onClick={e => toggleReportModal(e)}>
+            <div className="btn daily-report-btn" onClick={e => toggleReportModal(e)}>
               <span>Add Daily Report</span>
             </div>
           </>

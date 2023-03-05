@@ -64,7 +64,11 @@ a {
   height: 100vh;
   background-color: #fafafa;
   align-self: flex-start;
-  grid-template-rows: max-content 1fr max-content;
+  grid-template-rows: max-content auto max-content;
+}
+
+body {
+  position: relative;
 }
 
 main {
@@ -82,7 +86,7 @@ main > h2 {
 .main-component {
   margin: 1.5rem auto 0;
   width: 90%;
-  max-height: 65vh;
+  min-height: 65vh;
   overflow-y: auto;
   align-self: flex-start;
   position: relative;
@@ -204,11 +208,17 @@ main > h2 {
   border-radius: 1rem;
   border: 5px solid rgb(0, 0, 0);
   position: relative;
+  width: 100%;
 }
 .modal-wrapper .modal-content input {
   margin: 1rem auto;
   width: 100%;
   display: block;
+}
+.modal-wrapper .modal-content .upImg-modal {
+  height: 25rem;
+  width: 25rem;
+  object-fit: contain;
 }
 .modal-wrapper .modal-content .form-input {
   background-color: #fff;
@@ -239,6 +249,10 @@ main > h2 {
   border: none;
   margin-left: 0.5rem;
   flex-grow: 1;
+}
+.form-input select {
+  border: none;
+  font-size: 0.85rem;
 }
 
 .form-input.form-borderless {
@@ -283,7 +297,7 @@ main > h2 {
   justify-content: flex-end;
 }
 
-.download-btn {
+.download-btn, .daily-report-btn {
   margin-top: 1rem;
 }
 
@@ -389,5 +403,8 @@ main > h2 {
     overflow-y: auto;
     width: 100%;
     justify-self: center;
+  }
+  .modal-wrapper .modal-content {
+    width: 70%;
   }
 }

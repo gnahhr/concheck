@@ -20,7 +20,7 @@ const DailyReport = ({projId, closeModal, showToast, setToastData}) => {
     const handleAddDailyReport = async (e) => {
       e.preventDefault();
       
-      if (!remarks || !weatherReport || !causeOfDelay || hoursOfDelay) {
+      if (!remarks || !weatherReport || !causeOfDelay || !hoursOfDelay) {
         setToastData({
           toastMsg: "Please input all fields.",
           toastType: "warning"

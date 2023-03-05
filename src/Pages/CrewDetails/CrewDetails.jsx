@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import Toast from '../../Components/General/Toast.jsx';
+import Loader from '../../Components/General/Loader.jsx';
 
 import { createCrew, getCrewById, updateCrewDetails } from '../../Hooks/crew.js';
 
 // Design
+import Profile from '../../assets/placeholder/profile-blank.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
 
 import './CrewDetails.css';
 
-const CrewDetails = ({engId, userId}) => {
+const CrewDetails = ({projId, userId}) => {
   // Form Fields State
   const [ firstName, setFirstName ] = useState("");
   const [ lastName, setLastName ] = useState("");
@@ -21,7 +24,7 @@ const CrewDetails = ({engId, userId}) => {
   const [ rate, setRate ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
-  const [ image, setImage ] = useState("");
+  const [ image, setImage ] = useState(Profile);
   // ID
   let { id } = useParams();
   if (userId) id = userId;
@@ -31,6 +34,9 @@ const CrewDetails = ({engId, userId}) => {
   const [ showToast, setShowToast ] = useState(false);
   const [ toastMsg, setToastMsg ] = useState("");
   const [ toastType, setToastType ] = useState("");
+
+  // Loader state
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const nav = useNavigate();
 
@@ -67,7 +73,7 @@ const CrewDetails = ({engId, userId}) => {
     setAddress(data.address);
     setContactNumber(data.contactNumber);
 
-    document.getElementById("image-display").src = data.imageUrl;
+    if (data.imageUrl) document.getElementById("image-display").src = data.imageUrl;
   }
 
   const createFormData = () => {
@@ -92,6 +98,8 @@ const CrewDetails = ({engId, userId}) => {
       setShowToast(true);
       return;
     }
+    
+    setIsLoading(true);
 
     const data = createFormData();
     const response = await updateCrewDetails(id, data);
@@ -101,7 +109,8 @@ const CrewDetails = ({engId, userId}) => {
     } else {
       setToastType("warning");
     }
-    console.log(response);
+
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
   }
@@ -114,12 +123,14 @@ const CrewDetails = ({engId, userId}) => {
 
   const handleSubmit = async () => {
 
-    if(!firstName || !lastName || !address || !email || !contactNumber || !password){
+    if(!firstName || !lastName || !email || !password || !startShift || !endShift || !rate){
       setToastType("warning");
       setToastMsg("Please input all fields.");
       setShowToast(true);
       return;
     }
+
+    setIsLoading(true);
 
     const data = {
         "firstName": firstName,
@@ -132,7 +143,7 @@ const CrewDetails = ({engId, userId}) => {
         "roleId": 4
     };
 
-    const response = await createCrew(engId, data);
+    const response = await createCrew(projId, data);
 
     if(response.data.statusCode === 200){
       setToastType("success");
@@ -140,6 +151,7 @@ const CrewDetails = ({engId, userId}) => {
       setToastType("warning");
     }
 
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
     setTimeout(() => {nav('/crew')}, 1500);
@@ -153,6 +165,7 @@ const CrewDetails = ({engId, userId}) => {
 
 
   return (
+    <>
     <main className="main-component">
         {checkId && <h1 className="text-center">Create Crew Account</h1>}
         {!checkId &&
@@ -182,7 +195,7 @@ const CrewDetails = ({engId, userId}) => {
             {!checkId &&
             <div className="upload-img">
                     <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                    <input type="file" name="project-image" id="project-image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
+                    <input type="file" name="project-image" id="project-image" accept="image/png, image/jpeg" onChange={e => handleChangeImage(e)}/>
             </div>
             }
 
@@ -249,6 +262,8 @@ const CrewDetails = ({engId, userId}) => {
       {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
 
     </main>
+    {isLoading && <Loader />}
+    </>
   )
 }
 

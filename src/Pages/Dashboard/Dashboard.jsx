@@ -83,7 +83,21 @@ const Dashboard = ({}) => {
     const handleDownload = async (e) => {
       e.preventDefault();
       const response = await downloadCSV(projId);
-      console.log(response);
+      let toastType;
+
+      if (response.status === 200) {
+        toastType = 'success';
+      } else {
+        toastType = 'warning';
+      }
+      
+      const toastMsg = response.data.message;
+      console.log(response)
+      setToastData({
+        toastType: toastType,
+        toastMsg: toastMsg
+      });
+      setShowToast(true);
     }
 
     const handleShowAddTask = (e) => {

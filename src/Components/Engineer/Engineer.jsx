@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Toast from '../General/Toast.jsx';
+import Loader from '../General/Loader.jsx';
 import { createEngineer, editEngineer, getEngineerById } from '../../Hooks/engineer.js';
 
 // Design
@@ -26,6 +27,9 @@ const Engineer = ({userId, companyId}) => {
   let { id } = useParams();
   if (userId) id = userId;
   const checkId = id === undefined;
+
+  // Loader state
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const nav = useNavigate();
   
@@ -67,7 +71,7 @@ const Engineer = ({userId, companyId}) => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-
+    
     if(!firstName || !lastName || !address || !licenseNumber || !password){
       setToastType("warning");
       setToastMsg("Please input all fields.");
@@ -75,6 +79,8 @@ const Engineer = ({userId, companyId}) => {
       return;
     }
 
+    setIsLoading(true);
+    
     const formData = createFormData();
     const response = await editEngineer(id, formData);
     
@@ -84,6 +90,7 @@ const Engineer = ({userId, companyId}) => {
       setToastType("warning");
     }
 
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
     nav('/');
@@ -91,13 +98,15 @@ const Engineer = ({userId, companyId}) => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if(!firstName || !lastName || !address || !email || !licenseNumber || !password){
+    
+    if(!image || !firstName || !lastName || !address || !email || !licenseNumber || !password){
       setToastType("warning");
       setToastMsg("Please input all fields.");
       setShowToast(true);
       return;
     }
+    
+    setIsLoading(true);
 
     const formData = createFormData();
     const response = await createEngineer(companyId, formData);
@@ -107,7 +116,7 @@ const Engineer = ({userId, companyId}) => {
     } else {
       setToastType("warning");
     }
-
+    setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
     setTimeout(() => nav('/'), 1500);
@@ -133,6 +142,7 @@ const Engineer = ({userId, companyId}) => {
   }, [])
 
   return (
+    <>
     <main>
       <div className="main-component">
         <div className="component-header">
@@ -152,7 +162,7 @@ const Engineer = ({userId, companyId}) => {
         <form action="" method="post">
             <div className="upload-img">
                 <FontAwesomeIcon icon={faUpload} className="form-icon"/>
-                <input type="file" name="image" id="image" accept=".jpg .jpeg .png" onChange={e => handleChangeImage(e)}/>
+                <input type="file" name="image" id="image" accept="image/png, image/jpeg" onChange={e => handleChangeImage(e)}/>
             </div>
             <div className={`form-input`}>
                 <label htmlFor="first-name">First Name:</label>
@@ -191,9 +201,10 @@ const Engineer = ({userId, companyId}) => {
             </div>
         }
       </div>
-
         {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>
+    {isLoading && <Loader />}
+    </>
   )
 }
 
