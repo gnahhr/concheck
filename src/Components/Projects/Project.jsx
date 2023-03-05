@@ -81,7 +81,7 @@ const Project = ({engId, profileId, editable = true}) => {
       return;
     }
 
-    if(new Date(startDate) < new Date()){
+    if(formatDate(new Date(startDate)) <= formatDate(new Date())){
       setToastType("warning");
       setToastMsg("Start Date cannot start before current date.");
       setShowToast(true);
@@ -97,7 +97,7 @@ const Project = ({engId, profileId, editable = true}) => {
 
     if(formatDate(new Date(startDate)) === formatDate(new Date(targetDate))){
       setToastType("warning");
-      setToastMsg("start Date cannot be the same day as end Date");
+      setToastMsg("start Date cannot be the same day as end date");
       setShowToast(true);
       return
     }

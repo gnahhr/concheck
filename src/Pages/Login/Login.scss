@@ -2,7 +2,7 @@
     display: grid;
     grid-template-rows: 1fr 2fr;
     place-items: center;
-    margin: auto;
+    margin: 2rem;
 
     .logo {
         align-self: center;
@@ -113,7 +113,6 @@
             color: #fff;
             height: clamp(1rem, 2.5vw, 3rem);
             width: clamp(1rem, 2vw, 2rem);
-            // margin: .2rem;
           }
     }
 

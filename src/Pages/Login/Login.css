@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: 1fr 2fr;
   place-items: center;
-  margin: auto;
+  margin: 2rem;
 }
 .login-page .logo {
   align-self: center;
