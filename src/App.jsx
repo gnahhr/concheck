@@ -35,6 +35,11 @@ function App() {
     const data = parseToken(user);
     setRoleId(data.roleId);
     setUserId(data.id);
+    setSelectedProject({
+      id: sessionStorage.getItem("selProjId"),
+      name: sessionStorage.getItem("selProjName")
+    })
+    setSelectedEngineer({id: sessionStorage.getItem("selEngId")})
   };
 
   const handleLogout = () => {
@@ -52,7 +57,7 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem("token") || user) initIds();
-  }, [user, selectedProject]) 
+  }, [user]) 
 
   return (
     <div className="App">
@@ -90,7 +95,7 @@ function App() {
 
                 <Route path="project">
                   <Route index element={<Projects engId={selectedEngineer.id} editable={false}/>} />
-                  <Route path=":id" element={<Project editable={false}/>} />
+                <Route path=":id" element={<Project editable={false}/>} />
                 </Route>
 
                 <Route path="profile" element={<Company companyId={userId}/>} />
@@ -111,7 +116,7 @@ function App() {
               <>
               <Route path="crew">
                 <Route index element={<ProjectsCrew/>} />
-                <Route path="create-crew" element={<CrewDetails engId={userId}/>} />
+                <Route path="create-crew" element={<CrewDetails projId={selectedProject.id}/>} />
                 <Route path=":id" element={<CrewDetails />} />
               </Route>
 

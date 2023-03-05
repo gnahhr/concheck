@@ -42,6 +42,7 @@ const ImagesPage = ({projId}) => {
     const data = response.response.data;
     let imageFilter = {};
     let tempDates = [];
+
     if (data){
       data.map(image => {
         const imageDate = formatDate(new Date(image.date));
@@ -54,8 +55,10 @@ const ImagesPage = ({projId}) => {
       })
       setImageList(imageFilter);
       setDates(tempDates);
+    } else {
+      setImageList([]);
+      setDates([]);
     }
-
   };
 
   useEffect(() => {

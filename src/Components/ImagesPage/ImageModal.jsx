@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react'
 import { uploadImage } from '../../Hooks/image';
+import Loader from '../General/Loader';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) => {
   const [ captionList, setCaptionList ] = useState();
+
+  // Loader state
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const initializeCaptionList = () => {
     return Array.from(Array(images.length), (e, i) => ({
@@ -29,7 +34,7 @@ const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const data = createFormData();
     const response = await uploadImage(projId, data);
 
@@ -46,8 +51,11 @@ const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) 
       toastType: toastType,
     })
 
+    setIsLoading(false);
     setShowToast(true);
     setShowModal(false);
+    window.location.reload();
+
   };
 
   const handleExit = (e) => {
@@ -69,7 +77,7 @@ const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) 
       <div className="modal-content">
         <h2 className="text-center">Upload Image</h2>
         <FontAwesomeIcon icon={faClose} className="icon icon-trim exit" onClick={e => handleExit(e)}/>
-        <div className="main-component">
+        <div>
           <form method="post">
           {images.length > 0 &&
             Array.from(Array(images.length), (e, i) => {
@@ -88,6 +96,7 @@ const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) 
           <span>Submit</span>
         </div>
       </div>
+      {isLoading && <Loader />}
     </div>
   )
 }

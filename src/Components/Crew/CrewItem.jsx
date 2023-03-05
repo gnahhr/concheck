@@ -5,12 +5,14 @@ import { getCrewDTR, crewTimeIn, crewTimeOut } from '../../Hooks/crew';
 import { Link } from 'react-router-dom';
 import { deleteCrew } from '../../Hooks/crew';
 
+import Profile from '../../assets/placeholder/profile-blank.webp';
 import './CrewItem.css';
 
 const CrewItem = ({crew, setToastData, showToast}) => {
   const [ timeIn, setTimeIn ] = useState("N/A");
   const [ timeOut, setTimeOut ] = useState("N/A");
-  const {imageUrl, firstName, lastName, crewId} = crew;
+  const { firstName, lastName, crewId} = crew;
+  const [ imageUrl, setImageUrl ] = useState(!crew.ImageUrl ? crew.imageUrl : Profile);
 
   const handleGetTimeCrew = async () => {
     const response = await getCrewDTR(crewId);

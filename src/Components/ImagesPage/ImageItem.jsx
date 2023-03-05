@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { editCaption, deleteImage } from '../../Hooks/image';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+
+
 const ImageItem = ({image, setShowEdit, setShowToast, setToastData}) => {
   const [ caption, setCaption ] = useState(image.caption);
   const handleEdit = async (e) => {
@@ -58,10 +62,9 @@ const ImageItem = ({image, setShowEdit, setShowToast, setToastData}) => {
     <div className="modal-wrapper">
       
       <div className="modal-content">
-        <div className="exit" onClick={e => handleExit(e)}>
-          X
-        </div>  
-        <img src={image.imageUrl} alt={image._id} />
+        <h2>Edit Caption</h2>
+        <FontAwesomeIcon icon={faClose} className="icon icon-trim exit" onClick={e => handleExit(e)}/>
+        <img src={image.imageUrl} alt={image._id} className="upImg-modal" />
         <input type="text" name="caption" id="caption" value={caption} onChange={e => handleOnChange(e)} />
         <div className="btn-group">
           <div className="btn" onClick={e => handleEdit(e)}>

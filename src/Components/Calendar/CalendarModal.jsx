@@ -75,7 +75,7 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
         if (date.getMonth()+1 < 10) month = `0${date.getMonth()+1}`
         if (date.getDate() < 10) day = `0${date.getDate()}`
 
-        return `${date.getFullYear()}-${month}-${day}`
+        return `${month}-${day}-${date.getFullYear()}`
     }
 
     const handleExit = (e) => {
@@ -123,9 +123,11 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
 
 
             <div className="btn-group">
-                <div className="btn" onClick={(e) => handleEdit(e)}>
-                    <span className="edit-btn">Edit</span>
-                </div>
+                {dailyReportId &&
+                    <div className="btn" onClick={(e) => handleEdit(e)}>
+                        <span className="edit-btn">Edit</span>
+                    </div>
+                }
                 <div className="btn red-btn" onClick={e => handleExit(e)}>Go Back</div>
             </div>
         </form>
