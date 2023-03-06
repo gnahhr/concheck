@@ -81,7 +81,7 @@ const Project = ({engId, profileId, editable = true}) => {
       return;
     }
 
-    if(formatDate(new Date(startDate)) <= formatDate(new Date())){
+    if(formatDate(new Date(startDate)) < formatDate(new Date())){
       setToastType("warning");
       setToastMsg("Start Date cannot start before current date.");
       setShowToast(true);

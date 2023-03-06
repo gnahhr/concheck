@@ -34,13 +34,6 @@ const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) =>
       })
       showToast(true);
       return;
-    }else if (sDate < new Date() ){
-      setToastData({
-        toastType: "warning",
-        toastMsg: "Task Date cannot be less than startDate"
-      })
-      showToast(true);
-      return;
     }
 
     if (!taskName || taskName === "") {
@@ -67,6 +60,7 @@ const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) =>
       toastType = "warning";
     }
 
+    console.log(response)
     const toastMsg = response.response.message;
 
     setToastData({
