@@ -30,7 +30,7 @@ const Projects = ({setSelectedProject, engId, editable = true}) => {
   const fetchProject = async () => {
     const query = await getAllProjects(engId);
     const data = await query.response.data;
-    setProjectsList(data);
+    if (data) setProjectsList(data);
   };
 
   const [ filterProject, setFilterProject ] = useState("");

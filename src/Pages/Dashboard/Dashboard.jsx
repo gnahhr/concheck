@@ -91,7 +91,7 @@ const Dashboard = ({}) => {
         toastType = 'warning';
       }
       
-      const toastMsg = response.data.message;
+      let toastMsg = response.data.response.message;
       console.log(response)
       setToastData({
         toastType: toastType,
