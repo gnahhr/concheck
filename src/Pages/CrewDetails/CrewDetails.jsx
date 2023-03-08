@@ -24,10 +24,11 @@ const CrewDetails = ({projId, userId}) => {
   const [ rate, setRate ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
+  const [ conPassword, setConPassword ] = useState("");
   const [ image, setImage ] = useState(Profile);
   // ID
   let { id } = useParams();
-  if (userId) id = userId;
+  if ( userId ) id = userId;
   const checkId = id === undefined;
 
   //Toast
@@ -50,7 +51,8 @@ const CrewDetails = ({projId, userId}) => {
     "end-shift": setEndShift,
     "rate": setRate,
     "email": setEmail,
-    "password": setPassword
+    "password": setPassword,
+    "conPassword": setConPassword,
   }
 
   const onValueChange = event => {
@@ -163,6 +165,10 @@ const CrewDetails = ({projId, userId}) => {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('Start shift:', startShift);
+  }, [startShift])
+
 
   return (
     <>
@@ -207,12 +213,20 @@ const CrewDetails = ({projId, userId}) => {
                 <label htmlFor="last-name">Last Name:</label>
                 <input type="text" name="last-name" id="last-name" value={lastName} onChange={(e) => onValueChange(e)}/>
             </div>
+            <div className={`form-input`}>
+                <label htmlFor="email">Email:</label>
+                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)} disabled={checkId}/>
+            </div>
 
             {!checkId ?
             <>    
                 <div className={`form-input`}>
                     <label htmlFor="password">Password:</label>
                     <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)}/>
+                </div>
+                <div className={`form-input`}>
+                    <label htmlFor="conPassword">Confirm Password:</label>
+                    <input type="password" name="conPassword" id="conPassword" value={conPassword} onChange={(e) => onValueChange(e)}/>
                 </div>
                 <div className={`form-input`}>
                     <label htmlFor="address">Address:</label>
@@ -225,10 +239,6 @@ const CrewDetails = ({projId, userId}) => {
             </>
             :
             <>
-                <div className={`form-input`}>
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)}/>
-                </div>
                 <div className={`form-input`}>
                     <label htmlFor="password">Password:</label>
                     <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)}/>
