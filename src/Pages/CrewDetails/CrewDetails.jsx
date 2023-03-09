@@ -24,12 +24,18 @@ const CrewDetails = ({projId, userId}) => {
   const [ rate, setRate ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
-  const [ conPassword, setConPassword ] = useState("");
-  const [ image, setImage ] = useState(Profile);
+  const [ newPassword, setNewPassword ] = useState("");
+  const [ confirmPassword, setConfirmPassword ] = useState("");
+  const [ image, setImage ] = useState("");
+  
+  // Toggle Change Password
+  const [ changePassword, setChangePassword ] = useState(false);
+  
   // ID
   let { id } = useParams();
   if ( userId ) id = userId;
   const checkId = id === undefined;
+
 
   //Toast
   const [ showToast, setShowToast ] = useState(false);
@@ -52,7 +58,8 @@ const CrewDetails = ({projId, userId}) => {
     "rate": setRate,
     "email": setEmail,
     "password": setPassword,
-    "conPassword": setConPassword,
+    "new-password": setNewPassword,
+    "confirm-password": setConfirmPassword,
   }
 
   const onValueChange = event => {
@@ -69,13 +76,13 @@ const CrewDetails = ({projId, userId}) => {
     setRate(data.dailyRate);
     setEndShift(data.endShift);
     setStartShift(data.startShift);
-    setEmail(data.userId.email);
+    setEmail(data.email);
     setFirstName(data.firstName);
     setLastName(data.lastName);
     setAddress(data.address);
     setContactNumber(data.contactNumber);
 
-    if (data.imageUrl) document.getElementById("image-display").src = data.imageUrl;
+    if (data.imageUrl !== undefined) document.getElementById("image-display").src = data.imageUrl;
   }
 
   const createFormData = () => {
@@ -146,17 +153,37 @@ const CrewDetails = ({projId, userId}) => {
     };
 
     const response = await createCrew(projId, data);
-
+    
     if(response.data.statusCode === 200){
       setToastType("success");
     } else {
       setToastType("warning");
     }
-
+    
     setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
-    setTimeout(() => {nav('/crew')}, 1500);
+    if (response.data.statusCode !== 400) setTimeout(() => {nav('/crew')}, 1500);
+  }
+
+  const handleToggleChangePass = (e) => {
+    e.preventDefault();
+    setChangePassword(!changePassword);
+  }
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    
+    const data = {
+      oldPassword: password,
+      newPassword: newPassword,
+    }
+
+    if (newPassword !== confirmPassword) {
+      setToastType('warning');
+      setToastMsg("Passwords do not match.");
+      setShowToast(true);
+    }
   }
 
   useEffect(() => {
@@ -165,19 +192,17 @@ const CrewDetails = ({projId, userId}) => {
     }
   }, [])
 
-  useEffect(() => {
-    console.log('Start shift:', startShift);
-  }, [startShift])
-
 
   return (
     <>
-    <main className="main-component">
+    <main>
+        <h2>Crew</h2>
+        <div className="main-component">
         {checkId && <h1 className="text-center">Create Crew Account</h1>}
         {!checkId &&
         <div className="component-header">
             <div className="left-header">
-                <img src="" alt="image" className="image" id="image-display"/>
+                <img src={Profile} alt="image" className="image" id="image-display"/>
             </div>
 
                 <div className="right-header">
@@ -215,19 +240,11 @@ const CrewDetails = ({projId, userId}) => {
             </div>
             <div className={`form-input`}>
                 <label htmlFor="email">Email:</label>
-                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)}/>
+                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)} disabled={!checkId}/>
             </div>
 
             {!checkId ?
             <>    
-                <div className={`form-input`}>
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)}/>
-                </div>
-                <div className={`form-input`}>
-                    <label htmlFor="conPassword">Confirm Password:</label>
-                    <input type="password" name="conPassword" id="conPassword" value={conPassword} onChange={(e) => onValueChange(e)}/>
-                </div>
                 <div className={`form-input`}>
                     <label htmlFor="address">Address:</label>
                     <input type="text" name="address" id="address" value={address} onChange={(e) => onValueChange(e)}/>    
@@ -257,20 +274,40 @@ const CrewDetails = ({projId, userId}) => {
                 </div>
             </>
             }
+
+            {id === undefined ?
+                <div className="btn" onClick={(e) => handleSubmit(e)}>
+                  <span>Create Crew</span>
+                </div>
+                :
+                <div className="btn-group btn-group-vertical">
+                  <div className="btn" onClick={(e) => handleEdit(e)}>
+                      <span>Edit</span>
+                  </div>
+                  <div className="btn" onClick={e => handleToggleChangePass(e)}>
+                      <span>Change Password</span>
+                  </div>
+                </div>
+            }
+
+            {changePassword && <>
+              <div className="form-input">
+                  <label htmlFor="password">Old Password:</label>
+                  <input type="password" name="password" id="password" value={password} onChange={onValueChange} required/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="new-password">New Password:</label>
+                  <input type="password" name="new-password" id="new-password" value={newPassword} onChange={onValueChange} required/>
+              </div>
+              <div className="form-input">
+                  <label htmlFor="confirm-password">Confirm New Password:</label>
+                  <input type="password" name="confirm-password" id="confirm-password" value={confirmPassword} onChange={onValueChange} required/>
+              </div>
+              <div className="btn" onClick={e => handleChangePassword(e)}><span>Save Password</span></div>
+            </>}
         </form>
-
-        {id === undefined ?
-            <div className="btn" onClick={(e) => handleSubmit(e)}>
-              <span>Create Crew</span>
-            </div>
-            :
-            <div className="btn" onClick={(e) => handleEdit(e)}>
-                <span>Edit</span>
-            </div>
-        }
-
+        </div>
       {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
-
     </main>
     {isLoading && <Loader />}
     </>

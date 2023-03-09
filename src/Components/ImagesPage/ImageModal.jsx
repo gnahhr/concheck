@@ -74,7 +74,7 @@ const ImageModal = ({images, projId, setShowModal, setShowToast, setToastData}) 
 
   return (
     <div className="modal-wrapper">
-      <div className="modal-content">
+      <div className="modal-content images-modal-content">
         <h2 className="text-center">Upload Image</h2>
         <FontAwesomeIcon icon={faClose} className="icon icon-trim exit" onClick={e => handleExit(e)}/>
         <div>

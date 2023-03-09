@@ -12,6 +12,8 @@
   }
   .dashboard-main .gantt-chart {
     grid-area: gantt;
+    width: 80%;
+    overflow-y: auto;
   }
   .dashboard-main .pie-chart {
     grid-area: pie;

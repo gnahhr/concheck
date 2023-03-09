@@ -10,7 +10,7 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
     const [weatherReport, setWeatherReport] = useState('');
     const [causeOfDelay, setCauseOfDelay] = useState('');
     const [hoursOfDelay, setHoursOfDelay] = useState('');
-    const [dailyReportId, setDailyReportId] = useState('');
+    const [dailyReportId, setDailyReportId] = useState(null);
 
     const setFunctions = {
         "remarks": setRemarks,
@@ -106,19 +106,19 @@ const CalendarModal = ({date, hasSelected, projId, showToast, setToastData}) => 
         <form action="" method="post">
             <div className={`form-input`}>
                 <label htmlFor="remarks">Remarks:</label>
-                <input type="text" name="remarks" id="remarks" value={remarks} onChange={onValueChange}/>
+                <input type="text" name="remarks" id="remarks" value={remarks} onChange={onValueChange} disabled={!dailyReportId}/>
             </div>
             <div className={`form-input`}>
                 <label htmlFor="weather-report">Weather Report:</label>
-                <input type="text" name="weather-report" id="weather-report" value={weatherReport} onChange={onValueChange}/>
+                <input type="text" name="weather-report" id="weather-report" value={weatherReport} onChange={onValueChange} disabled={!dailyReportId}/>
             </div>
             <div className={`form-input`}>
                 <label htmlFor="cause-delay">Cause of Delay:</label>
-                <input type="text" name="cause-delay" id="cause-delay" value={causeOfDelay} onChange={onValueChange}/>
+                <input type="text" name="cause-delay" id="cause-delay" value={causeOfDelay} onChange={onValueChange} disabled={!dailyReportId}/>
             </div>
             <div className={`form-input`}>
                 <label htmlFor="hours-delay">Hours of Delay:</label>
-                <input type="number" name="hours-delay" id="hours-delay" value={hoursOfDelay} onChange={onValueChange}/>
+                <input type="number" name="hours-delay" id="hours-delay" value={hoursOfDelay} onChange={onValueChange} disabled={!dailyReportId}/>
             </div>
 
 

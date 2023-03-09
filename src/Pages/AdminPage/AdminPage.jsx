@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ListItem from '../../Components/General/ListItem.jsx';
+import Toast from '../../Components/General/Toast.jsx';
 
 import { getAllAdmin} from '../../Hooks/admin.js';
 
@@ -11,6 +12,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const AdminPage = () => {
   const [ adminList, setAdminList ] = useState([]);
+
+  const [ showToast, setShowToast ] = useState(false);
+  const [ toastData, setToastData ] = useState({});
 
   const nav = useNavigate();
 
@@ -48,12 +52,18 @@ const AdminPage = () => {
                   <ListItem   name={admin.email}
                               key={admin.userId}
                               id={admin.userId}
+                              showToast={setShowToast}
+                              setToastData={setToastData}
                               type="admin" />
                   )
                 }
             </div>
           </div>
         </div>
+        {showToast && <Toast message={toastData.toastMsg}
+                             toastType={toastData.toastType}
+                             showToast={setShowToast}
+                             toastState={showToast}/>}
     </main>
   )
 }
