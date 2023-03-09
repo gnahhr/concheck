@@ -182,7 +182,7 @@ const Engineer = ({userId, companyId}) => {
             </div>
             <div className={`form-input`}>
                 <label htmlFor="email">Email:</label>
-                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)} disabled={checkId}/>    
+                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)}/>    
             </div>
             <div className={`form-input`}>
                 <label htmlFor="password">Password:</label>
