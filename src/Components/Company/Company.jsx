@@ -172,11 +172,10 @@ const Company = ({companyId}) => {
                     <label htmlFor="password">Password:</label>
                     <input type="password" name="password" id="password" value={password} onChange={onValueChange} required/>
                 </div>
-                {!checkId &&
                 <div className="form-input">
                     <label htmlFor="email" className="email">E-mail:</label>
                     <input type="email" name="email" id="email" value={email} onChange={onValueChange} required/>
-                </div>}
+                </div>
                 <div className="form-input">
                     <label htmlFor="contact-number">Contact Number:</label>
                     <input type="text" name="contact-number" id="contact-number" value={contactNumber} onChange={onValueChange} required/>
