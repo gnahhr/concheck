@@ -34,7 +34,6 @@ const Admin = () => {
         const data = {
           "email": email,
           "password": password,
-          "roleId": 1
         }
 
         let toastMsg;
