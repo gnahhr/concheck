@@ -19,9 +19,7 @@ const EngineerList = ({companyId, setSelectedEngineer}) => {
   const handleGetAllEngineer = async () => {
     const response = await getAllEngineer(companyId);
     const data = response.response.data;
-    if (response.response.data) {
-      setEngineerList(data);
-    }
+    if (data) setEngineerList(data);
   }
 
   const createEngineer = (e) => {

@@ -6,11 +6,16 @@
 
     .logo {
         align-self: center;
+        
+        img {
+            width: clamp(5rem, 5vw, 50rem)
+        }
     }
 }
 
 .hero-text {
     text-align: center;
+    font-size: clamp(3rem, 5vw, 6rem);
 
     .form-sub > a {
         color: var(--primary);
@@ -20,6 +25,7 @@
 .field {
     display: grid;
     grid-template-columns: 1fr auto;
+    width: clamp(15rem, 20vw, 100%);
     place-items: center;
 
     border-bottom: 1px solid var(--primary-d);
@@ -44,11 +50,11 @@
     input[type="password"]{
       margin-left: .5rem;
       padding: .3rem;
+      width: 80%;
       border: none;
       border-left: var(--primary-d) 1px solid;
     }
     align-self: flex-end;
-    // border-left: var(--primary) 2px solid;
 }
 
 

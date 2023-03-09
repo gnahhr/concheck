@@ -43,7 +43,7 @@ label {
   font-weight: bold;
   border-radius: 5px;
   padding: 0.5rem 1rem;
-  width: 100%;
+  width: 80%;
 }
 .buttons input[type=submit]:hover {
   cursor: pointer;

@@ -32,7 +32,6 @@ const ImagesPage = ({projId}) => {
 
   const handleSelectImages = (e) => {
     e.preventDefault();
-    console.log(e.target.files);
     setImages(e.target.files);
     setShowModal(true);
   }
@@ -55,9 +54,6 @@ const ImagesPage = ({projId}) => {
       })
       setImageList(imageFilter);
       setDates(tempDates);
-    } else {
-      setImageList([]);
-      setDates([]);
     }
   };
 

@@ -180,11 +180,10 @@ const Engineer = ({userId, companyId}) => {
                 <label htmlFor="license-number">License Number:</label>
                 <input type="text" name="license-number" id="license-number" value={licenseNumber} onChange={(e) => onValueChange(e)}/>    
             </div>
-            {checkId &&
             <div className={`form-input`}>
                 <label htmlFor="email">Email:</label>
-                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)}/>    
-            </div> }
+                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)} disabled={checkId}/>    
+            </div>
             <div className={`form-input`}>
                 <label htmlFor="password">Password:</label>
                 <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)}/>    

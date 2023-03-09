@@ -19,14 +19,7 @@ const Projects = ({setSelectedProject, engId, editable = true}) => {
   const [ showToast, setShowToast ] = useState(false);
   const [ toastData, setToastData ] = useState(); 
 
-  useEffect(() => {
-    fetchProject();
-  }, []);
-
-  useEffect(() => {
-    fetchProject();
-  }, [showToast]);
-
+  
   const fetchProject = async () => {
     const query = await getAllProjects(engId);
     const data = await query.response.data;
@@ -35,16 +28,24 @@ const Projects = ({setSelectedProject, engId, editable = true}) => {
 
   const [ filterProject, setFilterProject ] = useState("");
   const nav = useNavigate();
-
+  
   const handleFilter = e => {
     e.preventDefault();
     setFilterProject(e.target.value);
   }
-
+  
   const createProject = (e) => {
     nav("/project/create-project")
   };
+  
+  useEffect(() => {
+    fetchProject();
+  }, []);
 
+  useEffect(() => {
+    fetchProject();
+  }, [showToast]);
+  
   return (
     <main>
         <h1 className="text-center">Projects</h1>

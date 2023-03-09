@@ -1,3 +1,4 @@
+// TODO: Convert to 12 Hours time format
 import { useState, useEffect } from 'react';
 
 import Toast from '../../Components/General/Toast';
@@ -46,6 +47,12 @@ const CrewLanding = ({userId}) => {
     }
   }
 
+  const formatTime = (time) => {
+    const splitTime = time.split(":");
+    const AMPM = splitTime[0] > 11 ? "PM" : "AM";
+    return `${splitTime[0] > 12 ? splitTime[0] - 12 : splitTime[0]} ${splitTime[1]} ${AMPM}`
+  }
+
   const handleTimeInOutCrew = async (e) => {
     e.preventDefault();
     let response;
@@ -90,11 +97,11 @@ const CrewLanding = ({userId}) => {
             <div className="date-wrapper">
                 <div className="time-in">
                     <h3>Time in</h3>
-                    <p>{timeIn}</p>
+                    <p>{formatTime(timeIn)}</p>
                 </div>
                 <div className="time-out">
                     <h3>Time out</h3>
-                    <p>{timeOut}</p>
+                    <p>{formatTime(timeOut)}</p>
                 </div>
             </div>
         </div>
