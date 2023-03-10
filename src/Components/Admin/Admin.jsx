@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { createAdmin, editAdmin, getAdminById } from '../../Hooks/admin';
 import Toast from '../General/Toast';
 
@@ -15,6 +15,9 @@ const Admin = () => {
     const [ showToast, setShowToast ] = useState(false);
     const [ toastMsg, setToastMsg ] = useState("");
     const [ toastType, setToastType ] = useState("");
+
+    // Nav
+    const nav = useNavigate();
 
     const setFunctions = {
         "email": setEmail,
@@ -58,6 +61,7 @@ const Admin = () => {
         
         setToastMsg(toastMsg);
         setShowToast(true);
+        if (response.data.statusCode !== 400) setTimeout(() => {nav('/')}, 1500);
     }
 
     const handleEditAdmin = async (e) => {
@@ -69,7 +73,7 @@ const Admin = () => {
         }
     
         const response = await editAdmin(id, data);
-        console.log(response);
+
         if (response.data.statusCode === 200) {
           setToastType("success");
         } else {
@@ -77,6 +81,7 @@ const Admin = () => {
         }
         setShowToast(true);
         setToastMsg(response.data.response.message);
+
     }
 
     const handleGetAdmin = async () => {

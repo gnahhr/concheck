@@ -1,7 +1,10 @@
-import React from 'react'
-import { deleteTask } from '../../Hooks/task';
+import { useState } from 'react';
+
+import DeleteModal from '../General/DeleteModal';
+
 
 const TaskItem = ({taskName, taskStart, taskEnd, taskId, setTaskId, showModal, showToast, setToastData}) => {
+  const [ showDelete, setShowDelete ] = useState(false);
 
   const formatDate = (date) => {
         const newDate = new Date(date);
@@ -9,22 +12,7 @@ const TaskItem = ({taskName, taskStart, taskEnd, taskId, setTaskId, showModal, s
   }
 
   const handleDelete = async () => {
-    const response = await deleteTask(taskId);
-
-    let toastType;
-    if (response.statusCode === 200) {
-      toastType = "success";
-    } else {
-      toastType = "warning";
-    }
-
-    const toastMsg = response.response.message;
-
-    setToastData({
-      toastType: toastType,
-      toastMsg: toastMsg,
-    })
-    showToast(true);
+    setShowDelete(!showDelete);
   };
 
   const handleEditButton = (e) => {
@@ -33,8 +21,9 @@ const TaskItem = ({taskName, taskStart, taskEnd, taskId, setTaskId, showModal, s
     showModal(true);
   }
 
-   return ( 
-    <tr>
+  return ( 
+     <>
+     <tr>
         <td>{taskName}</td>
         <td>{formatDate(taskStart)}</td>
         <td>{formatDate(taskEnd)}</td>
@@ -43,6 +32,13 @@ const TaskItem = ({taskName, taskStart, taskEnd, taskId, setTaskId, showModal, s
             <div className="btn" onClick={e => handleDelete(e)}>Delete</div>
         </td>
     </tr>
+
+    {showDelete && <DeleteModal type={"task"}
+                                id={taskId}
+                                setToastData={setToastData}
+                                showToast={showToast}
+                                showDelete={setShowDelete}/>}
+    </>
   )
 }
 

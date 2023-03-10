@@ -24,7 +24,7 @@ const ProjectsCrew = ({}) => {
     setFilterCrew(e.target.value);
   }
 
-  const tableHeaders = ["Image", "Name", "Time In", "Time Out", "Remarks", "Actions"];
+  const tableHeaders = ["Image", "Name", "Time In", "Time Out", "Actions"];
 
   const createCrew = e => {
     nav("/crew/create-crew");

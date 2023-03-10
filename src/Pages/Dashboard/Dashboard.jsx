@@ -10,10 +10,6 @@ import { getAllDailyReport } from '../../Hooks/dailyReport';
 import { downloadCSV } from '../../Hooks/project';
 import './Dashboard.css';
 
-function daysToMilliseconds(days) {
-    return days * 24 * 60 * 60 * 1000;
-}
-
 const Dashboard = ({}) => {
   const [ taskData, setTaskData ] = useState([]);
   const [ ganttData, setGanttData ] = useState([]);
@@ -51,7 +47,7 @@ const Dashboard = ({}) => {
         { type: "number", label: "Percent Complete" },
         { type: "string", label: "Dependencies" },
       ];
-  
+      
       setGanttData([columns, ...rows])
     }
 
@@ -92,7 +88,7 @@ const Dashboard = ({}) => {
       }
       
       let toastMsg = response.data.response.message;
-      console.log(response)
+
       setToastData({
         toastType: toastType,
         toastMsg: toastMsg
@@ -121,17 +117,23 @@ const Dashboard = ({}) => {
         <div className="main-component dashboard-main">
         <div className="gantt-chart">
           <h1>Gantt Chart</h1>
-          <div className="wrapper">
             {!taskData ? 
             <h3>No Task Yet.</h3>
             :
             <Chart
             chartType="Gantt"
             data={ganttData}
-            width="100%"
+            width="80"
+            height="100"
+            options={{
+              height: taskData.length * 45,
+              gantt: {
+                trackHeight: 30
+              }
+            }}
             legendToggle
-            />}
-          </div>
+            />
+            }
         </div>
 
 
@@ -163,7 +165,10 @@ const Dashboard = ({}) => {
             </table>
             }
             </div>
-            <div className="btn" onClick={e => handleShowAddTask(e)}>Add Task</div>
+            <div className="btn-group">
+              <div className="btn" onClick={e => handleShowAddTask(e)}>Add Task</div>
+              <div className="btn">Update Task</div>
+            </div>
         </div>
 
         <div className="pie-chart">

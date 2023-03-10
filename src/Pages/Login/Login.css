@@ -1,14 +1,14 @@
 .login-page {
   display: grid;
   grid-template-rows: 1fr 2fr;
+  height: 100dvh;
   place-items: center;
-  margin: 2rem;
 }
 .login-page .logo {
   align-self: center;
 }
 .login-page .logo img {
-  width: clamp(5rem, 5vw, 50rem);
+  width: clamp(9rem, 5vw, 50rem);
 }
 
 .hero-text {
@@ -24,6 +24,7 @@
   grid-template-columns: 1fr auto;
   width: clamp(15rem, 20vw, 100%);
   place-items: center;
+  margin: 1rem auto;
   border-bottom: 1px solid var(--primary-d);
 }
 
@@ -35,7 +36,7 @@
 }
 .left-field .form-icon {
   color: var(--primary);
-  width: 1.5rem;
+  width: 4rem;
   margin: auto 0.2rem;
 }
 
@@ -77,6 +78,9 @@
   }
   .login-page .form-wrapper .hero-text {
     color: #000;
+  }
+  .login-page .form-wrapper form {
+    margin: 0;
   }
   .login-page .form-wrapper form .upper-field {
     color: #000;

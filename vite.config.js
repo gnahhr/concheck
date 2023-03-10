@@ -11,7 +11,7 @@ export default defineConfig({
       manifest: {
         icons: [
           {
-            src:'./src/assets/icons/android/android-launchericon-512-512.png',
+            src:'./512.png',
             sizes: '512x512',
             type: 'image/png'
           }

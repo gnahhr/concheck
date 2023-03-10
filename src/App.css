@@ -36,7 +36,7 @@ label {
   text-align: center;
 }
 .buttons input[type=submit] {
-  margin-top: 1rem;
+  margin: 1rem auto;
   display: block;
   border: none;
   background-color: var(--primary);
@@ -72,7 +72,6 @@ body {
 }
 
 main {
-  margin-top: 0.5rem;
   width: 100vw;
   background-color: #ffffff;
   align-self: flex-start;
@@ -230,9 +229,13 @@ main > h2 {
   grid-template-rows: 2fr max-content;
 }
 .img-upload-caption img {
-  width: 15rem;
+  width: clamp(15rem, 20vw, 20rem);
   aspect-ratio: 1;
   object-fit: cover;
+}
+
+form {
+  margin: auto;
 }
 
 .form-input {
@@ -283,6 +286,7 @@ main > h2 {
   border-radius: 16px;
   display: block;
   text-align: center;
+  font-size: clamp(13px, 1.2vw, 1.2rem);
   margin: 0 auto;
   padding: 6px 12px;
 }
@@ -296,6 +300,14 @@ main > h2 {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+}
+
+.btn-group-vertical {
+  flex-direction: column;
+}
+.btn-group-vertical .btn {
+  flex-grow: 1;
+  margin: 0;
 }
 
 .download-btn, .daily-report-btn {
@@ -397,16 +409,33 @@ main > h2 {
   .main-component:has(.admin-list + .company-list) .admin-list .btn, .main-component:has(.admin-list + .company-list) .company-list .btn {
     align-self: flex-end;
   }
+  .main-component {
+    position: static;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
   main {
     margin: 0.5rem auto;
     background-color: #ffffff;
+    height: 100vh;
     align-self: flex-start;
     overflow-y: auto;
     width: 100%;
     justify-self: center;
+    position: relative;
+  }
+  .modal-wrapper {
+    background-color: rgba(89, 89, 89, 0.206);
   }
   .modal-wrapper .modal-content {
     width: 30%;
     max-width: 60%;
+  }
+  .modal-wrapper .images-modal-content {
+    max-width: 80%;
+    width: 50%;
+  }
+  .img-upload-caption img {
+    aspect-ratio: 10/7;
   }
 }

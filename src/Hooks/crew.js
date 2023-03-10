@@ -60,7 +60,7 @@ export async function crewTimeOut(id) {
 
 export async function deleteCrew(id) {
   const response = await axios.delete(`${import.meta.env.VITE_API}/api/project/delete-crew/${id}`)
-  .then((response) => response.data)
+  .then((response) => response)
   .catch((err) => console.error(err));
 
   return await response;

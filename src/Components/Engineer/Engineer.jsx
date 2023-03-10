@@ -16,12 +16,17 @@ const Engineer = ({userId, companyId}) => {
   const [ licenseNumber, setLicenseNumber ] = useState("");
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
+  const [ newPassword, setNewPassword ] = useState("");
+  const [ confirmPassword, setConfirmPassword ] = useState("");
   const [ image, setImage ] = useState("");
 
   //Toast
   const [ showToast, setShowToast ] = useState(false);
   const [ toastMsg, setToastMsg ] = useState("");
   const [ toastType, setToastType ] = useState("");
+
+    // Toggle Change Password
+    const [ changePassword, setChangePassword ] = useState(false);
   
   // ID
   let { id } = useParams();
@@ -40,6 +45,8 @@ const Engineer = ({userId, companyId}) => {
     "license-number": setLicenseNumber,
     "email": setEmail,
     "password": setPassword,
+    "new-password": setNewPassword,
+    "confirm-password": setConfirmPassword,
   }
 
   const onValueChange = event => {
@@ -72,7 +79,7 @@ const Engineer = ({userId, companyId}) => {
   const handleEdit = async (e) => {
     e.preventDefault();
     
-    if(!firstName || !lastName || !address || !licenseNumber || !password){
+    if(!firstName || !lastName || !address || !licenseNumber){
       setToastType("warning");
       setToastMsg("Please input all fields.");
       setShowToast(true);
@@ -119,7 +126,7 @@ const Engineer = ({userId, companyId}) => {
     setIsLoading(false);
     setToastMsg(response.data.response.message);
     setShowToast(true);
-    setTimeout(() => nav('/'), 1500);
+    if (response.data.statusCode !== 400) setTimeout(() => {nav('/')}, 1500);
   }
 
   const createFormData = () => {
@@ -135,6 +142,26 @@ const Engineer = ({userId, companyId}) => {
     formData.append("imageUrl", image);
 
     return formData;
+  }
+
+  const handleToggleChangePass = (e) => {
+    e.preventDefault();
+    setChangePassword(!changePassword);
+  }
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    
+    const data = {
+      oldPassword: password,
+      newPassword: newPassword,
+    }
+
+    if (newPassword !== confirmPassword) {
+      setToastType('warning');
+      setToastMsg("Passwords do not match.");
+      setShowToast(true);
+    }
   }
 
   useEffect(() => {
@@ -184,21 +211,44 @@ const Engineer = ({userId, companyId}) => {
                 <label htmlFor="email">Email:</label>
                 <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)}/>    
             </div>
-            <div className={`form-input`}>
-                <label htmlFor="password">Password:</label>
-                <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)}/>    
-            </div>
-        </form>
+
+            {checkId &&
+              <div className={`form-input`}>
+                  <label htmlFor="password">Password:</label>
+                  <input type="password" name="password" id="password" value={password} onChange={(e) => onValueChange(e)}/>    
+              </div>
+            }
 
         {id === undefined ?
             <div className="btn" onClick={(e) => handleSubmit(e)}>
               <span>Create Engineer</span>
             </div>
             :
+            <div className="btn-group btn-group-vertical">
             <div className="btn" onClick={(e) => handleEdit(e)}>
                 <span>Edit</span>
             </div>
-        }
+            <div className="btn" onClick={e => handleToggleChangePass(e)}>
+                <span>Change Password</span>
+            </div>
+          </div>}
+          {changePassword && <>
+            <div className="form-input">
+                <label htmlFor="password">Old Password:</label>
+                <input type="password" name="password" id="password" value={password} onChange={onValueChange} required/>
+            </div>
+            <div className="form-input">
+                <label htmlFor="new-password">New Password:</label>
+                <input type="password" name="new-password" id="new-password" value={newPassword} onChange={onValueChange} required/>
+            </div>
+            <div className="form-input">
+                <label htmlFor="confirm-password">Confirm New Password:</label>
+                <input type="password" name="confirm-password" id="confirm-password" value={confirmPassword} onChange={onValueChange} required/>
+            </div>
+            <div className="btn" onClick={e => handleChangePassword(e)}><span>Save Password</span></div>
+          </>
+          }
+        </form>
       </div>
         {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>

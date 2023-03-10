@@ -33,7 +33,7 @@ const ImagesPage = ({projId}) => {
   const handleSelectImages = (e) => {
     e.preventDefault();
     setImages(e.target.files);
-    setShowModal(true);
+    if (e.target.files.length > 0) setShowModal(true);
   }
 
   const handleGetImages = async () => {
@@ -71,27 +71,29 @@ const ImagesPage = ({projId}) => {
   
 
   return (
-    <main className="main-component">
+    <main>
       <h1 className="text-center">Images</h1>
-      <div className="images-wrapper">
-          <div className="action-img image-item">
-            <label htmlFor="project-image" className="action-img">
-              <FontAwesomeIcon icon={faUpload} className="uploadImgIcon"/>
-              <span>Upload Image</span>
-              </label>
-              <input type="file" name="project-image" id="project-image" accept="images/*" onChange={e => handleSelectImages(e)} multiple/>
-          </div>
-          {!imageList ?
-            <h2>No Images Uploaded yet.</h2>
-          :
-          dates.map((date) =>
-            <ImageFolder
-              items={imageList[date]}
-              date={date}
-              setSelectedImage={setSelectedImage}
-              setShowEdit={setShowEditModal}/>
-          )
-        }
+      <div className="main-component">
+        <div className="images-wrapper">
+            <div className="action-img image-item">
+              <label htmlFor="project-image" className="action-img">
+                <FontAwesomeIcon icon={faUpload} className="uploadImgIcon"/>
+                <span>Upload Image</span>
+                </label>
+                <input type="file" name="project-image" id="project-image" accept="images/*" onChange={e => handleSelectImages(e)} multiple/>
+            </div>
+            {!imageList ?
+              <h2>No Images Uploaded yet.</h2>
+            :
+            dates.map((date) =>
+              <ImageFolder
+                items={imageList[date]}
+                date={date}
+                setSelectedImage={setSelectedImage}
+                setShowEdit={setShowEditModal}/>
+            )
+          }
+        </div>
       </div>
       {showModal && <ImageModal images={images} projId={projId} setShowModal={setShowModal} setShowToast={setShowToast} setToastData={setToastData}/>}
       {showEditModal && <ImageItem image={selectedImage} setShowEdit={setShowEditModal} setShowToast={setShowToast} setToastData={setToastData}/>}

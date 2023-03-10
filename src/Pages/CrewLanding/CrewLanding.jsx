@@ -50,7 +50,8 @@ const CrewLanding = ({userId}) => {
   const formatTime = (time) => {
     const splitTime = time.split(":");
     const AMPM = splitTime[0] > 11 ? "PM" : "AM";
-    return `${splitTime[0] > 12 ? splitTime[0] - 12 : splitTime[0]} ${splitTime[1]} ${AMPM}`
+    if (time !== "N/A") return `${splitTime[0] > 12 ? splitTime[0] - 12 : splitTime[0]} : ${splitTime[1]} ${AMPM}`;
+    return "N/A";
   }
 
   const handleTimeInOutCrew = async (e) => {

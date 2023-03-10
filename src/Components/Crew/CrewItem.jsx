@@ -1,8 +1,10 @@
 // TODO: Clarify Time in Time Out kineme
 
 import { useState, useEffect } from 'react';
-import { getCrewDTR, crewTimeIn, crewTimeOut } from '../../Hooks/crew';
 import { Link } from 'react-router-dom';
+
+import DeleteModal from '../General/DeleteModal';
+import { getCrewDTR, crewTimeIn, crewTimeOut } from '../../Hooks/crew';
 import { deleteCrew } from '../../Hooks/crew';
 
 import Profile from '../../assets/placeholder/profile-blank.webp';
@@ -12,7 +14,8 @@ const CrewItem = ({crew, setToastData, showToast}) => {
   const [ timeIn, setTimeIn ] = useState("N/A");
   const [ timeOut, setTimeOut ] = useState("N/A");
   const { firstName, lastName, crewId} = crew;
-  const [ imageUrl, setImageUrl ] = useState(!crew.ImageUrl ? crew.imageUrl : Profile);
+  const [ showDelete, setShowDelete ] = useState(false);
+  const [ imageUrl, setImageUrl ] = useState(crew.ImageUrl ? crew.imageUrl : Profile);
 
   const handleGetTimeCrew = async () => {
     const response = await getCrewDTR(crewId);
@@ -51,34 +54,26 @@ const CrewItem = ({crew, setToastData, showToast}) => {
     handleGetTimeCrew();
   }
 
-  const handleDeleteCrew = async (e) => {
+  const toggleDelete = (e) => {
     e.preventDefault();
-    const response = await deleteCrew(crewId);
-    let toastType;
 
-    if (response.statusCode === 200) {
-      toastType = "success";
-    } else {
-      toastType = "warning";
-    } 
-
-    setToastData({
-      toastMsg: response.response.message,
-      toastType: toastType,
-    });
-    showToast(true);
-    handleGetTimeCrew();
+    setShowDelete(!showDelete)
   }
 
   const formatTime = (time) => {
     const splitTime = time.split(":");
     const AMPM = splitTime[0] > 11 ? "PM" : "AM";
-    return `${splitTime[0] > 12 ? splitTime[0] - 12 : splitTime[0]} ${splitTime[1]} ${AMPM}`
+    if (time !== "N/A") return `${splitTime[0] > 12 ? splitTime[0] - 12 : splitTime[0]} : ${splitTime[1]} ${AMPM}`;
+    return "N/A";
   }
 
   useEffect(() => {
     handleGetTimeCrew();
   }, [])
+
+  useEffect(() => {
+    handleGetTimeCrew();
+  }, [showDelete])
 
   
   return (
@@ -87,18 +82,22 @@ const CrewItem = ({crew, setToastData, showToast}) => {
             <img src={imageUrl} alt={`${firstName} ${lastName}`} className="image" />
         </td>
         <td>
-            <h3 className="crew-name">{`${firstName} ${lastName}`}</h3>
+            <h3 className="crew-name"><span className="desktop-only">{`${firstName}`}</span> <span>{`${lastName}`}</span></h3>
             <div className="btn" onClick={e => handleTimeInOutCrew(e)}>Time in/out</div>
         </td>
         <td><p>{formatTime(timeIn)}</p></td>
         <td><p>{formatTime(timeOut)}</p></td>
-        <td><p>Remarks</p></td>
         <td>
             <div className="right-item btn-group">
                 <Link to={`/crew/${crewId}`} className="btn">Edit</Link>
-                <div className="btn red-btn" onClick={e => handleDeleteCrew(e)}>Delete</div>
+                <div className="btn red-btn" onClick={e => toggleDelete(e)}>Delete</div>
             </div>
         </td>
+        {showDelete && <DeleteModal type={"crew"}
+                                id={crewId}
+                                setToastData={setToastData}
+                                showToast={showToast}
+                                showDelete={setShowDelete}/>}
     </>
   )
 }

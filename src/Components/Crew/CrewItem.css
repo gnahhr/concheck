@@ -33,8 +33,18 @@
   gap: 1rem;
 }
 
+.desktop-only {
+  display: none;
+}
+
 .crew-details > .form-input {
   display: grid;
   grid-template-columns: 1fr 2fr;
   align-items: flex-start;
+}
+
+@media (orientation: landscape) {
+  .desktop-only {
+    display: inline-block;
+  }
 }

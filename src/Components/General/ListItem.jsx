@@ -1,42 +1,18 @@
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteProject } from '../../Hooks/project.js';
-import { deleteCompany } from '../../Hooks/company.js';
-import { deleteAdmin } from '../../Hooks/admin.js';
-import { deleteEngineer } from '../../Hooks/engineer.js';
+
+import DeleteModal from './DeleteModal';
 import './ListItem.css';
 
 const ListItem = ({name, image, id, showToast, type, setToastData, setSelectedProject, setSelectedEngineer, editable = true}) => {
+  const [ showDelete, setShowDelete ] = useState(false);
+
   const nav = useNavigate();
-  const handleDelete = async (e) => {
+
+  const toggleDelete = (e) => {
     e.preventDefault();
 
-    let response;
-
-    if (type === "project") {
-      response = await deleteProject(id);
-    } else if (type === "company") {
-      response = await deleteCompany(id);
-    } else if (type === "engineer") {
-      response = await deleteEngineer(id);
-    } else if (type === "admin") {
-      response = await deleteAdmin(id);
-    }
-    
-    let toastType;
-
-    if (response.data.statusCode === 200) {
-      toastType = "success";
-    } else {
-      toastType = "warning";
-    } 
-
-    setToastData({
-      toastMsg: response.data.response.message,
-      toastType: toastType,
-    });
-
-    showToast(true);
+    setShowDelete(!showDelete)
   }
 
   const handleEdit = (e) => {
@@ -68,16 +44,23 @@ const ListItem = ({name, image, id, showToast, type, setToastData, setSelectedPr
   }
 
   return (
+    <>
     <div className="list-item" onClick={e => handleSelect(e)}>
         {image && <img src={image} alt={name} />}
         <h2>{name}</h2>
         {editable &&
         <div className="btn-group">
           <div className="btn" onClick={e => handleEdit(e)}>Edit</div>  
-          <div className="btn red-btn" onClick={e => handleDelete(e)}>Delete</div>  
+          <div className="btn red-btn" onClick={e => toggleDelete(e)}>Delete</div>  
         </div>
         }
     </div>
+    {showDelete && <DeleteModal type={type}
+                                id={id}
+                                setToastData={setToastData}
+                                showToast={showToast}
+                                showDelete={setShowDelete}/>}
+    </>
   )
 }
 
