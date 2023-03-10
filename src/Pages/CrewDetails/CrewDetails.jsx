@@ -101,7 +101,7 @@ const CrewDetails = ({projId, userId}) => {
 
   const handleEdit = async () => {
 
-    if(!firstName || !lastName || !address || !contactNumber || !password){
+    if(!firstName || !lastName || !address || !contactNumber){
       setToastType("warning");
       setToastMsg("Please input all fields.");
       setShowToast(true);
