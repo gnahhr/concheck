@@ -27,15 +27,6 @@ const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) =>
     const sDate = new Date(startDate);
     const eDate = new Date(endDate);
 
-    if (sDate > eDate) {
-      setToastData({
-        toastType: "warning",
-        toastMsg: "Start date should be earlier than end date."
-      })
-      showToast(true);
-      return;
-    }
-
     if (!taskName || taskName === "") {
       setToastData({
         toastType: "warning",
@@ -47,6 +38,7 @@ const Task = ({taskId, projId, showTask, setTaskId, showToast, setToastData}) =>
 
     const data = {
         "taskName": taskName,
+        "status": "ongoing",
         "startDate": startDate,
         "endDate": endDate,
     }
