@@ -3,7 +3,7 @@ const token = localStorage.getItem("token");
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 export async function getAllProjects(projectEngineer) {
-    const response = await axios.get(`${import.meta.env.VITE_API}/api/engineer/get-all-project/${projectEngineer}`)
+    const response = await axios.put(`${import.meta.env.VITE_API}/api/engineer/get-all-project/${projectEngineer}`)
     .then(response => response.data)
     .catch(err => console.error(err));
 
@@ -44,7 +44,7 @@ export async function deleteProject(projId) {
 }
 
 export async function downloadCSV(projId) {
-    const response = await axios.get(`${import.meta.env.VITE_API}/api/project/download-csv-by-project/${projId}`)
+    const response = await axios.get(`${import.meta.env.VITE_API}/api/crew/download-csv/${projId}`)
     .then(response => response)
     .catch(err => console.error(err));
 
