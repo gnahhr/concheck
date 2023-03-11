@@ -40,8 +40,8 @@ const DeleteModal = ({id, type, setToastData, showToast, showDelete}) => {
     } else {
       toastType = "warning";
     } 
-    
-    if (type === "crew") {
+
+    if (type === "crew" || type === "task") {
       toastMsg = response.data.response.message;
     } else {
       toastMsg = response.data.message;

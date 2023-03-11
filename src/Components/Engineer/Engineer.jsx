@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Toast from '../General/Toast.jsx';
 import Loader from '../General/Loader.jsx';
 import { createEngineer, editEngineer, getEngineerById } from '../../Hooks/engineer.js';
-
+import { updatePassword } from '../../Hooks/user.js';
 // Design
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faUpload } from '@fortawesome/free-solid-svg-icons';
@@ -25,8 +25,8 @@ const Engineer = ({userId, companyId}) => {
   const [ toastMsg, setToastMsg ] = useState("");
   const [ toastType, setToastType ] = useState("");
 
-    // Toggle Change Password
-    const [ changePassword, setChangePassword ] = useState(false);
+  // Toggle Change Password
+  const [ changePassword, setChangePassword ] = useState(false);
   
   // ID
   let { id } = useParams();
@@ -71,6 +71,7 @@ const Engineer = ({userId, companyId}) => {
     setAddress(data.address);
     setLicenseNumber(data.licenseNumber);
     setImage(data.imageUrl);
+    setEmail(data.email);
 
     document.getElementById("image-display").src = data.imageUrl;
   }
@@ -138,9 +139,10 @@ const Engineer = ({userId, companyId}) => {
     formData.append("licenseNumber", licenseNumber);
     formData.append("roleId", 3);
     formData.append("email", email);
-    formData.append("password", password);
     formData.append("imageUrl", image);
-
+    if (checkId) {
+      formData.append("password", password);
+    }
     return formData;
   }
 
@@ -153,13 +155,25 @@ const Engineer = ({userId, companyId}) => {
     e.preventDefault();
     
     const data = {
-      oldPassword: password,
+      password: password,
       newPassword: newPassword,
     }
 
     if (newPassword !== confirmPassword) {
       setToastType('warning');
       setToastMsg("Passwords do not match.");
+      setShowToast(true);
+    } else {
+      const response = await updatePassword(email, data);
+    
+      if (response.statusCode === 200) {
+        setToastType("success");
+        setChangePassword(false);
+      } else {
+        setToastType("warning");
+      }
+    
+      setToastMsg(response.response.message);
       setShowToast(true);
     }
   }
@@ -209,7 +223,7 @@ const Engineer = ({userId, companyId}) => {
             </div>
             <div className={`form-input`}>
                 <label htmlFor="email">Email:</label>
-                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)}/>    
+                <input type="email" name="email" id="email" value={email} onChange={(e) => onValueChange(e)} disabled={!checkId}/>    
             </div>
 
             {checkId &&

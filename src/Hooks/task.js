@@ -34,6 +34,14 @@ export async function editTask (id, data) {
     return await reponse;
 };
 
+export async function updateTask (id, data) {
+    const reponse = await axios.put(`${import.meta.env.VITE_API}/api/project/update-task/${id}`, data)
+    .then(response => response.data)
+    .catch(err => console.error(err));
+    
+    return await reponse;
+};
+
 export async function deleteTask(id) {
     const reponse = await axios.delete(`${import.meta.env.VITE_API}/api/project/delete-task/${id}`)
     .then(response => response)

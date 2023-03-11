@@ -9,6 +9,8 @@
     height: auto;
     display: grid;
     grid-template-areas: "gantt gantt" "pie tasks";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
   }
   .dashboard-main .gantt-chart {
     grid-area: gantt;

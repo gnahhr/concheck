@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CrewItem from '../../Components/Crew/CrewItem';
 import Toast from '../../Components/General/Toast';
 
-import { getAllCrewByProject } from '../../Hooks/crew';
+import { getAllCrewByProject, downloadCrewDTR } from '../../Hooks/crew';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faPlus } from '@fortawesome/free-solid-svg-icons';

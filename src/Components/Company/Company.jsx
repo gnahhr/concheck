@@ -1,10 +1,14 @@
 import React, { useState, useEffect} from 'react';
-import {createCompany, editCompany, getCompanyById} from '../../Hooks/company.js';
+import { useParams } from 'react-router-dom';
+import { createCompany, editCompany, getCompanyById} from '../../Hooks/company.js';
+import { updatePassword } from '../../Hooks/user.js';
+//Components
 import Toast from '../../Components/General/Toast';
 import Loader from '../General/Loader.jsx';
+
+//Icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload} from '@fortawesome/free-solid-svg-icons'
-import { useParams } from 'react-router-dom';
 
 const Company = ({companyId}) => {
   //Form Data 
@@ -59,12 +63,15 @@ const Company = ({companyId}) => {
     const formData = new FormData();
 
     formData.append("companyName", companyName);
-    formData.append("password", password);
     formData.append("address", address);
     formData.append("contactNumber", contactNumber);
     formData.append("imageUrl", image);
     formData.append("email", email);
     formData.append("roleId", 2);
+    
+    if (checkId) {
+      formData.append("password", password);
+    }
 
     return formData;
   }
@@ -127,13 +134,25 @@ const Company = ({companyId}) => {
     e.preventDefault();
     
     const data = {
-      oldPassword: password,
+      password: password,
       newPassword: newPassword,
     }
 
     if (newPassword !== confirmPassword) {
       setToastType('warning');
       setToastMsg("Passwords do not match.");
+      setShowToast(true);
+    } else {
+      const response = await updatePassword(email, data);
+    
+      if (response.statusCode === 200) {
+        setToastType("success");
+        setChangePassword(false);
+      } else {
+        setToastType("warning");
+      }
+    
+      setToastMsg(response.response.message);
       setShowToast(true);
     }
   }

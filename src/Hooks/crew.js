@@ -42,6 +42,14 @@ export async function getCrewDTR(id) {
   return await response;
 }
 
+export async function downloadCrewDTR(id) {
+  const response = await axios.get(`${import.meta.env.VITE_API}/api/crew/download-dtr/${id}`)
+  .then((response) => response.data)
+  .catch((err) => console.error(err));
+
+  return await response;
+}
+
 export async function crewTimeIn(id) {
   const response = await axios.post(`${import.meta.env.VITE_API}/api/crew/crew-timein/${id}`)
   .then((response) => response.data)

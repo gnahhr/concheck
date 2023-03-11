@@ -14,6 +14,9 @@
             "gantt gantt"
             "pie tasks";
 
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+
         .gantt-chart {
             grid-area: gantt;
             width: 80%;

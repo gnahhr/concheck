@@ -43,8 +43,16 @@ export async function deleteProject(projId) {
    return await response;
 }
 
-export async function downloadCSV(projId) {
-    const response = await axios.get(`${import.meta.env.VITE_API}/api/crew/download-csv/${projId}`)
+export async function downloadWeekly(projId) {
+    const response = await axios.get(`${import.meta.env.VITE_API}/api/project/download-weekly-report/${projId}`)
+    .then(response => response)
+    .catch(err => console.error(err));
+
+    return await response;
+}
+
+export async function downloadSummary(projId) {
+    const response = await axios.get(`${import.meta.env.VITE_API}/api/project/download-project-summary/${projId}`)
     .then(response => response)
     .catch(err => console.error(err));
 

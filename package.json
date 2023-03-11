@@ -18,6 +18,7 @@
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
+    "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-google-charts": "^4.0.0",
     "react-hook-screen-orientation": "^1.0.4",

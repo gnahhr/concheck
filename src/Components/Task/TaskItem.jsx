@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import DeleteModal from '../General/DeleteModal';
 
-
 const TaskItem = ({taskName, taskStart, taskEnd, taskId, setTaskId, showModal, showToast, setToastData}) => {
   const [ showDelete, setShowDelete ] = useState(false);
+  const [ showUpdate, setShowUpdate ] = useState(false);
 
   const formatDate = (date) => {
         const newDate = new Date(date);
@@ -28,11 +28,10 @@ const TaskItem = ({taskName, taskStart, taskEnd, taskId, setTaskId, showModal, s
         <td>{formatDate(taskStart)}</td>
         <td>{formatDate(taskEnd)}</td>
         <td className="btn-group">
-            <div className="btn" onClick={e => handleEditButton(e)}>Edit</div>
-            <div className="btn" onClick={e => handleDelete(e)}>Delete</div>
+            <div className="btn green-btn" onClick={e => handleEditButton(e)}>Update</div>
+            <div className="btn red-btn" onClick={e => handleDelete(e)}>Delete</div>
         </td>
     </tr>
-
     {showDelete && <DeleteModal type={"task"}
                                 id={taskId}
                                 setToastData={setToastData}

@@ -259,6 +259,15 @@ form {
   font-size: 0.85rem;
 }
 
+.form-input:has(#percentageText, #percentageSlider) .percentage-wrapper {
+  display: grid;
+  flex-grow: 1;
+  grid-template-columns: 1fr auto;
+}
+.form-input:has(#percentageText, #percentageSlider) .percentage-wrapper input[type=number] {
+  width: 3rem;
+}
+
 .form-input.form-borderless {
   border: none;
   margin: calc(0.5rem + 3px) auto;
@@ -319,8 +328,17 @@ form {
   background-color: rgb(199, 32, 32);
 }
 
+.green-btn {
+  color: #fff;
+  background-color: rgb(26, 155, 73);
+}
+
 .red-btn:hover {
-  background-color: rgb(236, 41, 41);
+  background-color: rgb(194, 32, 32);
+}
+
+.green-btn:hover {
+  background-color: rgb(25, 142, 68);
 }
 
 .add-button {

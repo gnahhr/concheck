@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { CSVDownload } from 'react-csv';
 
 import Toast from '../../Components/General/Toast.jsx';
 import Loader from '../../Components/General/Loader.jsx';
 
-import { createCrew, getCrewById, updateCrewDetails } from '../../Hooks/crew.js';
+import { createCrew, getCrewById, updateCrewDetails, downloadCrewDTR } from '../../Hooks/crew.js';
+import { updatePassword } from '../../Hooks/user.js';
 
 // Design
 import Profile from '../../assets/placeholder/profile-blank.webp';
@@ -27,6 +29,7 @@ const CrewDetails = ({projId, userId}) => {
   const [ newPassword, setNewPassword ] = useState("");
   const [ confirmPassword, setConfirmPassword ] = useState("");
   const [ image, setImage ] = useState("");
+  const [ downloadData, setDownloadData ] = useState();
   
   // Toggle Change Password
   const [ changePassword, setChangePassword ] = useState(false);
@@ -92,8 +95,12 @@ const CrewDetails = ({projId, userId}) => {
     formData.append("lastName", lastName);
     formData.append("address", address);
     formData.append("contactNumber", contactNumber);
-    formData.append("imageUrl", image);
-    formData.append("password", password);
+    
+    if (checkId) {
+      formData.append("password", password);
+    } else {
+      formData.append("imageUrl", image);
+    }
 
     return formData;
   }
@@ -175,7 +182,7 @@ const CrewDetails = ({projId, userId}) => {
     e.preventDefault();
     
     const data = {
-      oldPassword: password,
+      password: password,
       newPassword: newPassword,
     }
 
@@ -183,7 +190,33 @@ const CrewDetails = ({projId, userId}) => {
       setToastType('warning');
       setToastMsg("Passwords do not match.");
       setShowToast(true);
+    } else {
+      const response = await updatePassword(email, data);
+      console.log(response);
+      if (response.statusCode === 200) {
+        setToastType("success");
+        setChangePassword(false);
+      } else {
+        setToastType("warning");
+      }
+    
+      setToastMsg(response.response.message);
+      setShowToast(true);
     }
+  }
+
+  const handleDownload = async (e) => {
+    e.preventDefault();
+
+    const response = await downloadCrewDTR(id);
+
+    if (response.status !== 200) {
+      setToastType("warning");
+      setToastMsg("Failed to fetch download.");
+      setShowToast(true);
+    }
+    
+    setDownloadData(response.data);
   }
 
   useEffect(() => {
@@ -191,6 +224,10 @@ const CrewDetails = ({projId, userId}) => {
       handleGetCrewById();
     }
   }, [])
+
+  useEffect(() => {
+    if (downloadData) setTimeout(() => {setDownloadData()}, 2000);
+  }, [downloadData])
 
 
   return (
@@ -306,7 +343,9 @@ const CrewDetails = ({projId, userId}) => {
               <div className="btn" onClick={e => handleChangePassword(e)}><span>Save Password</span></div>
             </>}
         </form>
+        <div className="btn green-btn download-btn" onClick={e => handleDownload(e)}>Download DTR</div>
         </div>
+      {downloadData && <CSVDownload data={downloadData} target="_blank"/>}
       {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>
     {isLoading && <Loader />}
