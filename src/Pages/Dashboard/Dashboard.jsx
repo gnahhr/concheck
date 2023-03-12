@@ -35,6 +35,7 @@ const Dashboard = ({}) => {
       let rows = tasks.map(task => [
         task._id,
         task.taskName,
+        task.remarks,
         new Date(task.startDate),
         new Date(task.endDate),
         null,
@@ -45,6 +46,7 @@ const Dashboard = ({}) => {
       const columns = [
         { type: "string", label: "Task ID" },
         { type: "string", label: "Task Name" },
+        { type: "string", label: "Status" },
         { type: "date", label: "Start Date" },
         { type: "date", label: "End Date" },
         { type: "number", label: "Duration" },
