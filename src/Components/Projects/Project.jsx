@@ -186,7 +186,6 @@ const Project = ({engId, profileId, editable = true}) => {
     if (!checkId) {
       getProject();
     }
-    console.log("iC", checkId);
   }, [])
 
   return (

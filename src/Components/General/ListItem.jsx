@@ -6,7 +6,6 @@ import './ListItem.css';
 
 const ListItem = ({name, image, id, showToast, type, setToastData, projStatus, setSelectedProject, setSelectedEngineer, editable = true}) => {
   const [ showDelete, setShowDelete ] = useState(false);
-  console.log("Project Status: ", projStatus);
   const nav = useNavigate();
 
   const toggleDelete = (e) => {
@@ -49,7 +48,6 @@ const ListItem = ({name, image, id, showToast, type, setToastData, projStatus, s
         {image && <img src={image} alt={name} />}
         <div className="label">
           <h2>{name}</h2>
-          <span>Status:</span>
           {projStatus && <h2 className={projStatus}>{projStatus}</h2>}
         </div>
         {editable &&
