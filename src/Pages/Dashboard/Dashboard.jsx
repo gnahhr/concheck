@@ -144,7 +144,6 @@ const Dashboard = ({}) => {
                 trackHeight: 30
               }
             }}
-            onClick={e => console.log(e)}
             />
             }
         </div>
