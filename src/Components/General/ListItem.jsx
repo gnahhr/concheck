@@ -6,7 +6,7 @@ import './ListItem.css';
 
 const ListItem = ({name, image, id, showToast, type, setToastData, projStatus, setSelectedProject, setSelectedEngineer, editable = true}) => {
   const [ showDelete, setShowDelete ] = useState(false);
-
+  console.log("Project Status: ", projStatus);
   const nav = useNavigate();
 
   const toggleDelete = (e) => {
