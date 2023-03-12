@@ -210,13 +210,13 @@ const CrewDetails = ({projId, userId}) => {
 
     const response = await downloadCrewDTR(id);
 
-    if (response.status !== 200) {
+    if (!response) {
       setToastType("warning");
       setToastMsg("Failed to fetch download.");
       setShowToast(true);
     }
     
-    setDownloadData(response.data);
+    setDownloadData(response);
   }
 
   useEffect(() => {
@@ -343,7 +343,7 @@ const CrewDetails = ({projId, userId}) => {
               <div className="btn" onClick={e => handleChangePassword(e)}><span>Save Password</span></div>
             </>}
         </form>
-        <div className="btn green-btn download-btn" onClick={e => handleDownload(e)}>Download DTR</div>
+        {!checkId && <div className="btn green-btn download-btn" onClick={e => handleDownload(e)}>Download DTR</div>}
         </div>
       {downloadData && <CSVDownload data={downloadData} target="_blank"/>}
       {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}

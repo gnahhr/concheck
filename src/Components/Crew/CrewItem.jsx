@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 import DeleteModal from '../General/DeleteModal';
 import { getCrewDTR, crewTimeIn, crewTimeOut } from '../../Hooks/crew';
-import { deleteCrew } from '../../Hooks/crew';
 
 import Profile from '../../assets/placeholder/profile-blank.webp';
 import './CrewItem.css';
@@ -19,7 +18,7 @@ const CrewItem = ({crew, setToastData, showToast}) => {
 
   const handleGetTimeCrew = async () => {
     const response = await getCrewDTR(crewId);
-    const data = response.response.data;
+    const data = response.data.response.data;
     
     if(response.statusCode !== 400){
       setTimeIn(data.timein);
@@ -33,7 +32,7 @@ const CrewItem = ({crew, setToastData, showToast}) => {
 
     if (timeIn === "N/A") {
         response = await crewTimeIn(crewId);
-    } else if (timeOut === "N/A") {
+    } else {
         response = await crewTimeOut(crewId);
     }
 

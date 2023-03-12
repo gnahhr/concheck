@@ -36,7 +36,7 @@ export async function updateCrewDetails(id, data) {
 
 export async function getCrewDTR(id) {
   const response = await axios.get(`${import.meta.env.VITE_API}/api/crew/get-dtr-by-id/${id}`)
-  .then((response) => response.data)
+  .then((response) => response)
   .catch((err) => console.error(err));
 
   return await response;

@@ -43,7 +43,7 @@ const Login = ({setUser}) => {
       })
       setShowToast(true);
     }
-    let toastType, toastMsg;
+    let toastType;
     const response = await forgotPasswordReq(email);
 
     if (response.statusCode === 200) {
