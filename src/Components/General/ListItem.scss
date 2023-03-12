@@ -7,6 +7,18 @@
     place-items: center;
     text-align: center;
 
+    .label {
+        align-self: center;
+        justify-self: flex-start;
+
+        .completed {
+            color: rgb(24, 105, 24);
+        }
+        .delayed {
+            color: rgb(148, 26, 26);
+        }
+    }
+
     p {
         grid-column: 2/auto;
     }

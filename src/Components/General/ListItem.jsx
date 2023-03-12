@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteModal from './DeleteModal';
 import './ListItem.css';
 
-const ListItem = ({name, image, id, showToast, type, setToastData, setSelectedProject, setSelectedEngineer, editable = true}) => {
+const ListItem = ({name, image, id, showToast, type, setToastData, projStatus, setSelectedProject, setSelectedEngineer, editable = true}) => {
   const [ showDelete, setShowDelete ] = useState(false);
 
   const nav = useNavigate();
@@ -47,10 +47,13 @@ const ListItem = ({name, image, id, showToast, type, setToastData, setSelectedPr
     <>
     <div className="list-item" onClick={e => handleSelect(e)}>
         {image && <img src={image} alt={name} />}
-        <h2>{name}</h2>
+        <div className="label">
+          <h2>{name}</h2>
+          {projStatus && <h2 className={projStatus}>{projStatus}</h2>}
+        </div>
         {editable &&
         <div className="btn-group">
-          <div className="btn" onClick={e => handleEdit(e)}>Edit</div>  
+          <div className="btn" onClick={e => handleEdit(e)}>{projStatus === "completed" ? "View" : "Edit"}</div>  
           <div className="btn red-btn" onClick={e => toggleDelete(e)}>Delete</div>  
         </div>
         }

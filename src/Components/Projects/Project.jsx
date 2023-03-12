@@ -30,6 +30,7 @@ const Project = ({engId, profileId, editable = true}) => {
 
   // Loader state
   const [ isLoading, setIsLoading ] = useState(false);
+  const [ isCompleted, setIsCompleted ] = useState(false);
 
   // ID
   let projId;
@@ -173,6 +174,7 @@ const Project = ({engId, profileId, editable = true}) => {
     setBudget(data.budget);
     setStatus(data.status);
 
+    if (data.status === "completed") setIsCompleted(true)
     document.getElementById("image-display").src = data.imageUrl;
   }
 
@@ -184,7 +186,7 @@ const Project = ({engId, profileId, editable = true}) => {
     if (!checkId) {
       getProject();
     }
-
+    console.log("iC", checkId);
   }, [])
 
   return (
@@ -207,7 +209,7 @@ const Project = ({engId, profileId, editable = true}) => {
           
           {/* Fields */}
           <form method="post" className="project-details" >
-              {editable &&
+              {editable && !isCompleted &&
               <div className="upload-img">
                   <FontAwesomeIcon icon={faUpload} className="form-icon"/>
                   <input type="file" name="project-image" id="project-image" accept="image/png, image/jpg, image/jpeg" onChange={e => handleChangeImage(e)}/>
@@ -215,7 +217,7 @@ const Project = ({engId, profileId, editable = true}) => {
               {!id &&
                 <div className="form-input">
                     <label htmlFor="project-name">Project name:</label>
-                    <input type="text" name="project-name" id="project-name" value={projectName} onChange={onValueChange} disabled={!editable}/>
+                    <input type="text" name="project-name" id="project-name" value={projectName} onChange={onValueChange} disabled={!editable || isCompleted}/>
                 </div>
               }
               <div className="form-input">
@@ -229,25 +231,23 @@ const Project = ({engId, profileId, editable = true}) => {
               {/* Name of the logged in kineme */}
               <div className="form-input">
                   <label htmlFor="project-engineer">Project Engineer:</label> 
-                  <input type="text" name="project-engineer" id="project-engineer" value={projectEngineer} onChange={onValueChange} disabled={!editable}/>
+                  <input type="text" name="project-engineer" id="project-engineer" value={projectEngineer} onChange={onValueChange} disabled={!editable || isCompleted}/>
               </div>
               <div className="form-input">
                   <label htmlFor="site-engineer">Site Engineer:</label>
-                  <input type="text" name="site-engineer" id="site-engineer" value={siteEngineer} onChange={onValueChange} disabled={!editable}/>
+                  <input type="text" name="site-engineer" id="site-engineer" value={siteEngineer} onChange={onValueChange} disabled={!editable || isCompleted}/>
               </div>
               <div className="form-input">
                   <label htmlFor="safety-officer">Safety Officer:</label>
-                  <input type="text" name="safety-officer" id="safety-officer" value={safetyOfficer} onChange={onValueChange} disabled={!editable}/>
+                  <input type="text" name="safety-officer" id="safety-officer" value={safetyOfficer} onChange={onValueChange} disabled={!editable || isCompleted}/>
               </div>
               <div className="form-input">
                   <label htmlFor="project-code">Project Code:</label>
-                  <input type="text" name="project-code" id="project-code" value={projectCode} onChange={onValueChange} disabled={!editable}/>
+                  <input type="text" name="project-code" id="project-code" value={projectCode} onChange={onValueChange} disabled={!editable || isCompleted}/>
               </div>
               <div className="form-input">
                   <label htmlFor="project-status">Status:</label>
-                  {checkId ? 
-                  <input type="text" name="project-status" id="project-status" value={status} onChange={onValueChange} disabled={checkId}/>
-                  :
+                  {checkId || (!isCompleted && editable) &&
                   <select
                     name="project-status"
                     value={status} 
@@ -255,16 +255,18 @@ const Project = ({engId, profileId, editable = true}) => {
                   >
                     <option value="ongoing">ongoing</option>
                     <option value="completed">completed</option>
+                    <option value="delayed">delayed</option>
                   </select>
                   }
+                  {(checkId || (isCompleted && editable)) && <input type="text" name="project-status" id="project-status" value={status} onChange={onValueChange} disabled={checkId || isCompleted || !editable}/>}
               </div>
               <div className="form-input">
                   <label htmlFor="project-budget">Budget:</label>
-                  <input type="number" name="project-budget" id="project-budget" value={budget} onChange={onValueChange} disabled={!editable}/>
+                  <input type="number" name="project-budget" id="project-budget" value={budget} onChange={onValueChange} disabled={!editable || isCompleted}/>
               </div>
 
               
-              {editable && (checkId ?
+              {!isCompleted && editable && (checkId ?
               <div className="btn" onClick={(e) => handleSubmit(e)}>
                 <span>Create Project</span>
               </div>

@@ -6,6 +6,16 @@
   place-items: center;
   text-align: center;
 }
+.list-item .label {
+  align-self: center;
+  justify-self: flex-start;
+}
+.list-item .label .completed {
+  color: rgb(24, 105, 24);
+}
+.list-item .label .delayed {
+  color: rgb(148, 26, 26);
+}
 .list-item p {
   grid-column: 2/auto;
 }

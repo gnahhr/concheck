@@ -72,6 +72,7 @@ const Projects = ({setSelectedProject, engId, editable = true}) => {
                           <ListItem name={project.projectName}
                                     image={project.imageUrl}
                                     id={project.projectId}
+                                    projStatus={project.status}
                                     showToast={setShowToast}
                                     setToastData={setToastData}
                                     type="project"

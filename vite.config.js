@@ -11,9 +11,10 @@ export default defineConfig({
       manifest: {
         icons: [
           {
-            src:'./512.png',
+            src:'/icons/512.png',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: "any maskable"
           }
         ]
       },
