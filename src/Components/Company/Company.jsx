@@ -1,4 +1,5 @@
-import React, { useState, useEffect} from 'react';
+import { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { createCompany, editCompany, getCompanyById} from '../../Hooks/company.js';
 import { updatePassword } from '../../Hooks/user.js';
@@ -38,6 +39,8 @@ const Company = ({companyId}) => {
 
   // Loader state
   const [ isLoading, setIsLoading ] = useState(false);
+
+  const nav = useNavigate();
 
   //Form Functions  
   const setFunctions = {
