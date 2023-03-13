@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { CSVDownload } from 'react-csv';
 
 import Toast from '../../Components/General/Toast.jsx';
 import Loader from '../../Components/General/Loader.jsx';
@@ -205,23 +204,15 @@ const CrewDetails = ({projId, userId}) => {
     }
   }
 
-  const handleDownload = async (e) => {
-    e.preventDefault();
-
+  const handleDownload = async () => {
     const response = await downloadCrewDTR(id);
-
-    if (!response) {
-      setToastType("warning");
-      setToastMsg("Failed to fetch download.");
-      setShowToast(true);
-    }
-    
-    setDownloadData(response);
+    setDownloadData(`data:text/csv;charset=utf-8,${(response)}`)
   }
 
   useEffect(() => {
     if (!checkId){
       handleGetCrewById();
+      handleDownload();
     }
   }, [])
 
@@ -343,9 +334,12 @@ const CrewDetails = ({projId, userId}) => {
               <div className="btn" onClick={e => handleChangePassword(e)}><span>Save Password</span></div>
             </>}
         </form>
-        {!checkId && <div className="btn green-btn download-btn" onClick={e => handleDownload(e)}>Download DTR</div>}
+        {!checkId && <a className="btn green-btn download-btn"
+                        href={downloadData}
+                        download="dtr.csv">
+                          Download DTR
+                        </a>}
         </div>
-      {downloadData && <CSVDownload data={downloadData} target="_blank"/>}
       {showToast && <Toast message={toastMsg} toastType={toastType} showToast={setShowToast} toastState={showToast}/>}
     </main>
     {isLoading && <Loader />}

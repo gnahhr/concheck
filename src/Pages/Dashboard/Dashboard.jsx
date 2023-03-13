@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Chart } from "react-google-charts";
-import { CSVDownload } from 'react-csv';
 
 import TaskItem from '../../Components/Task/TaskItem';
 import Task from '../../Components/Task/Task';
@@ -18,7 +17,8 @@ const Dashboard = ({}) => {
   const [ pieData, setPieData ] = useState([]);
   const [ taskId, setTaskId ] = useState(undefined);
   const [ ganttHeight, setGanttHeight ] = useState();
-  const [ downloadData, setDownloadData ] = useState();
+  const [ weeklyData, setWeeklyData ] = useState();
+  const [ summaryData, setSummaryData ] = useState();
 
   const projId = sessionStorage.getItem("selProjId");
 
@@ -81,26 +81,11 @@ const Dashboard = ({}) => {
     };
     }
 
-    const handleDownload = async (e, type) => {
-      e.preventDefault();
-
-      let response;
-
-      if (type === 2){
-        response = await downloadWeekly(projId);
-      } else if (type === 1){
-        response = await downloadSummary(projId);
-      }
-
-      if (response.status !== 200) {
-        setToastData({
-          toastType: "warning",
-          toastMsg: "Failed to fetch download."
-        });
-        setShowToast(true);
-      }
-      
-      setDownloadData(response.data);
+    const handleDownload = async () => {
+      const weeklyDownload = await downloadWeekly(projId);
+      const summaryDownload = await downloadSummary(projId);
+      setWeeklyData(`data:text/csv;charset=utf-8,${(weeklyDownload.data)}`)
+      setSummaryData(`data:text/csv;charset=utf-8,${(summaryDownload.data)}`)
     }
 
     const handleShowAddTask = (e) => {
@@ -112,6 +97,7 @@ const Dashboard = ({}) => {
     handleGetTasks();
     handlePieData();
     if (taskData) setGanttHeight(taskData.length < 3 ? 70 : 40);
+    handleDownload();
   }, [])
 
   useEffect(() => {
@@ -119,10 +105,6 @@ const Dashboard = ({}) => {
     handlePieData();
     if (taskData) setGanttHeight(taskData.length < 3 ? 70 : 40);
   }, [showAddTask, showToast])
-
-  useEffect(() => {
-    if (downloadData) setTimeout(() => {setDownloadData()}, 2000);
-  }, [downloadData])
 
   return (
     <main>
@@ -201,12 +183,12 @@ const Dashboard = ({}) => {
         </div>
 
         <div className="btn-group">
-          <div className="btn" onClick={e => handleDownload(e, 1)}>
-            Download Summary
-          </div>
-          <div className="btn" onClick={e => handleDownload(e, 1)}>
-            Download Weekly
-          </div>
+          <a href={summaryData}
+             className="btn"
+             download="summary.csv">Download Summary</a>
+          <a href={weeklyData}
+             className="btn"
+             download="weekly.csv">Download Weekly</a>
         </div>
         
         {showAddTask && <Task taskId={taskId}
@@ -221,7 +203,7 @@ const Dashboard = ({}) => {
                                     toastType={toastData.toastType}
                                     showToast={setShowToast}
                                     toastState={showToast}/>}
-        {downloadData && <CSVDownload data={downloadData} target="_blank"/>}
+        {/* {downloadData && <CSVDownload data={downloadData} target="_blank"/>} */}
     </main>
   )
 }

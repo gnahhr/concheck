@@ -52,7 +52,7 @@ export async function downloadWeekly(projId) {
 }
 
 export async function downloadSummary(projId) {
-    const response = await axios.get(`${import.meta.env.VITE_API}/api/project/download-project-summary/${projId}`)
+    const response = await axios(`${import.meta.env.VITE_API}/api/project/download-project-summary/${projId}`)
     .then(response => response)
     .catch(err => console.error(err));
 
