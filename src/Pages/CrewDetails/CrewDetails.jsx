@@ -206,7 +206,7 @@ const CrewDetails = ({projId, userId}) => {
 
   const handleDownload = async () => {
     const response = await downloadCrewDTR(id);
-    setDownloadData(`data:text/csv;charset=utf-8,${(response)}`)
+    setDownloadData(`data:text/csv;charset=utf-8,${(response.response.data)}`)
   }
 
   useEffect(() => {
