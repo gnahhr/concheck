@@ -72,9 +72,11 @@ const CrewDetails = ({projId, userId}) => {
   }
 
   const handleGetCrewById = async e => {
+    setIsLoading(true);
+
     const response = await getCrewById(id);
     const data = response.response.data;
-
+    
     setRate(data.dailyRate);
     setEndShift(data.endShift);
     setStartShift(data.startShift);
@@ -83,8 +85,10 @@ const CrewDetails = ({projId, userId}) => {
     setLastName(data.lastName);
     setAddress(data.address);
     setContactNumber(data.contactNumber);
-
+    
     if (data.imageUrl !== undefined) document.getElementById("image-display").src = data.imageUrl;
+    
+    setIsLoading(false);
   }
 
   const createFormData = () => {
@@ -337,7 +341,8 @@ const CrewDetails = ({projId, userId}) => {
         {!checkId && <a className="btn green-btn download-btn"
                         href={downloadData}
                         download={`${lastName}-dtr.csv`}
-                        target="_blank">
+                        onClick={e => window.location.reload()}
+                        >
                           Download DTR
                         </a>}
         </div>
