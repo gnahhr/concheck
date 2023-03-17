@@ -84,8 +84,8 @@ const Dashboard = ({}) => {
     const handleDownload = async () => {
       const weeklyDownload = await downloadWeekly(projId);
       const summaryDownload = await downloadSummary(projId);
-      setWeeklyData(`data:text/csv;charset=utf-8,${(weeklyDownload.data)}`)
-      setSummaryData(`data:text/csv;charset=utf-8,${(summaryDownload.data)}`)
+      setWeeklyData(`data:text/csv;charset=utf-8,${(weeklyDownload.data.response.data)}`)
+      setSummaryData(`data:text/csv;charset=utf-8,${(summaryDownload.data.response.data)}`)
     }
 
     const handleShowAddTask = (e) => {
@@ -185,10 +185,12 @@ const Dashboard = ({}) => {
         <div className="btn-group">
           <a href={summaryData}
              className="btn"
-             download="summary.csv">Download Summary</a>
+             download={`${projId}-summary.csv`}
+             target="_blank">Download Summary</a>
           <a href={weeklyData}
              className="btn"
-             download="weekly.csv">Download Weekly</a>
+             download={`${projId}-weekly.csv`}
+             target="_blank">Download Weekly</a>
         </div>
         
         {showAddTask && <Task taskId={taskId}

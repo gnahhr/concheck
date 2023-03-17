@@ -336,7 +336,8 @@ const CrewDetails = ({projId, userId}) => {
         </form>
         {!checkId && <a className="btn green-btn download-btn"
                         href={downloadData}
-                        download="dtr.csv">
+                        download={`${lastName}-dtr.csv`}
+                        target="_blank">
                           Download DTR
                         </a>}
         </div>
