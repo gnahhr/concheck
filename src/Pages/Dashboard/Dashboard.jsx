@@ -19,6 +19,7 @@ const Dashboard = ({}) => {
   const [ ganttHeight, setGanttHeight ] = useState();
   const [ weeklyData, setWeeklyData ] = useState();
   const [ summaryData, setSummaryData ] = useState();
+  const [ ganttColors, setGanttColors ] = useState([]);
 
   const projId = sessionStorage.getItem("selProjId");
 
@@ -26,23 +27,62 @@ const Dashboard = ({}) => {
   const [ showToast, setShowToast ] = useState(false);
   const [ toastData, setToastData ] = useState(); 
 
+  const ganttPalette = {
+    "ongoing": {
+      "color": "#0033cc",
+      "dark": "#002db3",
+      "light": "#3385ff"
+    },
+    "delayed": {
+      "color": "#cc0000",
+      "dark": "#800000",
+      "light": "#ff3333"
+    },
+    "completed": {
+      "color": "#00cc66",
+      "dark": "#009933",
+      "light": "#33ff33"
+    },
+  };
+
   const handleGetTasks = async () => {
     const response = await getAllTasks(projId);
     const tasks = response.data;
     setTaskData(tasks);
 
     if (tasks) {
-      let rows = tasks.map(task => [
-        task._id,
-        task.taskName,
-        task.remarks,
-        new Date(task.startDate),
-        new Date(task.endDate),
-        null,
-        task.percentageDone ? task.percentageDone : 0,
-        null
-      ])
-  
+      let ganttOrderInit = [];
+
+      let rows = tasks.map(task => {
+        let startDate = new Date(task.startDate);
+
+        if (ganttOrderInit.length === 0) {
+          ganttOrderInit.push({date: startDate, type: task.remarks});
+        } else if (ganttOrderInit[0].date > startDate && ganttOrderInit.filter(item => item.type === task.remarks).length === 0) {
+          ganttOrderInit.unshift({date: startDate, type: task.remarks});
+        } else if (ganttOrderInit[ganttOrderInit.length-1].date > startDate && ganttOrderInit.filter(item => item.type === task.remarks).length === 0) {
+          const temp = ganttOrderInit[ganttOrderInit.length-1];
+          ganttOrderInit[ganttOrderInit.length-1] = {date: startDate, type: task.remarks}
+          ganttOrderInit.push(temp);
+        }
+
+        return ([
+          task._id,
+          task.taskName,
+          task.remarks,
+          new Date(task.startDate),
+          new Date(task.endDate),
+          null,
+          task.percentageDone ? task.percentageDone : 0,
+          null
+        ])
+      })
+
+      const colorTemp = [];
+      ganttOrderInit.forEach(item => colorTemp.push(ganttPalette[item.type]));
+
+      setGanttColors(colorTemp);
+      
       const columns = [
         { type: "string", label: "Task ID" },
         { type: "string", label: "Task Name" },
@@ -123,7 +163,8 @@ const Dashboard = ({}) => {
             options={{
               height: ganttData.length * ganttHeight,
               gantt: {
-                trackHeight: 30
+                trackHeight: 30,
+                palette: ganttColors
               }
             }}
             />
@@ -175,6 +216,7 @@ const Dashboard = ({}) => {
                   chartType="PieChart"
                   data={pieData}
                   width={"25rem"}
+                  height={"25vh"}
                   />
             </div>
             }

@@ -7,8 +7,6 @@
     }
 
     .dashboard-main {
-        height: auto;
-
         display: grid;
         grid-template-areas:
             "gantt gantt"
@@ -17,9 +15,12 @@
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
 
+        gap: 1rem;
+
         .gantt-chart {
             grid-area: gantt;
-            width: 80%;
+            width: 100%;
+            height: 25vh;
             overflow-y: auto;
         }
 
@@ -33,7 +34,7 @@
 
         .tasks {
             grid-area: tasks;
-            
+            height: 50vh;
         }
 
         .tasks > table > tbody {
@@ -42,9 +43,11 @@
         }
 
         .wrapper {
-            min-height: 50%;
-            max-height: 55%;
+            max-height: 60%;
             overflow-y: auto;
+            border: 2px solid rgba(128, 128, 128, 0.2);
+            border-radius: 10px;
         }
+
     }
 }
