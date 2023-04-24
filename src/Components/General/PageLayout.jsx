@@ -5,9 +5,8 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
 
-const PageLayout = ({roleId, selectedProject, selectedEngineer, handleLogout}) => {
+const PageLayout = ({roleId, selectedProject, selectedSpreadsheet, selectedEngineer, handleLogout}) => {
   const [ navOpen, setNavOpen ] = useState(false);
-
 
   const openNav = (e) => {
     e.preventDefault();
@@ -20,6 +19,7 @@ const PageLayout = ({roleId, selectedProject, selectedEngineer, handleLogout}) =
         <NavBar setNavOpen={setNavOpen}
                 navOpen={navOpen}
                 roleId={roleId}
+                selectedSpreadsheet={selectedSpreadsheet}
                 selectedProject={selectedProject}
                 selectedEngineer={selectedEngineer}/>
       </div>

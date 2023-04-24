@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteModal from './DeleteModal';
 import './ListItem.css';
 
-const ListItem = ({name, image, id, showToast, type, setToastData, projStatus, setSelectedProject, setSelectedEngineer, editable = true}) => {
+const ListItem = ({name, image, id, showToast, spreadsheet, type, setToastData, projStatus, setSelectedProject, setSelectedEngineer, editable = true}) => {
   const [ showDelete, setShowDelete ] = useState(false);
   const nav = useNavigate();
 
@@ -26,13 +26,15 @@ const ListItem = ({name, image, id, showToast, type, setToastData, projStatus, s
 
       sessionStorage.setItem("selProjId", id);
       sessionStorage.setItem("selProjName", name);
+      sessionStorage.setItem("selProjSpreadsheet", spreadsheet);
 
       if (!editable) {
         nav(`/${type}/${id}`);
       } else {
         setSelectedProject({
           id: id,
-          name: name
+          name: name,
+          spreadsheet: spreadsheet
         })
       }
   

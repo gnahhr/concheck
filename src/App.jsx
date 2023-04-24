@@ -37,9 +37,10 @@ function App() {
     setUserId(data.id);
     setSelectedProject({
       id: sessionStorage.getItem("selProjId"),
-      name: sessionStorage.getItem("selProjName")
-    })
-    setSelectedEngineer({id: sessionStorage.getItem("selEngId")})
+      name: sessionStorage.getItem("selProjName"),
+      spreadsheet: sessionStorage.getItem("selProjSpreadsheet")
+    });
+    setSelectedEngineer({id: sessionStorage.getItem("selEngId")});
   };
 
   const handleLogout = () => {
@@ -67,6 +68,7 @@ function App() {
         :
           <Route element={<PageLayout roleId={roleId}
                                       selectedProject={selectedProject.name}
+                                      selectedSpreadsheet={selectedProject.spreadsheet}
                                       selectedEngineer={selectedEngineer.id}
                                       handleLogout={handleLogout}/>}>
             {roleId === 1 &&
@@ -92,10 +94,10 @@ function App() {
                   <Route path="create-engineer" element={<Engineer companyId={userId} />} />
                   <Route path=":id" element={<Engineer companyId={userId}/>} />
                 </Route>
-
+                
                 <Route path="project">
                   <Route index element={<Projects engId={selectedEngineer.id} editable={false}/>} />
-                <Route path=":id" element={<Project editable={false}/>} />
+                  <Route path=":id" element={<Project editable={false}/>} />
                 </Route>
 
                 <Route path="profile" element={<Company companyId={userId}/>} />

@@ -1,10 +1,10 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, faClose, faProjectDiagram, faUser, faBuilding} from '@fortawesome/free-solid-svg-icons'
+import { faHouseChimney, faUserAlt, faDashboard, faImages, faBookAtlas, faGear, faClose, faProjectDiagram, faUser, faBuilding, faTableCells} from '@fortawesome/free-solid-svg-icons'
 
 import './NavBar.css';
 
-const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedEngineer}) => {
+const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedSpreadsheet, selectedEngineer}) => {
   const nav = useNavigate();
 
   const closeNav = e => {
@@ -80,6 +80,13 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedEngineer}
         access: [3],
     },
     {
+        link: selectedSpreadsheet,
+        icon: faTableCells,
+        text: "Assessment Report",
+        access: [3],
+        target: "_blank"
+    },
+    {
         link: "/settings",
         icon: faGear,
         text: "Settings",
@@ -110,16 +117,28 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedEngineer}
             {navigation.filter((navItem) => 
             navItem.access.includes(roleId))
             .map((navItem) =>
-            <li key={navItem.text}>
-                <NavLink to={navItem.link}
-                      onClick={e => closeNav(e)}
-                      className={({ isActive }) => {
-                        return isActive? "active" : "";
+              <li key={navItem.text}>
+                  {navItem.target ?
+                  <a href={navItem.link}
+                     onClick={e => closeNav(e)}
+                     target={navItem.target}
+                     className={({ isActive }) => {
+                     return isActive? "active" : "";
                       }}>
                     <span><FontAwesomeIcon icon={navItem.icon}/></span>
                     {navItem.text}
-                </NavLink>
-            </li>
+                  </a>
+                  :
+                  <NavLink to={navItem.link}
+                        onClick={e => closeNav(e)}
+                        className={({ isActive }) => {
+                          return isActive? "active" : "";
+                        }}>
+                      <span><FontAwesomeIcon icon={navItem.icon}/></span>
+                      {navItem.text}
+                  </NavLink>
+                  } 
+              </li>
             )}
         </ul>
     </nav>

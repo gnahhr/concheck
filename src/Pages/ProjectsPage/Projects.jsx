@@ -73,6 +73,7 @@ const Projects = ({setSelectedProject, engId, editable = true}) => {
                                     image={project.imageUrl}
                                     id={project.projectId}
                                     projStatus={project.status}
+                                    spreadsheet={project.spreadsheetId}
                                     showToast={setShowToast}
                                     setToastData={setToastData}
                                     type="project"
