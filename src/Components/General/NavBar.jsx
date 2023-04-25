@@ -82,7 +82,7 @@ const NavBar = ({setNavOpen, navOpen, roleId, selectedProject, selectedSpreadshe
     {
         link: selectedSpreadsheet,
         icon: faTableCells,
-        text: "Assessment Report",
+        text: "Accomplishment Report",
         access: [3],
         target: "_blank"
     },
