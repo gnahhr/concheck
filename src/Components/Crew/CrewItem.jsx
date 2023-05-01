@@ -68,6 +68,11 @@ const CrewItem = ({crew, setToastData, showToast}) => {
 
   useEffect(() => {
     handleGetTimeCrew();
+
+    if (crew.imageUrl && crew.imageUrl !== "") {
+      setImageUrl(crew.imageUrl)
+    }
+
   }, [])
 
   useEffect(() => {

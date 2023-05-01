@@ -52,24 +52,24 @@ const Dashboard = ({}) => {
 
     if (tasks) {
       let ganttOrderInit = [];
-
       let rows = tasks.map(task => {
         let startDate = new Date(task.startDate);
-
+        let remarks = task.remarks ? task.remarks : task.status; 
+        
         if (ganttOrderInit.length === 0) {
-          ganttOrderInit.push({date: startDate, type: task.remarks});
-        } else if (ganttOrderInit[0].date > startDate && ganttOrderInit.filter(item => item.type === task.remarks).length === 0) {
-          ganttOrderInit.unshift({date: startDate, type: task.remarks});
-        } else if (ganttOrderInit[ganttOrderInit.length-1].date > startDate && ganttOrderInit.filter(item => item.type === task.remarks).length === 0) {
+          ganttOrderInit.push({date: startDate, type: remarks});
+        } else if (ganttOrderInit[0].date < startDate && ganttOrderInit.filter(item => item.type === remarks).length === 0) {
+          ganttOrderInit.push({date: startDate, type: remarks});
+        } else if ((ganttOrderInit[ganttOrderInit.length-1].date) > startDate && ganttOrderInit.filter(item => item.type === remarks).length === 0) {
           const temp = ganttOrderInit[ganttOrderInit.length-1];
-          ganttOrderInit[ganttOrderInit.length-1] = {date: startDate, type: task.remarks}
+          ganttOrderInit[ganttOrderInit.length-1] = {date: startDate, type: remarks}
           ganttOrderInit.push(temp);
         }
 
         return ([
           task._id,
           task.taskName,
-          task.remarks,
+          remarks,
           new Date(task.startDate),
           new Date(task.endDate),
           null,
@@ -80,7 +80,7 @@ const Dashboard = ({}) => {
 
       const colorTemp = [];
       ganttOrderInit.forEach(item => colorTemp.push(ganttPalette[item.type]));
-
+      console.log(colorTemp)
       setGanttColors(colorTemp);
       
       const columns = [
